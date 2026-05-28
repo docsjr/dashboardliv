@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Evolutivo de Exames Laboratoriais</title>
+  <title>Dashboard Laboratorial Evolutivo</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -21,6 +21,7 @@
       --danger: #dc2626;
       --warning: #d97706;
       --success: #059669;
+      --info: #2563eb;
       --shadow: 0 20px 50px rgba(15, 118, 110, 0.12);
       --radius: 22px;
     }
@@ -33,7 +34,7 @@
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(20, 184, 166, 0.18), transparent 32%),
+        radial-gradient(circle at top left, rgba(20, 184, 166, 0.2), transparent 32%),
         linear-gradient(135deg, #f8ffff 0%, var(--bg) 45%, #edf7f7 100%);
       color: var(--text);
     }
@@ -52,7 +53,7 @@
       grid-template-columns: 1fr auto;
       gap: 24px;
       align-items: center;
-      max-width: 1400px;
+      max-width: 1500px;
       margin: 0 auto;
     }
 
@@ -60,27 +61,27 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      font-size: clamp(1.25rem, 2.5vw, 2rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      font-size: clamp(1.35rem, 2.5vw, 2.15rem);
     }
 
     .logo-mark {
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       display: grid;
       place-items: center;
-      border-radius: 16px;
+      border-radius: 17px;
       background: rgba(255, 255, 255, 0.16);
       border: 1px solid rgba(255, 255, 255, 0.26);
-      font-size: 1.55rem;
+      font-size: 1.6rem;
     }
 
     .subtitle {
-      margin: 10px 0 0 62px;
-      max-width: 800px;
+      margin: 10px 0 0 66px;
+      max-width: 900px;
       color: rgba(255, 255, 255, 0.78);
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
     .privacy-pill {
@@ -88,24 +89,25 @@
       border: 1px solid rgba(255,255,255,0.25);
       border-radius: 999px;
       padding: 10px 16px;
-      font-weight: 700;
+      font-weight: 800;
       white-space: nowrap;
     }
 
     main {
-      max-width: 1400px;
+      max-width: 1500px;
       margin: 28px auto;
-      padding: 0 clamp(18px, 4vw, 52px) 42px;
+      padding: 0 clamp(18px, 4vw, 52px) 44px;
       display: grid;
-      grid-template-columns: 410px 1fr;
+      grid-template-columns: 420px 1fr;
       gap: 24px;
     }
 
     .panel,
     .card,
     .chart-card,
-    .table-card {
-      background: rgba(255, 255, 255, 0.92);
+    .table-card,
+    .summary-card {
+      background: rgba(255, 255, 255, 0.93);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -136,10 +138,10 @@
 
     label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--muted);
-      font-weight: 700;
-      margin: 14px 0 7px;
+      font-weight: 800;
+      margin: 13px 0 7px;
     }
 
     input,
@@ -170,14 +172,14 @@
     }
 
     textarea {
-      min-height: 128px;
+      min-height: 120px;
       resize: vertical;
     }
 
     .drop-zone {
       margin-top: 14px;
       padding: 22px;
-      border: 2px dashed rgba(15, 118, 110, 0.35);
+      border: 2px dashed rgba(15, 118, 110, 0.36);
       background: rgba(20, 184, 166, 0.07);
       border-radius: 18px;
       text-align: center;
@@ -202,6 +204,16 @@
       font-size: 0.9rem;
     }
 
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
     .actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -214,7 +226,7 @@
       cursor: pointer;
       border-radius: 14px;
       padding: 12px 14px;
-      font-weight: 800;
+      font-weight: 900;
       color: white;
       background: linear-gradient(135deg, var(--brand), var(--brand-2));
       box-shadow: 0 12px 24px rgba(15, 118, 110, 0.16);
@@ -245,7 +257,7 @@
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 14px;
     }
 
@@ -255,33 +267,40 @@
 
     .card small {
       color: var(--muted);
-      font-weight: 800;
+      font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
     }
 
     .card strong {
       display: block;
       margin-top: 10px;
-      font-size: clamp(1.4rem, 3vw, 2.1rem);
+      font-size: clamp(1.35rem, 3vw, 2rem);
       letter-spacing: -0.05em;
     }
 
-    .summary-grid {
+    .layout-2 {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+    }
+
+    .layout-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 18px;
     }
 
     .chart-card,
-    .table-card {
+    .table-card,
+    .summary-card {
       padding: 20px;
     }
 
     .toolbar {
       display: grid;
-      grid-template-columns: 1fr 220px;
+      grid-template-columns: 1fr 240px;
       gap: 12px;
       align-items: end;
       margin-bottom: 16px;
@@ -310,6 +329,7 @@
 
     .summary-item small {
       color: var(--muted);
+      line-height: 1.4;
     }
 
     .badge {
@@ -328,19 +348,26 @@
       background: #d1fae5;
     }
 
+    .badge.high,
+    .badge.low,
+    .badge.changed {
+      color: #991b1b;
+      background: #fee2e2;
+    }
+
     .badge.warn {
       color: #92400e;
       background: #fef3c7;
     }
 
-    .badge.danger {
-      color: #991b1b;
-      background: #fee2e2;
-    }
-
     .badge.neutral {
       color: #475569;
       background: #e2e8f0;
+    }
+
+    .badge.info {
+      color: #1d4ed8;
+      background: #dbeafe;
     }
 
     .log {
@@ -350,14 +377,14 @@
       background: #f8fbfb;
       color: var(--muted);
       font-size: 0.86rem;
-      max-height: 140px;
+      max-height: 150px;
       overflow: auto;
       border: 1px solid var(--border);
     }
 
     .table-wrap {
       overflow: auto;
-      max-height: 520px;
+      max-height: 540px;
       border-radius: 16px;
       border: 1px solid var(--border);
     }
@@ -366,7 +393,7 @@
       width: 100%;
       border-collapse: collapse;
       background: white;
-      min-width: 820px;
+      min-width: 1050px;
     }
 
     th,
@@ -375,7 +402,7 @@
       border-bottom: 1px solid var(--border);
       text-align: left;
       vertical-align: middle;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
 
     th {
@@ -384,7 +411,7 @@
       z-index: 1;
       background: #f1fbfa;
       color: var(--brand-dark);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
@@ -409,23 +436,27 @@
       margin-top: 10px;
     }
 
-    .patient-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+    .danger-text {
+      color: var(--danger);
+      font-weight: 900;
     }
 
-    .patient-grid .full {
-      grid-column: 1 / -1;
+    .muted {
+      color: var(--muted);
     }
 
     canvas {
       max-height: 360px;
     }
 
-    @media (max-width: 1100px) {
+    .small-chart canvas {
+      max-height: 280px;
+    }
+
+    @media (max-width: 1200px) {
       main,
-      .summary-grid {
+      .layout-2,
+      .layout-3 {
         grid-template-columns: 1fr;
       }
 
@@ -450,7 +481,7 @@
       .cards,
       .actions,
       .toolbar,
-      .patient-grid {
+      .grid-2 {
         grid-template-columns: 1fr;
       }
 
@@ -480,10 +511,12 @@
 
       .card,
       .chart-card,
-      .table-card {
+      .table-card,
+      .summary-card {
         box-shadow: none;
         border-color: #cbd5e1;
         break-inside: avoid;
+        margin-bottom: 14px;
       }
 
       .table-wrap {
@@ -504,11 +537,11 @@
       <div>
         <div class="logo">
           <div class="logo-mark">🧬</div>
-          <div>Dashboard Evolutivo de Exames</div>
+          <div>Dashboard Laboratorial Evolutivo</div>
         </div>
         <p class="subtitle">
-          Upload de PDFs laboratoriais, CSV ou JSON para organizar resultados por paciente,
-          gerar gráficos evolutivos e exportar o acompanhamento.
+          Importação de PDFs laboratoriais, organização por paciente, comparação com referência interna,
+          histórico evolutivo, gráficos, resumo e exportação.
         </p>
       </div>
       <div class="privacy-pill">Processamento local no navegador</div>
@@ -517,12 +550,17 @@
 
   <main>
     <aside class="panel no-print">
-      <h2>Entrada de dados</h2>
+      <h2>Paciente e importação</h2>
 
-      <div class="patient-grid">
+      <label for="patientSelector">Paciente ativo</label>
+      <select id="patientSelector">
+        <option value="">Novo paciente</option>
+      </select>
+
+      <div class="grid-2">
         <div class="full">
-          <label for="patientName">Paciente</label>
-          <input id="patientName" type="text" placeholder="Nome do paciente" />
+          <label for="patientName">Nome do paciente</label>
+          <input id="patientName" type="text" placeholder="Capturado do PDF ou preenchido manualmente" />
         </div>
 
         <div>
@@ -531,17 +569,31 @@
         </div>
 
         <div>
+          <label for="patientSex">Sexo biológico</label>
+          <select id="patientSex">
+            <option value="">Não informado</option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+          </select>
+        </div>
+
+        <div>
           <label for="patientBirth">Nascimento</label>
           <input id="patientBirth" type="date" />
         </div>
 
-        <div class="full">
-          <label for="defaultDate">Data padrão do exame</label>
-          <input id="defaultDate" type="date" />
+        <div>
+          <label for="patientAge">Idade</label>
+          <input id="patientAge" type="number" min="0" max="130" placeholder="Auto" />
+        </div>
+
+        <div>
+          <label for="defaultExamDate">Data padrão do exame</label>
+          <input id="defaultExamDate" type="date" />
         </div>
       </div>
 
-      <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Selecionar arquivos">
+      <div id="dropZone" class="drop-zone" tabindex="0" role="button">
         <strong>Arraste PDFs, CSV ou JSON aqui</strong>
         <span>Ou clique para selecionar arquivos</span>
       </div>
@@ -549,13 +601,22 @@
       <input id="fileInput" type="file" multiple accept=".pdf,.csv,.json,application/pdf,text/csv,application/json" hidden />
 
       <label for="pasteArea">Ou cole texto do laudo</label>
-      <textarea id="pasteArea" placeholder="Exemplo: Data: 10/03/2026&#10;Glicose: 92 mg/dL Ref: 70 - 99&#10;Creatinina: 0,9 mg/dL Ref: 0,6 - 1,3"></textarea>
+      <textarea id="pasteArea" placeholder="Exemplo:
+Paciente: João Silva
+Sexo: Masculino
+Nascimento: 10/03/1985
+Data da coleta: 12/04/2026
+Glicemia jejum: 96 mg/dL
+Creatinina: 1,10 mg/dL"></textarea>
 
       <div class="actions">
         <button id="parseTextBtn" type="button">Ler texto</button>
         <button id="sampleBtn" type="button" class="secondary">Dados exemplo</button>
+      </div>
+
+      <div class="actions">
         <button id="saveBtn" type="button" class="secondary">Salvar local</button>
-        <button id="clearBtn" type="button" class="danger">Limpar</button>
+        <button id="dedupeBtn" type="button" class="secondary">Remover duplicados</button>
       </div>
 
       <div class="actions">
@@ -565,22 +626,32 @@
 
       <div class="actions">
         <button id="printBtn" type="button">Imprimir / PDF</button>
-        <button id="dedupeBtn" type="button" class="secondary">Remover duplicados</button>
+        <button id="clearBtn" type="button" class="danger">Limpar tudo</button>
       </div>
 
       <p class="hint">
-        PDFs escaneados como imagem precisam de OCR. Este MVP lê PDFs com texto selecionável.
-        Para produção clínica, use autenticação, criptografia, controle de acesso e auditoria.
+        PDFs escaneados como imagem precisam de OCR. Esta versão lê PDFs com texto selecionável.
+        A classificação é triagem automática e não substitui interpretação médica.
       </p>
 
       <div id="log" class="log" aria-live="polite">Pronto para importar exames.</div>
     </aside>
 
-    <section id="report" class="dashboard">
+    <section class="dashboard">
       <section class="cards">
         <article class="card">
-          <small>Total de resultados</small>
+          <small>Pacientes</small>
+          <strong id="cardPatients">0</strong>
+        </article>
+
+        <article class="card">
+          <small>Resultados</small>
           <strong id="cardTotal">0</strong>
+        </article>
+
+        <article class="card">
+          <small>Alterados</small>
+          <strong id="cardChanged">0</strong>
         </article>
 
         <article class="card">
@@ -592,48 +663,57 @@
           <small>Período</small>
           <strong id="cardPeriod">—</strong>
         </article>
-
-        <article class="card">
-          <small>Última coleta</small>
-          <strong id="cardLast">—</strong>
-        </article>
       </section>
 
-      <section class="summary-grid">
+      <section class="layout-2">
         <article class="chart-card">
           <div class="toolbar">
             <div>
               <h2 id="patientTitle">Resumo do paciente</h2>
-              <p id="patientMeta" class="hint">Nenhum paciente selecionado.</p>
+              <p id="patientMeta" class="hint">Nenhum paciente ativo.</p>
             </div>
 
             <div>
-              <label for="examFilter">Gráfico evolutivo</label>
+              <label for="examFilter">Exame no gráfico</label>
               <select id="examFilter"></select>
             </div>
           </div>
 
-          <canvas id="evolutionChart" aria-label="Gráfico evolutivo de exames"></canvas>
+          <canvas id="evolutionChart"></canvas>
         </article>
 
-        <article class="chart-card">
-          <h2>Resumo automático</h2>
-          <div id="summaryList" class="summary-list">
-            <div class="empty">Importe exames para gerar o resumo evolutivo.</div>
+        <article class="summary-card">
+          <h2>Parecer automático total</h2>
+          <div id="globalOpinion" class="summary-list">
+            <div class="empty">Importe exames para gerar o parecer gráfico.</div>
           </div>
+        </article>
+      </section>
+
+      <section class="layout-3">
+        <article class="chart-card small-chart">
+          <h2>Distribuição dos resultados</h2>
+          <canvas id="statusChart"></canvas>
+        </article>
+
+        <article class="chart-card small-chart">
+          <h2>Alterações por categoria</h2>
+          <canvas id="categoryChart"></canvas>
         </article>
       </section>
 
       <section class="table-card">
         <div class="toolbar">
           <div>
-            <h2>Resultados organizados</h2>
-            <p class="hint">Valide sempre os dados extraídos antes de usar clinicamente.</p>
+            <h2>Resultados laboratoriais organizados</h2>
+            <p class="hint">
+              O sistema usa a referência interna pré-estabelecida e mantém o histórico ao importar novos PDFs do mesmo paciente.
+            </p>
           </div>
 
           <div>
             <label for="tableSearch">Buscar</label>
-            <input id="tableSearch" type="search" placeholder="Ex: glicose, LDL..." />
+            <input id="tableSearch" type="search" placeholder="Ex: glicose, LDL, creatinina..." />
           </div>
         </div>
 
@@ -641,18 +721,19 @@
           <table>
             <thead>
               <tr>
+                <th>Paciente</th>
                 <th>Data</th>
+                <th>Categoria</th>
                 <th>Exame</th>
                 <th>Resultado</th>
-                <th>Unidade</th>
-                <th>Referência</th>
+                <th>Referência usada</th>
                 <th>Status</th>
                 <th>Fonte</th>
               </tr>
             </thead>
             <tbody id="resultsBody">
               <tr>
-                <td colspan="7" class="empty">Nenhum resultado importado.</td>
+                <td colspan="8" class="empty">Nenhum resultado importado.</td>
               </tr>
             </tbody>
           </table>
@@ -662,182 +743,258 @@
   </main>
 
   <script>
-    const STORAGE_KEY = "dashboard-exames-laboratoriais-v1";
+    const STORAGE_KEY = "dashboard-laboratorial-evolutivo-v2";
 
-    const EXAM_CATALOG = [
-      {
-        key: "hba1c",
-        label: "Hemoglobina glicada (HbA1c)",
-        synonyms: ["hemoglobina glicada", "hba1c", "hb a1c", "a1c"],
-        defaultUnit: "%"
-      },
-      {
-        key: "colesterol_ldl",
-        label: "Colesterol LDL",
-        synonyms: ["colesterol ldl", "ldl colesterol", "ldl"],
-        defaultUnit: "mg/dL"
-      },
-      {
-        key: "colesterol_hdl",
-        label: "Colesterol HDL",
-        synonyms: ["colesterol hdl", "hdl colesterol", "hdl"],
-        defaultUnit: "mg/dL"
-      },
-      {
-        key: "colesterol_total",
-        label: "Colesterol total",
-        synonyms: ["colesterol total"],
-        defaultUnit: "mg/dL"
-      },
-      {
-        key: "triglicerides",
-        label: "Triglicerídeos",
-        synonyms: ["triglicerideos", "triglicerídeos", "triglycerides"],
-        defaultUnit: "mg/dL"
-      },
-      {
-        key: "glicose",
-        label: "Glicose",
-        synonyms: ["glicose", "glucose"],
-        defaultUnit: "mg/dL"
-      },
-      {
-        key: "creatinina",
-        label: "Creatinina",
-        synonyms: ["creatinina"],
-        defaultUnit: "mg/dL"
-      },
-      {
-        key: "ureia",
-        label: "Ureia",
-        synonyms: ["ureia", "uréia"],
-        defaultUnit: "mg/dL"
-      },
-      {
-        key: "tsh",
-        label: "TSH",
-        synonyms: ["tsh", "hormonio tireoestimulante", "hormônio tireoestimulante"],
-        defaultUnit: "µUI/mL"
-      },
-      {
-        key: "t4_livre",
-        label: "T4 Livre",
-        synonyms: ["t4 livre", "tiroxina livre"],
-        defaultUnit: "ng/dL"
-      },
-      {
-        key: "hemoglobina",
-        label: "Hemoglobina",
-        synonyms: ["hemoglobina"],
-        defaultUnit: "g/dL"
-      },
-      {
-        key: "hematocrito",
-        label: "Hematócrito",
-        synonyms: ["hematocrito", "hematócrito"],
-        defaultUnit: "%"
-      },
-      {
-        key: "leucocitos",
-        label: "Leucócitos",
-        synonyms: ["leucocitos", "leucócitos"],
-        defaultUnit: "/mm³"
-      },
-      {
-        key: "plaquetas",
-        label: "Plaquetas",
-        synonyms: ["plaquetas"],
-        defaultUnit: "/mm³"
-      },
-      {
-        key: "pcr",
-        label: "PCR",
-        synonyms: ["proteina c reativa", "proteína c reativa", "pcr"],
-        defaultUnit: "mg/L"
-      },
-      {
-        key: "vitamina_d",
-        label: "Vitamina D",
-        synonyms: ["vitamina d", "25 oh vitamina d", "25-oh vitamina d"],
-        defaultUnit: "ng/mL"
-      },
-      {
-        key: "ferritina",
-        label: "Ferritina",
-        synonyms: ["ferritina"],
-        defaultUnit: "ng/mL"
-      },
-      {
-        key: "sodio",
-        label: "Sódio",
-        synonyms: ["sodio", "sódio", "na+"],
-        defaultUnit: "mEq/L"
-      },
-      {
-        key: "potassio",
-        label: "Potássio",
-        synonyms: ["potassio", "potássio", "k+"],
-        defaultUnit: "mEq/L"
-      }
-    ];
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-    const state = {
-      patient: {
-        name: "",
-        id: "",
-        birth: ""
-      },
-      records: []
+    const REFERENCE_TSV = String.raw`
+Categoria	Exame	Masculino	Feminino	Observação
+Hemograma	Hemácias	4,5–6,0 milhões/mm³	4,0–5,4 milhões/mm³	AAS podem elevar massa eritrocitária
+Hemograma	Hemoglobina	13,5–17,5 g/dL	12,0–15,5 g/dL	Avaliar anemia/policitemia
+Hemograma	Hematócrito	41–53%	36–46%	Em AAS: >52% alerta; ≥54–56% exige conduta
+Hemograma	VCM	80–100 fL	80–100 fL	Macrocitose: B12/folato/álcool/fígado
+Hemograma	HCM	27–33 pg	27–33 pg	Avalia conteúdo de Hb por hemácia
+Hemograma	CHCM	32–36 g/dL	32–36 g/dL	Hipocromia se reduzido
+Hemograma	RDW	11,5–14,5%	11,5–14,5%	Aumenta em carências mistas
+Hemograma	Leucócitos	4.000–10.000/mm³	4.000–10.000/mm³	Inflamação, infecção, estresse
+Hemograma	Neutrófilos	1.500–7.500/mm³	1.500–7.500/mm³	Infecção bacteriana/estresse
+Hemograma	Linfócitos	1.000–4.000/mm³	1.000–4.000/mm³	Imunidade/infecções virais
+Hemograma	Plaquetas	150.000–450.000/mm³	150.000–450.000/mm³	Risco trombótico/hemorrágico
+Glicêmico/metabólico	Glicemia jejum	70–99 mg/dL	70–99 mg/dL	100–125 pré-diabetes; ≥126 diabetes
+Glicêmico/metabólico	Hemoglobina glicada	<5,7%	<5,7%	5,7–6,4% risco aumentado; ≥6,5% diabetes
+Glicêmico/metabólico	Insulina jejum	2–20 µUI/mL	2–20 µUI/mL	Funcionalmente ideal costuma ser menor
+Glicêmico/metabólico	HOMA-IR	<2,5	<2,5	Contextualizar por IMC, cintura e TG
+Glicêmico/metabólico	Peptídeo C	0,8–3,1 ng/mL	0,8–3,1 ng/mL	Reserva pancreática
+Glicêmico/metabólico	Frutosamina	205–285 µmol/L	205–285 µmol/L	Média glicêmica de 2–3 semanas
+Glicêmico/metabólico	TOTG 2h	<140 mg/dL	<140 mg/dL	140–199 intolerância; ≥200 diabetes
+Perfil lipídico	Colesterol total	<190–200 mg/dL	<190–200 mg/dL	Meta depende do risco CV
+Perfil lipídico	HDL	>40 mg/dL	>50 mg/dL	Em AAS pode cair de forma importante
+Perfil lipídico	LDL	<100 mg/dL	<100 mg/dL	Alto risco: alvo pode ser <70 ou <55
+Perfil lipídico	VLDL	5–40 mg/dL	5–40 mg/dL	Estimado por TG/5
+Perfil lipídico	Triglicerídeos	<150 mg/dL	<150 mg/dL	150–199 limítrofe; ≥500 alto risco
+Perfil lipídico	Colesterol não-HDL	<130 mg/dL	<130 mg/dL	Melhor marcador quando TG alto
+Perfil lipídico	ApoB	<90 mg/dL	<90 mg/dL	Alto risco: <65–70
+Perfil lipídico	ApoA1	110–180 mg/dL	125–215 mg/dL	Relacionada ao HDL
+Perfil lipídico	Relação ApoB/ApoA1	<0,7	<0,6	Risco aterogênico
+Perfil lipídico	Lipoproteína(a)	<30 mg/dL ou <75 nmol/L	<30 mg/dL ou <75 nmol/L	Genético; mede 1x na vida
+Fígado/vias biliares	TGO/AST	8–48 U/L	8–48 U/L	Pode subir por treino/músculo
+Fígado/vias biliares	TGP/ALT	7–55 U/L	7–55 U/L	Mais hepatoespecífica que AST
+Fígado/vias biliares	GGT	8–61 U/L	5–36 U/L	Ajuda diferenciar fígado vs músculo
+Fígado/vias biliares	Fosfatase alcalina	40–129 U/L	35–104 U/L	Ossos, bile, gestação
+Fígado/vias biliares	Bilirrubina total	0,1–1,2 mg/dL	0,1–1,2 mg/dL	Elevação indireta pode ser Gilbert/hemólise
+Fígado/vias biliares	Bilirrubina direta	<0,3 mg/dL	<0,3 mg/dL	Colestase se elevada
+Fígado/vias biliares	Bilirrubina indireta	0,2–0,9 mg/dL	0,2–0,9 mg/dL	Hemólise/Gilbert
+Fígado/vias biliares	Albumina	3,5–5,0 g/dL	3,5–5,0 g/dL	Síntese hepática/nutrição
+Fígado/vias biliares	Proteínas totais	6,3–7,9 g/dL	6,3–7,9 g/dL	Nutrição, inflamação, imunoglobulinas
+Fígado/vias biliares	TAP/INR	0,8–1,2	0,8–1,2	Síntese hepática/coagulação
+Rim/eletrólitos	Ureia	10–50 mg/dL	10–50 mg/dL	Sobe com proteína/treino/desidratação
+Rim/eletrólitos	Creatinina	0,74–1,35 mg/dL	0,59–1,04 mg/dL	Massa muscular e creatina interferem
+Rim/eletrólitos	eTFG	>90 mL/min/1,73m²	>90 mL/min/1,73m²	60–89 pode ser aceitável sem lesão renal
+Rim/eletrólitos	Cistatina C	0,6–1,0 mg/L	0,6–1,0 mg/L	Melhor em atletas/muita massa muscular
+Rim/eletrólitos	Ácido úrico	3,5–7,2 mg/dL	2,6–6,0 mg/dL	Gota, RI, dieta, rim
+Rim/eletrólitos	Sódio	135–145 mmol/L	135–145 mmol/L	Hidratação, adrenal, rim
+Rim/eletrólitos	Potássio	3,5–5,1 mmol/L	3,5–5,1 mmol/L	Risco cardíaco se muito alterado
+Rim/eletrólitos	Cloro	98–107 mmol/L	98–107 mmol/L	Equilíbrio ácido-base
+Rim/eletrólitos	Bicarbonato	22–29 mmol/L	22–29 mmol/L	Acidose/alcalose
+Rim/eletrólitos	Cálcio total	8,6–10,2 mg/dL	8,6–10,2 mg/dL	Corrigir por albumina
+Rim/eletrólitos	Cálcio ionizado	1,12–1,32 mmol/L	1,12–1,32 mmol/L	Melhor fração ativa
+Rim/eletrólitos	Magnésio	1,7–2,2 mg/dL	1,7–2,2 mg/dL	Serum nem sempre reflete estoque
+Rim/eletrólitos	Fósforo	2,5–4,5 mg/dL	2,5–4,5 mg/dL	Rim, PTH, vitamina D
+Urina/proteinúria	EAS/urina tipo 1	Sem proteinúria, hematúria ou glicose	Sem proteinúria, hematúria ou glicose	Avaliação renal e urinária
+Urina/proteinúria	Relação albumina/creatinina	<30 mg/g	<30 mg/g	30–300 microalbuminúria
+Urina/proteinúria	Relação proteína/creatinina	<150 mg/g	<150 mg/g	Proteinúria se elevado
+Urina/proteinúria	Proteína 24h	<150 mg/24h	<150 mg/24h	Útil se suspeita renal
+Ferro/anemia	Ferritina	30–400 ng/mL	15–150 ng/mL	Também sobe por inflamação
+Ferro/anemia	Ferro sérico	60–170 µg/dL	50–170 µg/dL	Varia com horário
+Ferro/anemia	Transferrina	200–360 mg/dL	200–360 mg/dL	Transporte de ferro
+Ferro/anemia	CTLF/TIBC	250–450 µg/dL	250–450 µg/dL	Capacidade de ligação
+Ferro/anemia	Saturação transferrina	20–50%	15–50%	Baixa: deficiência; alta: sobrecarga
+Ferro/anemia	Reticulócitos	0,5–2,5%	0,5–2,5%	Resposta medular
+Ferro/anemia	Haptoglobina	30–200 mg/dL	30–200 mg/dL	Reduz em hemólise
+Vitaminas/micronutrientes	Vitamina B12	200–900 pg/mL	200–900 pg/mL	Funcionalmente ideal muitas vezes >400
+Vitaminas/micronutrientes	Ácido fólico	>4 ng/mL	>4 ng/mL	Hematopoiese/metilação
+Vitaminas/micronutrientes	25-OH vitamina D	30–100 ng/mL	30–100 ng/mL	<20 deficiência; 20–29 insuficiência
+Vitaminas/micronutrientes	Zinco	70–120 µg/dL	70–120 µg/dL	Imunidade, pele, eixo hormonal
+Vitaminas/micronutrientes	Cobre	70–140 µg/dL	80–155 µg/dL	Interpretar com ceruloplasmina
+Vitaminas/micronutrientes	Selênio	70–150 µg/L	70–150 µg/L	Tireóide/antioxidante
+Vitaminas/micronutrientes	Vitamina A	20–60 µg/dL	20–60 µg/dL	Excesso é tóxico
+Vitaminas/micronutrientes	Vitamina E	5–20 mg/L	5–20 mg/L	Antioxidante lipossolúvel
+Tireóide	TSH	0,4–4,0 mUI/L	0,4–4,0 mUI/L	Gestação tem faixas próprias
+Tireóide	T4 livre	0,8–1,8 ng/dL	0,8–1,8 ng/dL	Avalia produção tireoidiana
+Tireóide	T3 livre	2,3–4,2 pg/mL	2,3–4,2 pg/mL	Conversão periférica
+Tireóide	T3 reverso	10–24 ng/dL	10–24 ng/dL	Uso seletivo; método variável
+Tireóide	Anti-TPO	<35 UI/mL	<35 UI/mL	Tireoidite autoimune
+Tireóide	Anti-tireoglobulina	<40 UI/mL	<40 UI/mL	Autoimunidade tireoidiana
+Tireóide	TRAb	<1,75 UI/L	<1,75 UI/L	Graves se positivo
+Tireóide	Tireoglobulina	Método-dependente	Método-dependente	Útil em seguimento de câncer tireoide
+Tireóide	Calcitonina	<8–10 pg/mL	<5 pg/mL	Avaliação específica/nódulo
+Hormonal	Testosterona total	300–1000 ng/dL	15–70 ng/dL	Em homens, sintomas + SHBG mudam leitura
+Hormonal	Testosterona livre	50–210 pg/mL	0,5–6,5 pg/mL	Método-dependente
+Hormonal	Testosterona biodisponível	110–575 ng/dL	0,5–8,5 ng/dL	Método-dependente
+Hormonal	SHBG	10–57 nmol/L	18–144 nmol/L	Sobe com estrogênio/tireóide; cai com RI
+Hormonal	LH	1,7–8,6 UI/L	Folicular 2–13; pico 14–96; lútea 1–11	Em AAS tende a suprimir
+Hormonal	FSH	1,5–12,4 UI/L	Folicular 3–12; pico 4–22; lútea 1–8	Pós-menopausa: alto
+Hormonal	Estradiol	10–40 pg/mL	Folicular 30–100; ovulação 100–300; lútea 70–250; pós-menopausa <30	Não tratar número isolado
+Hormonal	Progesterona	<1 ng/mL	Folicular <1; lútea 5–20; pós-menopausa <1	Melhor avaliar fase lútea
+Hormonal	Prolactina	2–18 ng/mL	4–23 ng/mL	Estresse, sono e fármacos interferem
+Hormonal	DHT	30–85 ng/dL	4–22 ng/dL	Acne/alopecia/próstata
+Hormonal	DHEA-S	80–560 µg/dL	35–430 µg/dL	Muito dependente da idade
+Hormonal	Androstenediona	0,6–3,1 ng/mL	0,3–3,3 ng/mL	SOP/adrenal/ovário
+Hormonal	17-OH-progesterona	<2 ng/mL	Folicular <1–2 ng/mL	Triagem hiperplasia adrenal
+Hormonal	Cortisol 8h	5–25 µg/dL	5–25 µg/dL	Ritmo circadiano é crucial
+Hormonal	ACTH	7–63 pg/mL	7–63 pg/mL	Coletar em condição adequada
+Hormonal	IGF-1	Idade-dependente	Idade-dependente	Eixo GH; usar faixa do laudo
+Hormonal	PSA total	<4,0 ng/mL	Não aplicável	Interpretar por idade, próstata e risco
+Hormonal	PSA livre/total	>25% quando PSA 4–10	Não aplicável	Menor % aumenta suspeita
+Hormonal	Inibina B	80–350 pg/mL	Variável por fase/idade	Fertilidade/reserva gonadal
+Hormonal	Beta-hCG	<5 mUI/mL	<5 mUI/mL se não gestante	Primeiro exame em amenorreia
+Hormonal	AMH	Não usual	Idade-dependente	Reserva ovariana; não define fertilidade sozinho
+Músculo/performance	CK total	39–308 U/L	26–192 U/L	Pode subir muito após treino
+Músculo/performance	LDH	122–222 U/L	122–222 U/L	Músculo, hemólise, fígado
+Músculo/performance	Aldolase	1–7,5 U/L	1–7,5 U/L	Lesão muscular
+Músculo/performance	Mioglobina	<85 ng/mL	<85 ng/mL	Rabdomiólise se elevada
+Inflamação/cardiovascular	PCR ultrassensível	<1 baixo risco; 1–3 moderado; >3 alto	<1 baixo risco; 1–3 moderado; >3 alto	Não interpretar durante infecção
+Inflamação/cardiovascular	VHS	<15–20 mm/h	<20–30 mm/h	Aumenta com idade/sexo feminino
+Inflamação/cardiovascular	Homocisteína	5–15 µmol/L	5–15 µmol/L	B12/folato/B6/rim
+Inflamação/cardiovascular	Fibrinogênio	200–400 mg/dL	200–400 mg/dL	Inflamação/coagulação
+Inflamação/cardiovascular	D-dímero	<500 ng/mL FEU	<500 ng/mL FEU	Usar com probabilidade clínica
+Inflamação/cardiovascular	Troponina	Conforme método; abaixo do p99	Conforme método; abaixo do p99	Sintomas = urgência
+Inflamação/cardiovascular	CK-MB	<5 ng/mL ou <5% CK total	<5 ng/mL ou <5% CK total	Menos usada que troponina
+Inflamação/cardiovascular	BNP	<100 pg/mL	<100 pg/mL	Insuficiência cardíaca
+Inflamação/cardiovascular	NT-proBNP	<125 pg/mL se <75 anos	<125 pg/mL se <75 anos	Idade e rim alteram
+Coagulação	TP/INR	0,8–1,2	0,8–1,2	Anticoagulantes mudam alvo
+Coagulação	TTPA	25–35 s	25–35 s	Via intrínseca
+Coagulação	Plaquetas	150–450 mil/mm³	150–450 mil/mm³	Já listado no hemograma
+Gastrointestinal	Amilase	30–110 U/L	30–110 U/L	Pâncreas/salivar
+Gastrointestinal	Lipase	13–60 U/L	13–60 U/L	Mais específica para pâncreas
+Gastrointestinal	Calprotectina fecal	<50 µg/g	<50 µg/g	Inflamação intestinal
+Gastrointestinal	Elastase fecal	>200 µg/g	>200 µg/g	Insuficiência pancreática se baixa
+Gastrointestinal	Anti-transglutaminase IgA	Negativo	Negativo	Avaliar IgA total junto
+Gastrointestinal	IgA total	70–400 mg/dL	70–400 mg/dL	Deficiência falseia sorologia celíaca
+Gastrointestinal	Sangue oculto fecal	Negativo	Negativo	Rastreamento/hemorragia GI
+Gastrointestinal	H. pylori antígeno fecal	Negativo	Negativo	Suspender IBP conforme protocolo
+Autoimune/reumatológico	FAN	Negativo ou <1:80	Negativo ou <1:80	Título baixo pode ser inespecífico
+Autoimune/reumatológico	Fator reumatoide	<14 UI/mL	<14 UI/mL	Pode positivar em outras doenças
+Autoimune/reumatológico	Anti-CCP	<20 U	<20 U	Mais específico para AR
+Autoimune/reumatológico	C3	90–180 mg/dL	90–180 mg/dL	Consumo em autoimunidade
+Autoimune/reumatológico	C4	10–40 mg/dL	10–40 mg/dL	Complemento
+Autoimune/reumatológico	ANCA	Negativo	Negativo	Vasculites
+Autoimune/reumatológico	Anti-DNA	Negativo	Negativo	Lupus se positivo relevante
+Sorologias/infecções	HIV 1/2 Ag/Ac	Não reagente	Não reagente	Repetir conforme janela
+Sorologias/infecções	HBsAg	Não reagente	Não reagente	Hepatite B ativa se positivo
+Sorologias/infecções	Anti-HBs	≥10 mUI/mL protetor	≥10 mUI/mL protetor	Imunidade vacinal/natural
+Sorologias/infecções	Anti-HBc total	Não reagente	Não reagente	Contato prévio com HBV
+Sorologias/infecções	Anti-HCV	Não reagente	Não reagente	Se positivo, confirmar RNA
+Sorologias/infecções	VDRL	Não reagente	Não reagente	Sífilis; confirmar com teste treponêmico
+Sorologias/infecções	Clamídia/Gonococo PCR	Negativo	Negativo	Conforme exposição
+Sorologias/infecções	EBV/CMV IgM	Não reagente	Não reagente	IgG indica contato prévio
+Sorologias/infecções	Toxoplasmose IgM	Não reagente	Não reagente	Gestação muda interpretação
+Sorologias/infecções	Rubéola IgG	Reagente = imune	Reagente = imune	Importante em mulheres férteis
+`;
+
+    const EXTRA_ALIASES = {
+      "Glicemia jejum": ["glicemia de jejum", "glicose jejum", "glicose em jejum", "glicose", "glucose"],
+      "Hemoglobina glicada": ["hba1c", "hb a1c", "a1c", "hemoglobina glicosilada"],
+      "Colesterol total": ["colesterol total", "ct"],
+      "HDL": ["hdl", "colesterol hdl", "hdl colesterol"],
+      "LDL": ["ldl", "colesterol ldl", "ldl colesterol"],
+      "VLDL": ["vldl", "colesterol vldl"],
+      "Triglicerídeos": ["triglicerideos", "triglicerídeos", "triglycerides", "tg"],
+      "TGO/AST": ["tgo", "ast", "transaminase oxalacetica", "aspartato aminotransferase"],
+      "TGP/ALT": ["tgp", "alt", "transaminase piruvica", "alanina aminotransferase"],
+      "GGT": ["ggt", "gama gt", "gama glutamil transferase"],
+      "Creatinina": ["creatinina", "creatinine"],
+      "eTFG": ["etfg", "tfge", "egfr", "filtracao glomerular", "filtração glomerular"],
+      "Ácido úrico": ["acido urico", "ácido úrico"],
+      "Sódio": ["sodio", "sódio", "na+"],
+      "Potássio": ["potassio", "potássio", "k+"],
+      "25-OH vitamina D": ["vitamina d", "25 oh vitamina d", "25-oh vitamina d", "25 hidroxivitamina d"],
+      "Vitamina B12": ["vitamina b12", "b12", "cobalamina"],
+      "TSH": ["tsh", "hormonio tireoestimulante", "hormônio tireoestimulante"],
+      "T4 livre": ["t4 livre", "tiroxina livre"],
+      "T3 livre": ["t3 livre", "triiodotironina livre"],
+      "Testosterona total": ["testosterona total"],
+      "Testosterona livre": ["testosterona livre"],
+      "PCR ultrassensível": ["pcr ultrassensivel", "pcr ultrassensível", "proteina c reativa ultrassensivel", "proteína c reativa ultrassensível", "hs-crp"],
+      "FAN": ["fan", "fator antinuclear"],
+      "HIV 1/2 Ag/Ac": ["hiv", "hiv 1/2", "hiv ag/ac"],
+      "Beta-hCG": ["beta hcg", "beta-hcg", "hcg"]
     };
 
-    let chart = null;
+    const UNIT_PATTERNS = [
+      "milhões/mm³", "milhoes/mm3", "mil/mm³", "/mm³", "mm³", "mg/dL", "g/dL", "ng/dL",
+      "pg/mL", "ng/mL", "µUI/mL", "uUI/mL", "mUI/L", "UI/L", "U/L", "mmol/L",
+      "mEq/L", "µmol/L", "umol/L", "µg/dL", "ug/dL", "µg/L", "ug/L", "mg/L",
+      "mg/g", "mg/24h", "mL/min/1,73m²", "mL/min/1.73m2", "ng/mL FEU",
+      "mm/h", "s", "fL", "pg", "%", "U"
+    ];
+
+    const REFERENCES = parseReferenceTable(REFERENCE_TSV);
+
+    const state = {
+      patients: {},
+      selectedPatientKey: ""
+    };
+
+    let evolutionChart = null;
+    let statusChart = null;
+    let categoryChart = null;
 
     const els = {
+      patientSelector: document.getElementById("patientSelector"),
       patientName: document.getElementById("patientName"),
       patientId: document.getElementById("patientId"),
+      patientSex: document.getElementById("patientSex"),
       patientBirth: document.getElementById("patientBirth"),
-      defaultDate: document.getElementById("defaultDate"),
+      patientAge: document.getElementById("patientAge"),
+      defaultExamDate: document.getElementById("defaultExamDate"),
       dropZone: document.getElementById("dropZone"),
       fileInput: document.getElementById("fileInput"),
       pasteArea: document.getElementById("pasteArea"),
       parseTextBtn: document.getElementById("parseTextBtn"),
       sampleBtn: document.getElementById("sampleBtn"),
       saveBtn: document.getElementById("saveBtn"),
-      clearBtn: document.getElementById("clearBtn"),
+      dedupeBtn: document.getElementById("dedupeBtn"),
       exportJsonBtn: document.getElementById("exportJsonBtn"),
       exportCsvBtn: document.getElementById("exportCsvBtn"),
       printBtn: document.getElementById("printBtn"),
-      dedupeBtn: document.getElementById("dedupeBtn"),
+      clearBtn: document.getElementById("clearBtn"),
       log: document.getElementById("log"),
+      cardPatients: document.getElementById("cardPatients"),
       cardTotal: document.getElementById("cardTotal"),
+      cardChanged: document.getElementById("cardChanged"),
       cardTypes: document.getElementById("cardTypes"),
       cardPeriod: document.getElementById("cardPeriod"),
-      cardLast: document.getElementById("cardLast"),
       patientTitle: document.getElementById("patientTitle"),
       patientMeta: document.getElementById("patientMeta"),
       examFilter: document.getElementById("examFilter"),
-      summaryList: document.getElementById("summaryList"),
-      resultsBody: document.getElementById("resultsBody"),
+      globalOpinion: document.getElementById("globalOpinion"),
       tableSearch: document.getElementById("tableSearch"),
-      chartCanvas: document.getElementById("evolutionChart")
+      resultsBody: document.getElementById("resultsBody"),
+      evolutionChart: document.getElementById("evolutionChart"),
+      statusChart: document.getElementById("statusChart"),
+      categoryChart: document.getElementById("categoryChart")
     };
-
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
     initialize();
 
     function initialize() {
-      const today = new Date().toISOString().slice(0, 10);
-      els.defaultDate.value = today;
-
+      els.defaultExamDate.value = new Date().toISOString().slice(0, 10);
       loadLocal();
 
-      els.patientName.addEventListener("input", updatePatientFromForm);
-      els.patientId.addEventListener("input", updatePatientFromForm);
-      els.patientBirth.addEventListener("input", updatePatientFromForm);
+      els.patientSelector.addEventListener("change", () => {
+        state.selectedPatientKey = els.patientSelector.value;
+        syncFormFromSelectedPatient();
+        render();
+      });
+
+      [els.patientName, els.patientId, els.patientSex, els.patientBirth, els.patientAge].forEach((input) => {
+        input.addEventListener("input", updateSelectedPatientFromForm);
+      });
 
       els.dropZone.addEventListener("click", () => els.fileInput.click());
+
       els.dropZone.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
@@ -876,19 +1033,17 @@
           return;
         }
 
-        const records = parseLabText(text, "Texto colado");
-        addRecords(records);
-        writeLog(`${records.length} resultado(s) extraído(s) do texto colado.`);
+        importTextPayload(text, "Texto colado");
       });
 
       els.sampleBtn.addEventListener("click", addSampleData);
       els.saveBtn.addEventListener("click", saveLocal);
-      els.clearBtn.addEventListener("click", clearAll);
+      els.dedupeBtn.addEventListener("click", removeDuplicates);
       els.exportJsonBtn.addEventListener("click", exportJson);
       els.exportCsvBtn.addEventListener("click", exportCsv);
       els.printBtn.addEventListener("click", () => window.print());
-      els.dedupeBtn.addEventListener("click", removeDuplicates);
-      els.examFilter.addEventListener("change", renderChart);
+      els.clearBtn.addEventListener("click", clearAll);
+      els.examFilter.addEventListener("change", renderEvolutionChart);
       els.tableSearch.addEventListener("input", renderTable);
 
       render();
@@ -897,7 +1052,7 @@
     async function handleFiles(files) {
       if (!files.length) return;
 
-      let imported = 0;
+      let totalImported = 0;
 
       for (const file of files) {
         try {
@@ -907,24 +1062,18 @@
             writeLog(`Lendo PDF: ${file.name}`);
             const buffer = await readAsArrayBuffer(file);
             const text = await extractTextFromPdf(buffer);
-            const records = parseLabText(text, file.name);
-            addRecords(records, false);
-            imported += records.length;
-            writeLog(`${records.length} resultado(s) extraído(s) de ${file.name}.`);
+            const imported = importTextPayload(text, file.name);
+            totalImported += imported;
           } else if (lowerName.endsWith(".csv") || file.type.includes("csv")) {
             writeLog(`Lendo CSV: ${file.name}`);
             const text = await readAsText(file);
-            const records = parseCsv(text, file.name);
-            addRecords(records, false);
-            imported += records.length;
-            writeLog(`${records.length} resultado(s) importado(s) de ${file.name}.`);
+            const imported = importStructuredRecords(parseCsv(text, file.name), file.name);
+            totalImported += imported;
           } else if (lowerName.endsWith(".json") || file.type === "application/json") {
             writeLog(`Lendo JSON: ${file.name}`);
             const text = await readAsText(file);
-            const records = parseJson(text, file.name);
-            addRecords(records, false);
-            imported += records.length;
-            writeLog(`${records.length} resultado(s) importado(s) de ${file.name}.`);
+            const imported = importStructuredRecords(parseJson(text, file.name), file.name);
+            totalImported += imported;
           } else {
             writeLog(`Arquivo ignorado: ${file.name}. Use PDF, CSV ou JSON.`);
           }
@@ -934,8 +1083,487 @@
         }
       }
 
+      removeDuplicates(false);
+      saveLocal(false);
       render();
-      writeLog(`Importação finalizada: ${imported} resultado(s) adicionados.`);
+      writeLog(`Importação finalizada: ${totalImported} resultado(s) adicionados.`);
+    }
+
+    function importTextPayload(text, source) {
+      const metadata = extractPatientMetadata(text, source);
+      const patientKey = upsertPatient(metadata);
+      const patient = state.patients[patientKey];
+
+      const records = parseLabResults(text, source, patient);
+      for (const record of records) {
+        patient.records.push(record);
+      }
+
+      state.selectedPatientKey = patientKey;
+      syncFormFromSelectedPatient();
+      removeDuplicates(false);
+      saveLocal(false);
+      render();
+
+      writeLog(`${records.length} resultado(s) capturado(s) de ${source}. Paciente: ${patient.name}.`);
+      return records.length;
+    }
+
+    function importStructuredRecords(records, source) {
+      let imported = 0;
+
+      for (const group of records) {
+        const patientKey = upsertPatient(group.patient || getFormPatientFallback());
+        const patient = state.patients[patientKey];
+
+        for (const record of group.records) {
+          patient.records.push({
+            ...record,
+            id: cryptoRandomId(),
+            patientKey,
+            patientName: patient.name,
+            patientSex: patient.sex,
+            source
+          });
+          imported += 1;
+        }
+
+        state.selectedPatientKey = patientKey;
+      }
+
+      syncFormFromSelectedPatient();
+      removeDuplicates(false);
+      saveLocal(false);
+      render();
+      return imported;
+    }
+
+    function upsertPatient(metadata) {
+      const clean = {
+        name: metadata.name || els.patientName.value.trim() || "Paciente sem nome",
+        id: metadata.id || els.patientId.value.trim() || "",
+        sex: metadata.sex || els.patientSex.value || "",
+        birth: metadata.birth || els.patientBirth.value || "",
+        age: metadata.age || Number(els.patientAge.value) || "",
+        lastExamDate: metadata.examDate || els.defaultExamDate.value || new Date().toISOString().slice(0, 10)
+      };
+
+      const existingKey = findExistingPatientKey(clean);
+      const key = existingKey || createPatientKey(clean);
+
+      if (!state.patients[key]) {
+        state.patients[key] = {
+          key,
+          name: clean.name,
+          id: clean.id,
+          sex: clean.sex,
+          birth: clean.birth,
+          age: clean.age,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          records: []
+        };
+      } else {
+        const patient = state.patients[key];
+        patient.name = clean.name || patient.name;
+        patient.id = clean.id || patient.id;
+        patient.sex = clean.sex || patient.sex;
+        patient.birth = clean.birth || patient.birth;
+        patient.age = clean.age || patient.age;
+        patient.updatedAt = new Date().toISOString();
+      }
+
+      return key;
+    }
+
+    function findExistingPatientKey(metadata) {
+      const incomingName = normalize(metadata.name);
+      const incomingBirth = metadata.birth;
+
+      for (const patient of Object.values(state.patients)) {
+        const sameBirth = incomingBirth && patient.birth && incomingBirth === patient.birth;
+        const sameName = incomingName && normalize(patient.name) === incomingName;
+        const sameId = metadata.id && patient.id && normalize(metadata.id) === normalize(patient.id);
+
+        if (sameId || (sameName && sameBirth) || (sameName && !incomingBirth && !patient.birth)) {
+          return patient.key;
+        }
+      }
+
+      return "";
+    }
+
+    function createPatientKey(metadata) {
+      const base = [metadata.id, metadata.name, metadata.birth]
+        .filter(Boolean)
+        .map(slugify)
+        .join("-");
+
+      return base || `paciente-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
+    function getFormPatientFallback() {
+      return {
+        name: els.patientName.value.trim() || "Paciente sem nome",
+        id: els.patientId.value.trim(),
+        sex: els.patientSex.value,
+        birth: els.patientBirth.value,
+        age: Number(els.patientAge.value) || "",
+        examDate: els.defaultExamDate.value
+      };
+    }
+
+    function extractPatientMetadata(text, source) {
+      const lines = String(text || "")
+        .replace(/\u00A0/g, " ")
+        .split(/\r?\n/)
+        .map((line) => line.replace(/\s+/g, " ").trim())
+        .filter(Boolean);
+
+      const fullText = lines.join("\n");
+
+      const name = extractByLinePatterns(lines, [
+        /^(?:paciente|nome do paciente|nome)\s*[:\-–—]\s*(.+)$/i,
+        /^(?:paciente)\s+(.+)$/i
+      ]);
+
+      const id = extractByLinePatterns(lines, [
+        /^(?:prontu[aá]rio|registro|id|c[oó]digo)\s*[:\-–—]\s*(.+)$/i
+      ]);
+
+      const sexRaw = extractByLinePatterns(lines, [
+        /^(?:sexo|g[eê]nero)\s*[:\-–—]\s*(masculino|feminino|m|f)\b/i
+      ]);
+
+      const birthRaw = extractByRegex(fullText, /(?:data de nascimento|nascimento|dt\.?\s*nasc\.?|nascido em)\s*[:\-–—]?\s*(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{4}[\/.-]\d{1,2}[\/.-]\d{1,2})/i);
+
+      const ageRaw = extractByRegex(fullText, /(?:idade)\s*[:\-–—]?\s*(\d{1,3})\s*(?:anos|a)?/i);
+
+      const examDateRaw = extractByRegex(fullText, /(?:data da coleta|data de coleta|coleta|data do exame|data de realiza[cç][aã]o|realizado em|emiss[aã]o)\s*[:\-–—]?\s*(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{4}[\/.-]\d{1,2}[\/.-]\d{1,2})/i);
+
+      const fallbackDate = extractBestDate(fullText) || els.defaultExamDate.value || new Date().toISOString().slice(0, 10);
+      const birth = normalizeDate(birthRaw);
+      const examDate = normalizeDate(examDateRaw) || fallbackDate;
+      const sex = normalizeSex(sexRaw);
+      const age = Number(ageRaw) || calculateAge(birth, examDate) || "";
+
+      return {
+        name: cleanPersonName(name) || els.patientName.value.trim() || "Paciente sem nome",
+        id: cleanSmallText(id),
+        sex,
+        birth,
+        age,
+        examDate,
+        source
+      };
+    }
+
+    function parseLabResults(text, source, patient) {
+      const cleanText = String(text || "").replace(/\u00A0/g, " ");
+      const lines = cleanText
+        .split(/\r?\n/)
+        .map((line) => line.replace(/\s+/g, " ").trim())
+        .filter(Boolean);
+
+      const fallbackDate = extractPatientMetadata(text, source).examDate || els.defaultExamDate.value || new Date().toISOString().slice(0, 10);
+      const sortedReferences = REFERENCES.slice().sort((a, b) => longestAlias(b) - longestAlias(a));
+      const records = [];
+
+      for (const line of lines) {
+        const lineDate = extractBestDate(line) || fallbackDate;
+        const normalizedLine = normalize(line);
+
+        for (const ref of sortedReferences) {
+          const matchedAlias = ref.aliases.find((alias) => containsExamAlias(normalizedLine, alias));
+          if (!matchedAlias) continue;
+
+          const result = extractResultFromLine(line, matchedAlias);
+          if (!result) continue;
+
+          const referenceText = chooseReferenceText(ref, patient.sex);
+          const status = classifyResult(result, referenceText);
+
+          records.push({
+            id: cryptoRandomId(),
+            patientKey: patient.key,
+            patientName: patient.name,
+            patientSex: patient.sex,
+            date: lineDate,
+            category: ref.category,
+            examId: ref.id,
+            exam: ref.exam,
+            valueRaw: result.raw,
+            valueNumber: result.number,
+            unit: result.unit || inferUnit(referenceText),
+            reference: referenceText,
+            observation: ref.observation,
+            status,
+            source,
+            rawLine: line
+          });
+
+          break;
+        }
+      }
+
+      return records;
+    }
+
+    function extractResultFromLine(line, matchedAlias) {
+      const normalizedOriginal = normalize(line);
+      const normalizedAlias = normalize(matchedAlias);
+      const normalizedIndex = normalizedOriginal.indexOf(normalizedAlias);
+
+      let searchPart = line;
+      if (normalizedIndex >= 0) {
+        searchPart = line.slice(Math.min(line.length, normalizedIndex + matchedAlias.length));
+      }
+
+      const qualitativeMatch = searchPart.match(/\b(n[aã]o reagente|reagente|negativo|positivo|detectado|n[aã]o detectado|indetect[aá]vel|ausente|presente)\b/i);
+      const numericMatch = searchPart.match(/(?:resultado|valor)?\s*[:=\-–—]?\s*([<>≤≥]?\s*-?\d{1,7}(?:[.,]\d{1,5})?)/i);
+
+      if (numericMatch) {
+        const raw = numericMatch[1].trim();
+        const afterValue = searchPart.slice(numericMatch.index + numericMatch[0].length);
+        const unit = extractUnit(afterValue);
+        return {
+          raw,
+          number: toNumber(raw),
+          unit
+        };
+      }
+
+      if (qualitativeMatch) {
+        return {
+          raw: qualitativeMatch[1].trim(),
+          number: null,
+          unit: ""
+        };
+      }
+
+      return null;
+    }
+
+    function classifyResult(result, referenceText) {
+      const reference = String(referenceText || "").trim();
+      const rule = parseReferenceRule(reference);
+      const numeric = Number(result.number);
+      const resultNorm = normalize(result.raw);
+
+      if (!reference || !rule) {
+        return {
+          type: "neutral",
+          label: "Sem regra",
+          detail: "Referência não comparável automaticamente."
+        };
+      }
+
+      if (rule.kind === "not-applicable") {
+        return {
+          type: "neutral",
+          label: "Não aplicável",
+          detail: "Exame não aplicável para este sexo ou contexto."
+        };
+      }
+
+      if (rule.kind === "method") {
+        return {
+          type: "info",
+          label: "Método-dependente",
+          detail: "Usar a faixa do laboratório/método."
+        };
+      }
+
+      if (rule.kind === "qualitative") {
+        const isNegative = resultNorm.includes("nao reagente") ||
+          resultNorm.includes("nao detectado") ||
+          resultNorm.includes("negativo") ||
+          resultNorm.includes("indetectavel") ||
+          resultNorm.includes("ausente");
+
+        const isPositive = resultNorm.includes("reagente") ||
+          resultNorm.includes("detectado") ||
+          resultNorm.includes("positivo") ||
+          resultNorm.includes("presente");
+
+        if (rule.expected === "negative") {
+          return isNegative
+            ? { type: "ok", label: "Normal", detail: "Compatível com referência qualitativa." }
+            : { type: "changed", label: "Alterado", detail: "Resultado qualitativo fora do esperado." };
+        }
+
+        if (rule.expected === "immune") {
+          return isPositive && !isNegative
+            ? { type: "ok", label: "Imune/adequado", detail: "Compatível com referência qualitativa." }
+            : { type: "changed", label: "Alterado", detail: "Não compatível com imunidade esperada." };
+        }
+
+        return {
+          type: "neutral",
+          label: "Qualitativo",
+          detail: "Resultado qualitativo precisa de revisão."
+        };
+      }
+
+      if (!Number.isFinite(numeric)) {
+        return {
+          type: "neutral",
+          label: "Não numérico",
+          detail: "Resultado não pôde ser convertido para número."
+        };
+      }
+
+      if (rule.kind === "risk-pcr") {
+        if (numeric < 1) return { type: "ok", label: "Baixo risco", detail: "PCR-us abaixo de 1." };
+        if (numeric <= 3) return { type: "warn", label: "Risco moderado", detail: "PCR-us entre 1 e 3." };
+        return { type: "high", label: "Alto risco", detail: "PCR-us acima de 3." };
+      }
+
+      if (rule.low !== null && numeric < rule.low) {
+        return {
+          type: "low",
+          label: "Abaixo",
+          detail: `Abaixo da referência mínima ${formatNumber(rule.low)}.`
+        };
+      }
+
+      if (rule.high !== null && numeric > rule.high) {
+        return {
+          type: "high",
+          label: "Acima",
+          detail: `Acima da referência máxima ${formatNumber(rule.high)}.`
+        };
+      }
+
+      return {
+        type: "ok",
+        label: "Normal",
+        detail: "Dentro da referência interna."
+      };
+    }
+
+    function parseReferenceRule(referenceText) {
+      const raw = String(referenceText || "").trim();
+      const ref = normalize(raw).replace(/,/g, ".");
+
+      if (!ref) return null;
+
+      if (ref.includes("nao aplicavel")) {
+        return { kind: "not-applicable" };
+      }
+
+      if (
+        ref.includes("metodo-dependente") ||
+        ref.includes("idade-dependente") ||
+        ref.includes("conforme metodo") ||
+        ref.includes("variavel por") ||
+        ref.includes("nao usual")
+      ) {
+        return { kind: "method" };
+      }
+
+      if (ref.includes("baixo risco") && ref.includes("moderado") && ref.includes("alto")) {
+        return { kind: "risk-pcr" };
+      }
+
+      if (ref.includes("reagente = imune")) {
+        return { kind: "qualitative", expected: "immune" };
+      }
+
+      if (
+        ref.includes("nao reagente") ||
+        ref.includes("negativo") ||
+        ref.includes("sem proteinuria") ||
+        ref.includes("sem hematúria") ||
+        ref.includes("sem hematuria")
+      ) {
+        return { kind: "qualitative", expected: "negative" };
+      }
+
+      const clean = ref
+        .replace(/[–—]/g, "-")
+        .replace(/≥/g, ">=")
+        .replace(/≤/g, "<=");
+
+      const range = clean.match(/(-?\d+(?:\.\d+)?)\s*(?:a|-|ate)\s*(-?\d+(?:\.\d+)?)/);
+      if (range) {
+        return {
+          kind: "numeric",
+          low: Number(range[1]),
+          high: Number(range[2])
+        };
+      }
+
+      const less = clean.match(/(?:<|<=|menor que|abaixo de)\s*(-?\d+(?:\.\d+)?)/);
+      if (less) {
+        return {
+          kind: "numeric",
+          low: null,
+          high: Number(less[1])
+        };
+      }
+
+      const greater = clean.match(/(?:>|>=|maior que|acima de)\s*(-?\d+(?:\.\d+)?)/);
+      if (greater) {
+        return {
+          kind: "numeric",
+          low: Number(greater[1]),
+          high: null
+        };
+      }
+
+      return null;
+    }
+
+    function parseReferenceTable(tsv) {
+      const lines = String(tsv)
+        .trim()
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      const rows = lines.slice(1);
+      return rows.map((line) => {
+        const [category, exam, male, female, observation] = line.split("\t");
+        const aliases = buildAliases(exam);
+
+        return {
+          id: slugify(exam),
+          category: category.trim(),
+          exam: exam.trim(),
+          male: male.trim(),
+          female: female.trim(),
+          observation: (observation || "").trim(),
+          aliases
+        };
+      });
+    }
+
+    function buildAliases(examName) {
+      const base = new Set([
+        examName,
+        normalizeExamName(examName)
+      ]);
+
+      if (EXTRA_ALIASES[examName]) {
+        EXTRA_ALIASES[examName].forEach((alias) => base.add(alias));
+      }
+
+      if (examName.includes("/")) {
+        examName.split("/").forEach((part) => base.add(part.trim()));
+      }
+
+      return Array.from(base)
+        .map((alias) => alias.trim())
+        .filter(Boolean)
+        .sort((a, b) => b.length - a.length);
+    }
+
+    function chooseReferenceText(ref, sex) {
+      if (sex === "feminino") return ref.female;
+      if (sex === "masculino") return ref.male;
+      if (normalize(ref.male) === normalize(ref.female)) return ref.male;
+      return `${ref.male} / ${ref.female}`;
     }
 
     function readAsArrayBuffer(file) {
@@ -1004,68 +1632,6 @@
       return pages.join("\n");
     }
 
-    function parseLabText(text, source) {
-      const cleanText = String(text || "").replace(/\u00A0/g, " ");
-      const lines = cleanText
-        .split(/\r?\n/)
-        .map((line) => line.replace(/\s+/g, " ").trim())
-        .filter(Boolean);
-
-      const fallbackDate = extractBestDate(cleanText) || els.defaultDate.value || new Date().toISOString().slice(0, 10);
-      const records = [];
-
-      for (const line of lines) {
-        const normalizedLine = normalize(line);
-        const lineDate = extractBestDate(line) || fallbackDate;
-
-        for (const exam of EXAM_CATALOG) {
-          let matched = false;
-
-          for (const synonym of exam.synonyms) {
-            const normalizedSynonym = normalize(synonym);
-            const index = normalizedLine.indexOf(normalizedSynonym);
-
-            if (index === -1) continue;
-
-            const afterExamName = line.slice(Math.min(line.length, index + synonym.length));
-            const valueMatch = afterExamName.match(/(?:resultado\s*)?[:=\-–—]?\s*(?:[<>≤≥]\s*)?(-?\d{1,6}(?:[.,]\d{1,4})?)/i);
-
-            if (!valueMatch) continue;
-
-            const value = toNumber(valueMatch[1]);
-
-            if (!Number.isFinite(value)) continue;
-
-            const afterValue = afterExamName.slice(valueMatch.index + valueMatch[0].length);
-            const unitMatch = afterValue.match(/^\s*([a-zA-Zµμ%/³².]+(?:\s*\/\s*[a-zA-Zµμ]+)?)/);
-            const unit = normalizeUnit(unitMatch ? unitMatch[1] : exam.defaultUnit);
-            const reference = findReference(line);
-
-            records.push({
-              id: cryptoRandomId(),
-              date: lineDate,
-              examKey: exam.key,
-              exam: exam.label,
-              value,
-              unit,
-              reference,
-              source,
-              raw: line
-            });
-
-            matched = true;
-            break;
-          }
-
-          if (matched) {
-            continue;
-          }
-        }
-      }
-
-      return records;
-    }
-
     function parseCsv(text, source) {
       const lines = String(text || "")
         .split(/\r?\n/)
@@ -1076,162 +1642,200 @@
 
       const delimiter = countChar(lines[0], ";") >= countChar(lines[0], ",") ? ";" : ",";
       const rows = lines.map((line) => splitCsvLine(line, delimiter));
-      const firstRowNormalized = rows[0].map(normalize);
+      const headers = rows.shift().map(normalize);
 
-      const hasHeader = firstRowNormalized.some((header) =>
-        ["data", "date", "exame", "exam", "valor", "value", "resultado", "unidade", "referencia"].some((token) =>
-          header.includes(token)
-        )
-      );
-
-      const headers = hasHeader ? rows.shift().map(normalize) : [];
-      const findColumn = (tokens, fallbackIndex) => {
-        if (!hasHeader) return fallbackIndex;
-        const index = headers.findIndex((header) => tokens.some((token) => header.includes(token)));
-        return index >= 0 ? index : fallbackIndex;
+      const col = (...names) => {
+        const index = headers.findIndex((header) => names.some((name) => header.includes(normalize(name))));
+        return index >= 0 ? index : -1;
       };
 
-      const dateIndex = findColumn(["data", "date"], 0);
-      const examIndex = findColumn(["exame", "exam", "analito", "parametro", "parâmetro"], 1);
-      const valueIndex = findColumn(["valor", "value", "resultado", "result"], 2);
-      const unitIndex = findColumn(["unidade", "unit"], 3);
-      const referenceIndex = findColumn(["referencia", "referência", "ref", "vr"], 4);
+      const nameCol = col("paciente", "nome");
+      const sexCol = col("sexo");
+      const birthCol = col("nascimento", "data nascimento");
+      const dateCol = col("data", "coleta", "realização");
+      const examCol = col("exame", "analito", "parametro", "parâmetro");
+      const valueCol = col("resultado", "valor");
+      const unitCol = col("unidade", "unit");
 
-      const records = [];
+      const groups = new Map();
 
       for (const row of rows) {
-        const date = normalizeDate(row[dateIndex]) || els.defaultDate.value || new Date().toISOString().slice(0, 10);
-        const examName = row[examIndex] || "";
-        const value = toNumber(row[valueIndex]);
-        const unit = normalizeUnit(row[unitIndex] || "");
-        const reference = row[referenceIndex] || "";
+        const examName = row[examCol] || "";
+        const ref = findReferenceByExamName(examName);
+        const rawValue = row[valueCol] || "";
 
-        if (!examName || !Number.isFinite(value)) continue;
+        if (!examName || !rawValue || !ref) continue;
 
-        const catalog = findCatalogByName(examName);
+        const patient = {
+          name: row[nameCol] || els.patientName.value.trim() || "Paciente sem nome",
+          sex: normalizeSex(row[sexCol] || els.patientSex.value),
+          birth: normalizeDate(row[birthCol] || els.patientBirth.value),
+          age: Number(els.patientAge.value) || "",
+          examDate: normalizeDate(row[dateCol]) || els.defaultExamDate.value
+        };
 
-        records.push({
-          id: cryptoRandomId(),
-          date,
-          examKey: catalog ? catalog.key : slugify(examName),
-          exam: catalog ? catalog.label : examName.trim(),
-          value,
-          unit: unit || (catalog ? catalog.defaultUnit : ""),
-          reference,
-          source,
-          raw: row.join(" | ")
+        const key = createPatientKey(patient);
+
+        if (!groups.has(key)) {
+          groups.set(key, {
+            patient,
+            records: []
+          });
+        }
+
+        const result = {
+          raw: rawValue,
+          number: toNumber(rawValue),
+          unit: row[unitCol] || inferUnit(chooseReferenceText(ref, patient.sex))
+        };
+
+        groups.get(key).records.push({
+          date: patient.examDate,
+          category: ref.category,
+          examId: ref.id,
+          exam: ref.exam,
+          valueRaw: result.raw,
+          valueNumber: result.number,
+          unit: result.unit,
+          reference: chooseReferenceText(ref, patient.sex),
+          observation: ref.observation,
+          status: classifyResult(result, chooseReferenceText(ref, patient.sex)),
+          rawLine: row.join(" | "),
+          source
         });
       }
 
-      return records;
+      return Array.from(groups.values());
     }
 
     function parseJson(text, source) {
       const parsed = JSON.parse(text);
-      const inputRecords = Array.isArray(parsed) ? parsed : parsed.records;
+      const list = Array.isArray(parsed) ? parsed : parsed.records;
 
-      if (!Array.isArray(inputRecords)) {
+      if (!Array.isArray(list)) {
         throw new Error("JSON inválido. Use um array de resultados ou { records: [...] }.");
       }
 
-      return inputRecords
-        .map((item) => {
-          const examName = item.exam || item.exame || item.nome || "";
-          const catalog = findCatalogByName(examName);
-          const value = toNumber(item.value ?? item.valor ?? item.resultado);
+      const groups = new Map();
 
-          if (!examName || !Number.isFinite(value)) return null;
+      for (const item of list) {
+        const examName = item.exam || item.exame || item.analito || "";
+        const ref = findReferenceByExamName(examName);
+        if (!ref) continue;
 
-          return {
-            id: cryptoRandomId(),
-            date: normalizeDate(item.date || item.data) || els.defaultDate.value || new Date().toISOString().slice(0, 10),
-            examKey: item.examKey || item.chave || (catalog ? catalog.key : slugify(examName)),
-            exam: catalog ? catalog.label : examName,
-            value,
-            unit: normalizeUnit(item.unit || item.unidade || ""),
-            reference: item.reference || item.referencia || item.ref || "",
-            source,
-            raw: JSON.stringify(item)
-          };
-        })
-        .filter(Boolean);
-    }
+        const patient = {
+          name: item.patientName || item.paciente || parsed.patient?.name || els.patientName.value.trim() || "Paciente sem nome",
+          id: item.patientId || item.prontuario || parsed.patient?.id || "",
+          sex: normalizeSex(item.sex || item.sexo || parsed.patient?.sex || els.patientSex.value),
+          birth: normalizeDate(item.birth || item.nascimento || parsed.patient?.birth || els.patientBirth.value),
+          age: Number(item.age || item.idade || parsed.patient?.age || els.patientAge.value) || "",
+          examDate: normalizeDate(item.date || item.data || item.coleta) || els.defaultExamDate.value
+        };
 
-    function addRecords(records, shouldRender = true) {
-      state.records.push(...records);
-      if (shouldRender) render();
-    }
+        const key = createPatientKey(patient);
 
-    function removeDuplicates() {
-      const seen = new Set();
-      const unique = [];
-
-      for (const record of state.records) {
-        const signature = [
-          record.date,
-          normalize(record.exam),
-          record.value,
-          normalize(record.unit),
-          normalize(record.reference)
-        ].join("|");
-
-        if (!seen.has(signature)) {
-          seen.add(signature);
-          unique.push(record);
+        if (!groups.has(key)) {
+          groups.set(key, {
+            patient,
+            records: []
+          });
         }
+
+        const result = {
+          raw: String(item.value ?? item.valor ?? item.resultado ?? ""),
+          number: toNumber(item.value ?? item.valor ?? item.resultado),
+          unit: item.unit || item.unidade || inferUnit(chooseReferenceText(ref, patient.sex))
+        };
+
+        groups.get(key).records.push({
+          date: patient.examDate,
+          category: ref.category,
+          examId: ref.id,
+          exam: ref.exam,
+          valueRaw: result.raw,
+          valueNumber: result.number,
+          unit: result.unit,
+          reference: chooseReferenceText(ref, patient.sex),
+          observation: ref.observation,
+          status: classifyResult(result, chooseReferenceText(ref, patient.sex)),
+          rawLine: JSON.stringify(item),
+          source
+        });
       }
 
-      const removed = state.records.length - unique.length;
-      state.records = unique;
-      render();
-      writeLog(`${removed} duplicado(s) removido(s).`);
-    }
-
-    function updatePatientFromForm() {
-      state.patient.name = els.patientName.value.trim();
-      state.patient.id = els.patientId.value.trim();
-      state.patient.birth = els.patientBirth.value;
-      renderPatient();
+      return Array.from(groups.values());
     }
 
     function render() {
-      renderPatient();
+      renderPatientSelector();
+      renderPatientHeader();
       renderCards();
       renderExamFilter();
-      renderChart();
-      renderSummary();
+      renderEvolutionChart();
+      renderStatusChart();
+      renderCategoryChart();
+      renderOpinion();
       renderTable();
     }
 
-    function renderPatient() {
-      const name = state.patient.name || "Paciente sem nome";
-      const id = state.patient.id ? `Prontuário: ${state.patient.id}` : "Prontuário não informado";
-      const birth = state.patient.birth ? `Nascimento: ${formatDate(state.patient.birth)}` : "Nascimento não informado";
+    function renderPatientSelector() {
+      const current = state.selectedPatientKey;
+      const patients = Object.values(state.patients).sort((a, b) => a.name.localeCompare(b.name));
 
-      els.patientTitle.textContent = `Resumo — ${name}`;
-      els.patientMeta.textContent = `${id} • ${birth}`;
+      els.patientSelector.innerHTML = [
+        `<option value="">Novo paciente</option>`,
+        ...patients.map((patient) => {
+          const label = `${patient.name}${patient.birth ? ` — ${formatDate(patient.birth)}` : ""}`;
+          return `<option value="${escapeHtml(patient.key)}">${escapeHtml(label)}</option>`;
+        })
+      ].join("");
+
+      els.patientSelector.value = current;
+    }
+
+    function renderPatientHeader() {
+      const patient = getSelectedPatient();
+
+      if (!patient) {
+        els.patientTitle.textContent = "Resumo do paciente";
+        els.patientMeta.textContent = "Nenhum paciente ativo.";
+        return;
+      }
+
+      const sex = patient.sex ? capitalize(patient.sex) : "Sexo não informado";
+      const birth = patient.birth ? `Nascimento: ${formatDate(patient.birth)}` : "Nascimento não informado";
+      const age = patient.age ? `Idade: ${patient.age}` : "Idade não informada";
+      const id = patient.id ? `Prontuário: ${patient.id}` : "Prontuário não informado";
+
+      els.patientTitle.textContent = `Resumo — ${patient.name}`;
+      els.patientMeta.textContent = `${id} • ${sex} • ${birth} • ${age}`;
     }
 
     function renderCards() {
-      const records = state.records;
-      const examTypes = new Set(records.map((record) => record.examKey));
+      const patient = getSelectedPatient();
+      const records = patient ? patient.records : getAllRecords();
+      const patientCount = Object.keys(state.patients).length;
+      const changed = records.filter((record) => isChangedStatus(record.status.type)).length;
+      const examTypes = new Set(records.map((record) => record.examId));
       const dates = records.map((record) => record.date).filter(Boolean).sort();
 
+      els.cardPatients.textContent = patientCount;
       els.cardTotal.textContent = records.length;
+      els.cardChanged.textContent = changed;
       els.cardTypes.textContent = examTypes.size;
       els.cardPeriod.textContent = dates.length ? `${formatDate(dates[0])} a ${formatDate(dates[dates.length - 1])}` : "—";
-      els.cardLast.textContent = dates.length ? formatDate(dates[dates.length - 1]) : "—";
     }
 
     function renderExamFilter() {
       const previous = els.examFilter.value;
-      const grouped = groupByExam();
-
-      const options = Array.from(grouped.entries())
+      const patient = getSelectedPatient();
+      const records = patient ? patient.records : getAllRecords();
+      const grouped = groupBy(records, "examId");
+      const options = Object.entries(grouped)
         .sort((a, b) => a[1][0].exam.localeCompare(b[1][0].exam))
-        .map(([key, records]) => ({
-          key,
-          label: `${records[0].exam} (${records.length})`
+        .map(([examId, list]) => ({
+          examId,
+          label: `${list[0].exam} (${list.length})`
         }));
 
       if (!options.length) {
@@ -1240,36 +1844,38 @@
       }
 
       els.examFilter.innerHTML = options
-        .map((option) => `<option value="${escapeHtml(option.key)}">${escapeHtml(option.label)}</option>`)
+        .map((option) => `<option value="${escapeHtml(option.examId)}">${escapeHtml(option.label)}</option>`)
         .join("");
 
-      const hasPrevious = options.some((option) => option.key === previous);
-      els.examFilter.value = hasPrevious ? previous : chooseDefaultExam(options.map((option) => option.key));
+      els.examFilter.value = options.some((option) => option.examId === previous)
+        ? previous
+        : chooseBestEvolutionExam(records);
     }
 
-    function renderChart() {
-      const selectedKey = els.examFilter.value;
-      const records = state.records
-        .filter((record) => record.examKey === selectedKey)
+    function renderEvolutionChart() {
+      const patient = getSelectedPatient();
+      const records = patient ? patient.records : getAllRecords();
+      const selectedExam = els.examFilter.value;
+
+      const filtered = records
+        .filter((record) => record.examId === selectedExam && Number.isFinite(record.valueNumber))
         .sort((a, b) => a.date.localeCompare(b.date));
 
-      if (chart) {
-        chart.destroy();
-        chart = null;
-      }
+      if (evolutionChart) evolutionChart.destroy();
 
-      const ctx = els.chartCanvas.getContext("2d");
+      const ctx = els.evolutionChart.getContext("2d");
 
-      if (!records.length) {
-        chart = new Chart(ctx, {
+      if (!filtered.length) {
+        evolutionChart = new Chart(ctx, {
           type: "line",
           data: {
             labels: ["Sem dados"],
             datasets: [{
-              label: "Sem dados",
+              label: "Sem dados numéricos",
               data: [0],
               borderColor: "#94a3b8",
-              backgroundColor: "rgba(148, 163, 184, 0.12)"
+              backgroundColor: "rgba(148, 163, 184, 0.12)",
+              fill: true
             }]
           },
           options: baseChartOptions()
@@ -1277,29 +1883,220 @@
         return;
       }
 
-      const label = records[0].exam;
-      const unit = records[0].unit || "";
-
-      chart = new Chart(ctx, {
+      evolutionChart = new Chart(ctx, {
         type: "line",
         data: {
-          labels: records.map((record) => formatDate(record.date)),
+          labels: filtered.map((record) => formatDate(record.date)),
           datasets: [{
-            label: `${label}${unit ? ` (${unit})` : ""}`,
-            data: records.map((record) => record.value),
+            label: `${filtered[0].exam}${filtered[0].unit ? ` (${filtered[0].unit})` : ""}`,
+            data: filtered.map((record) => record.valueNumber),
             borderColor: "#0f766e",
             backgroundColor: "rgba(20, 184, 166, 0.16)",
-            pointBackgroundColor: "#0f766e",
+            pointBackgroundColor: filtered.map((record) => chartColorByStatus(record.status.type)),
             pointBorderColor: "#ffffff",
             pointBorderWidth: 2,
             pointRadius: 5,
-            pointHoverRadius: 7,
             tension: 0.35,
             fill: true
           }]
         },
         options: baseChartOptions()
       });
+    }
+
+    function renderStatusChart() {
+      const patient = getSelectedPatient();
+      const records = patient ? patient.records : getAllRecords();
+
+      const counts = {
+        normal: records.filter((r) => r.status.type === "ok").length,
+        alterado: records.filter((r) => isChangedStatus(r.status.type)).length,
+        alerta: records.filter((r) => r.status.type === "warn").length,
+        outro: records.filter((r) => ["neutral", "info"].includes(r.status.type)).length
+      };
+
+      if (statusChart) statusChart.destroy();
+
+      statusChart = new Chart(els.statusChart.getContext("2d"), {
+        type: "doughnut",
+        data: {
+          labels: ["Normal", "Alterado", "Alerta", "Não comparável"],
+          datasets: [{
+            data: [counts.normal, counts.alterado, counts.alerta, counts.outro],
+            backgroundColor: ["#10b981", "#ef4444", "#f59e0b", "#94a3b8"],
+            borderColor: "#ffffff",
+            borderWidth: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      });
+    }
+
+    function renderCategoryChart() {
+      const patient = getSelectedPatient();
+      const records = patient ? patient.records : getAllRecords();
+      const changed = records.filter((record) => isChangedStatus(record.status.type) || record.status.type === "warn");
+      const grouped = groupBy(changed, "category");
+
+      const labels = Object.keys(grouped);
+      const data = labels.map((label) => grouped[label].length);
+
+      if (categoryChart) categoryChart.destroy();
+
+      categoryChart = new Chart(els.categoryChart.getContext("2d"), {
+        type: "bar",
+        data: {
+          labels: labels.length ? labels : ["Sem alterações"],
+          datasets: [{
+            label: "Alterações",
+            data: data.length ? data : [0],
+            backgroundColor: "rgba(239, 68, 68, 0.72)",
+            borderColor: "#dc2626",
+            borderWidth: 1,
+            borderRadius: 10
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: "y",
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderOpinion() {
+      const patient = getSelectedPatient();
+      const records = patient ? patient.records : getAllRecords();
+
+      if (!records.length) {
+        els.globalOpinion.innerHTML = '<div class="empty">Importe exames para gerar o parecer gráfico.</div>';
+        return;
+      }
+
+      const changed = records
+        .filter((record) => isChangedStatus(record.status.type) || record.status.type === "warn")
+        .sort((a, b) => b.date.localeCompare(a.date));
+
+      const normalCount = records.filter((record) => record.status.type === "ok").length;
+      const categories = groupBy(changed, "category");
+      const categoryText = Object.entries(categories)
+        .sort((a, b) => b[1].length - a[1].length)
+        .slice(0, 3)
+        .map(([category, list]) => `${category}: ${list.length}`)
+        .join(" • ");
+
+      const latestChanged = changed.slice(0, 6);
+
+      const mainStatus = changed.length
+        ? `<span class="badge changed">${changed.length} alteração(ões)</span>`
+        : `<span class="badge ok">Sem alterações detectadas</span>`;
+
+      const html = [
+        `
+        <div class="summary-item">
+          <div>
+            <b>Visão geral</b>
+            <small>
+              ${records.length} resultado(s) analisado(s), ${normalCount} dentro da referência interna
+              e ${changed.length} com alerta/alteração.
+            </small>
+          </div>
+          ${mainStatus}
+        </div>
+        `,
+        `
+        <div class="summary-item">
+          <div>
+            <b>Categorias mais impactadas</b>
+            <small>${categoryText || "Nenhuma categoria com alteração detectada."}</small>
+          </div>
+          <span class="badge info">Gráfico total</span>
+        </div>
+        `
+      ];
+
+      if (latestChanged.length) {
+        for (const record of latestChanged) {
+          html.push(`
+            <div class="summary-item">
+              <div>
+                <b>${escapeHtml(record.exam)}</b>
+                <small>
+                  ${formatDate(record.date)} • Resultado: ${escapeHtml(record.valueRaw)}
+                  ${escapeHtml(record.unit || "")} • Ref.: ${escapeHtml(record.reference)}
+                  <br>${escapeHtml(record.status.detail)}
+                </small>
+              </div>
+              ${statusBadge(record.status)}
+            </div>
+          `);
+        }
+      }
+
+      els.globalOpinion.innerHTML = html.join("");
+    }
+
+    function renderTable() {
+      const query = normalize(els.tableSearch.value);
+      const patient = getSelectedPatient();
+      const records = patient ? patient.records : getAllRecords();
+
+      const filtered = records
+        .filter((record) => {
+          if (!query) return true;
+
+          return [
+            record.patientName,
+            record.date,
+            record.category,
+            record.exam,
+            record.valueRaw,
+            record.unit,
+            record.reference,
+            record.status.label,
+            record.source
+          ].some((value) => normalize(value).includes(query));
+        })
+        .sort((a, b) => b.date.localeCompare(a.date) || a.exam.localeCompare(b.exam));
+
+      if (!filtered.length) {
+        els.resultsBody.innerHTML = '<tr><td colspan="8" class="empty">Nenhum resultado encontrado.</td></tr>';
+        return;
+      }
+
+      els.resultsBody.innerHTML = filtered.map((record) => `
+        <tr>
+          <td>${escapeHtml(record.patientName || "—")}</td>
+          <td>${formatDate(record.date)}</td>
+          <td>${escapeHtml(record.category || "—")}</td>
+          <td><strong>${escapeHtml(record.exam)}</strong></td>
+          <td>${escapeHtml(record.valueRaw)} ${escapeHtml(record.unit || "")}</td>
+          <td>${escapeHtml(record.reference || "—")}</td>
+          <td>${statusBadge(record.status)}</td>
+          <td>${escapeHtml(record.source || "—")}</td>
+        </tr>
+      `).join("");
     }
 
     function baseChartOptions() {
@@ -1314,11 +2111,6 @@
               font: {
                 weight: "bold"
               }
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: (context) => ` ${context.dataset.label}: ${context.parsed.y}`
             }
           }
         },
@@ -1338,226 +2130,187 @@
       };
     }
 
-    function renderSummary() {
-      const grouped = groupByExam();
+    function updateSelectedPatientFromForm() {
+      let patient = getSelectedPatient();
 
-      if (!grouped.size) {
-        els.summaryList.innerHTML = '<div class="empty">Importe exames para gerar o resumo evolutivo.</div>';
+      if (!patient) {
+        const key = upsertPatient(getFormPatientFallback());
+        state.selectedPatientKey = key;
+        patient = state.patients[key];
+      }
+
+      patient.name = els.patientName.value.trim() || "Paciente sem nome";
+      patient.id = els.patientId.value.trim();
+      patient.sex = els.patientSex.value;
+      patient.birth = els.patientBirth.value;
+      patient.age = Number(els.patientAge.value) || "";
+      patient.updatedAt = new Date().toISOString();
+
+      for (const record of patient.records) {
+        record.patientName = patient.name;
+        record.patientSex = patient.sex;
+
+        const ref = REFERENCES.find((item) => item.id === record.examId);
+        if (ref) {
+          record.reference = chooseReferenceText(ref, patient.sex);
+          record.status = classifyResult(
+            { raw: record.valueRaw, number: record.valueNumber, unit: record.unit },
+            record.reference
+          );
+        }
+      }
+
+      saveLocal(false);
+      render();
+    }
+
+    function syncFormFromSelectedPatient() {
+      const patient = getSelectedPatient();
+
+      if (!patient) {
+        els.patientName.value = "";
+        els.patientId.value = "";
+        els.patientSex.value = "";
+        els.patientBirth.value = "";
+        els.patientAge.value = "";
         return;
       }
 
-      const items = Array.from(grouped.values())
-        .map((records) => {
-          const sorted = records.slice().sort((a, b) => a.date.localeCompare(b.date));
-          const latest = sorted[sorted.length - 1];
-          const previous = sorted.length > 1 ? sorted[sorted.length - 2] : null;
-          const delta = previous ? latest.value - previous.value : null;
-          const status = getStatus(latest);
-
-          return {
-            latest,
-            previous,
-            delta,
-            status,
-            count: sorted.length
-          };
-        })
-        .sort((a, b) => b.latest.date.localeCompare(a.latest.date))
-        .slice(0, 8);
-
-      els.summaryList.innerHTML = items.map((item) => {
-        const deltaText = item.delta === null
-          ? "Sem comparação anterior"
-          : `${item.delta > 0 ? "+" : ""}${round(item.delta)} desde ${formatDate(item.previous.date)}`;
-
-        return `
-          <div class="summary-item">
-            <div>
-              <b>${escapeHtml(item.latest.exam)}</b>
-              <small>
-                Último: ${round(item.latest.value)} ${escapeHtml(item.latest.unit || "")}
-                em ${formatDate(item.latest.date)} • ${escapeHtml(deltaText)}
-              </small>
-            </div>
-            ${statusBadge(item.status)}
-          </div>
-        `;
-      }).join("");
+      els.patientName.value = patient.name || "";
+      els.patientId.value = patient.id || "";
+      els.patientSex.value = patient.sex || "";
+      els.patientBirth.value = patient.birth || "";
+      els.patientAge.value = patient.age || "";
     }
 
-    function renderTable() {
-      const query = normalize(els.tableSearch.value);
-      const filtered = state.records
-        .filter((record) => {
-          if (!query) return true;
-          return [
+    function getSelectedPatient() {
+      return state.selectedPatientKey ? state.patients[state.selectedPatientKey] : null;
+    }
+
+    function getAllRecords() {
+      return Object.values(state.patients).flatMap((patient) => patient.records || []);
+    }
+
+    function removeDuplicates(shouldRender = true) {
+      let removed = 0;
+
+      for (const patient of Object.values(state.patients)) {
+        const seen = new Set();
+        const unique = [];
+
+        for (const record of patient.records) {
+          const signature = [
+            patient.key,
             record.date,
-            record.exam,
-            record.value,
-            record.unit,
-            record.reference,
-            record.source
-          ].some((field) => normalize(field).includes(query));
-        })
-        .sort((a, b) => b.date.localeCompare(a.date) || a.exam.localeCompare(b.exam));
+            record.examId,
+            normalize(record.valueRaw),
+            normalize(record.unit),
+            normalize(record.source)
+          ].join("|");
 
-      if (!filtered.length) {
-        els.resultsBody.innerHTML = '<tr><td colspan="7" class="empty">Nenhum resultado encontrado.</td></tr>';
-        return;
-      }
-
-      els.resultsBody.innerHTML = filtered.map((record) => {
-        const status = getStatus(record);
-
-        return `
-          <tr>
-            <td>${formatDate(record.date)}</td>
-            <td><strong>${escapeHtml(record.exam)}</strong></td>
-            <td>${round(record.value)}</td>
-            <td>${escapeHtml(record.unit || "—")}</td>
-            <td>${escapeHtml(record.reference || "—")}</td>
-            <td>${statusBadge(status)}</td>
-            <td>${escapeHtml(record.source || "—")}</td>
-          </tr>
-        `;
-      }).join("");
-    }
-
-    function getStatus(record) {
-      const parsed = parseReference(record.reference);
-
-      if (!parsed) {
-        return {
-          type: "neutral",
-          label: "Sem faixa"
-        };
-      }
-
-      if (parsed.low !== null && record.value < parsed.low) {
-        return {
-          type: "warn",
-          label: "Abaixo da faixa"
-        };
-      }
-
-      if (parsed.high !== null && record.value > parsed.high) {
-        return {
-          type: "danger",
-          label: "Acima da faixa"
-        };
-      }
-
-      return {
-        type: "ok",
-        label: "Na faixa"
-      };
-    }
-
-    function statusBadge(status) {
-      return `<span class="badge ${escapeHtml(status.type)}">${escapeHtml(status.label)}</span>`;
-    }
-
-    function groupByExam() {
-      const grouped = new Map();
-
-      for (const record of state.records) {
-        if (!grouped.has(record.examKey)) {
-          grouped.set(record.examKey, []);
+          if (!seen.has(signature)) {
+            seen.add(signature);
+            unique.push(record);
+          } else {
+            removed += 1;
+          }
         }
 
-        grouped.get(record.examKey).push(record);
+        patient.records = unique;
       }
 
-      return grouped;
-    }
-
-    function chooseDefaultExam(keys) {
-      let bestKey = keys[0] || "";
-
-      for (const key of keys) {
-        const count = state.records.filter((record) => record.examKey === key).length;
-        const bestCount = state.records.filter((record) => record.examKey === bestKey).length;
-
-        if (count > bestCount) {
-          bestKey = key;
-        }
+      if (shouldRender) {
+        saveLocal(false);
+        render();
+        writeLog(`${removed} duplicado(s) removido(s).`);
       }
-
-      return bestKey;
     }
 
     function addSampleData() {
+      const patient = {
+        name: "Paciente Exemplo",
+        id: "PX-001",
+        sex: "masculino",
+        birth: "1985-06-14",
+        age: 40,
+        examDate: "2026-04-18"
+      };
+
+      const key = upsertPatient(patient);
+      const p = state.patients[key];
+
       const sample = [
-        ["2025-10-12", "Glicose", 102, "mg/dL", "70 - 99"],
-        ["2025-10-12", "Hemoglobina glicada (HbA1c)", 5.8, "%", "4.0 - 5.6"],
-        ["2025-10-12", "Colesterol LDL", 142, "mg/dL", "< 130"],
-        ["2025-10-12", "Colesterol HDL", 48, "mg/dL", "> 40"],
-        ["2025-10-12", "Triglicerídeos", 170, "mg/dL", "< 150"],
-        ["2026-01-20", "Glicose", 95, "mg/dL", "70 - 99"],
-        ["2026-01-20", "Hemoglobina glicada (HbA1c)", 5.6, "%", "4.0 - 5.6"],
-        ["2026-01-20", "Colesterol LDL", 128, "mg/dL", "< 130"],
-        ["2026-01-20", "Colesterol HDL", 51, "mg/dL", "> 40"],
-        ["2026-01-20", "Triglicerídeos", 138, "mg/dL", "< 150"],
-        ["2026-04-18", "Glicose", 89, "mg/dL", "70 - 99"],
-        ["2026-04-18", "Hemoglobina glicada (HbA1c)", 5.4, "%", "4.0 - 5.6"],
-        ["2026-04-18", "Colesterol LDL", 116, "mg/dL", "< 130"],
-        ["2026-04-18", "Colesterol HDL", 55, "mg/dL", "> 40"],
-        ["2026-04-18", "Triglicerídeos", 121, "mg/dL", "< 150"]
+        ["2025-10-12", "Glicemia jejum", "102", "mg/dL"],
+        ["2025-10-12", "Hemoglobina glicada", "5,8", "%"],
+        ["2025-10-12", "LDL", "142", "mg/dL"],
+        ["2025-10-12", "HDL", "48", "mg/dL"],
+        ["2025-10-12", "Triglicerídeos", "170", "mg/dL"],
+        ["2026-01-20", "Glicemia jejum", "95", "mg/dL"],
+        ["2026-01-20", "Hemoglobina glicada", "5,6", "%"],
+        ["2026-01-20", "LDL", "128", "mg/dL"],
+        ["2026-01-20", "HDL", "51", "mg/dL"],
+        ["2026-01-20", "Triglicerídeos", "138", "mg/dL"],
+        ["2026-04-18", "Glicemia jejum", "89", "mg/dL"],
+        ["2026-04-18", "Hemoglobina glicada", "5,4", "%"],
+        ["2026-04-18", "LDL", "116", "mg/dL"],
+        ["2026-04-18", "HDL", "55", "mg/dL"],
+        ["2026-04-18", "Triglicerídeos", "121", "mg/dL"]
       ];
 
-      if (!state.patient.name) {
-        state.patient.name = "Paciente Exemplo";
-        state.patient.id = "PX-001";
-        state.patient.birth = "1985-06-14";
+      for (const [date, examName, valueRaw, unit] of sample) {
+        const ref = findReferenceByExamName(examName);
+        if (!ref) continue;
 
-        els.patientName.value = state.patient.name;
-        els.patientId.value = state.patient.id;
-        els.patientBirth.value = state.patient.birth;
-      }
+        const reference = chooseReferenceText(ref, p.sex);
+        const result = {
+          raw: valueRaw,
+          number: toNumber(valueRaw),
+          unit
+        };
 
-      const records = sample.map(([date, exam, value, unit, reference]) => {
-        const catalog = findCatalogByName(exam);
-
-        return {
+        p.records.push({
           id: cryptoRandomId(),
+          patientKey: p.key,
+          patientName: p.name,
+          patientSex: p.sex,
           date,
-          examKey: catalog ? catalog.key : slugify(exam),
-          exam,
-          value,
+          category: ref.category,
+          examId: ref.id,
+          exam: ref.exam,
+          valueRaw,
+          valueNumber: result.number,
           unit,
           reference,
+          observation: ref.observation,
+          status: classifyResult(result, reference),
           source: "Dados exemplo",
-          raw: `${exam}: ${value} ${unit} Ref: ${reference}`
-        };
-      });
+          rawLine: `${examName}: ${valueRaw} ${unit}`
+        });
+      }
 
-      addRecords(records);
-      writeLog(`${records.length} resultado(s) de exemplo adicionados.`);
+      state.selectedPatientKey = key;
+      syncFormFromSelectedPatient();
+      removeDuplicates(false);
+      saveLocal(false);
+      render();
+      writeLog("Dados de exemplo adicionados.");
     }
 
-    function saveLocal() {
-      updatePatientFromForm();
+    function saveLocal(showLog = true) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      writeLog("Dados salvos localmente neste navegador.");
+      if (showLog) writeLog("Dados salvos localmente neste navegador.");
     }
 
     function loadLocal() {
       const saved = localStorage.getItem(STORAGE_KEY);
 
-      if (!saved) {
-        render();
-        return;
-      }
+      if (!saved) return;
 
       try {
         const parsed = JSON.parse(saved);
-        state.patient = parsed.patient || state.patient;
-        state.records = Array.isArray(parsed.records) ? parsed.records : [];
-
-        els.patientName.value = state.patient.name || "";
-        els.patientId.value = state.patient.id || "";
-        els.patientBirth.value = state.patient.birth || "";
-
+        state.patients = parsed.patients || {};
+        state.selectedPatientKey = parsed.selectedPatientKey || Object.keys(state.patients)[0] || "";
+        syncFormFromSelectedPatient();
         writeLog("Dados locais carregados.");
       } catch (error) {
         console.error(error);
@@ -1566,63 +2319,68 @@
     }
 
     function clearAll() {
-      const confirmed = confirm("Deseja limpar todos os dados deste painel?");
+      const confirmed = confirm("Deseja limpar todos os pacientes e resultados deste navegador?");
       if (!confirmed) return;
 
-      state.patient = {
-        name: "",
-        id: "",
-        birth: ""
-      };
-      state.records = [];
-
-      els.patientName.value = "";
-      els.patientId.value = "";
-      els.patientBirth.value = "";
-      els.pasteArea.value = "";
-      els.tableSearch.value = "";
-
+      state.patients = {};
+      state.selectedPatientKey = "";
       localStorage.removeItem(STORAGE_KEY);
+
+      els.tableSearch.value = "";
+      els.pasteArea.value = "";
+      syncFormFromSelectedPatient();
       render();
       writeLog("Painel limpo.");
     }
 
     function exportJson() {
-      updatePatientFromForm();
-
-      const payload = {
-        generatedAt: new Date().toISOString(),
-        patient: state.patient,
-        records: state.records
-      };
+      const patient = getSelectedPatient();
+      const payload = patient || state;
 
       downloadFile(
-        `exames-${slugify(state.patient.name || "paciente")}.json`,
+        `dashboard-laboratorial-${slugify(patient?.name || "todos-pacientes")}.json`,
         JSON.stringify(payload, null, 2),
         "application/json"
       );
     }
 
     function exportCsv() {
-      const headers = ["data", "exame", "valor", "unidade", "referencia", "fonte"];
-      const rows = state.records
+      const patient = getSelectedPatient();
+      const records = patient ? patient.records : getAllRecords();
+
+      const headers = [
+        "paciente",
+        "sexo",
+        "data",
+        "categoria",
+        "exame",
+        "resultado",
+        "unidade",
+        "referencia",
+        "status",
+        "fonte"
+      ];
+
+      const rows = records
         .slice()
-        .sort((a, b) => a.date.localeCompare(b.date))
+        .sort((a, b) => a.patientName.localeCompare(b.patientName) || a.date.localeCompare(b.date))
         .map((record) => [
+          record.patientName,
+          record.patientSex,
           record.date,
+          record.category,
           record.exam,
-          String(record.value).replace(".", ","),
+          record.valueRaw,
           record.unit,
           record.reference,
+          record.status.label,
           record.source
         ]);
 
-      const csv = [headers, ...rows]
-        .map((row) => row.map(csvEscape).join(";"))
-        .join("\n");
+      const csv = [headers, ...rows].map((row) => row.map(csvEscape).join(";")).join("\n");
 
       downloadFile(
-        `exames-${slugify(state.patient.name || "paciente")}.csv`,
+        `dashboard-laboratorial-${slugify(patient?.name || "todos-pacientes")}.csv`,
         csv,
         "text/csv;charset=utf-8"
       );
@@ -1642,106 +2400,94 @@
       URL.revokeObjectURL(url);
     }
 
-    function splitCsvLine(line, delimiter) {
-      const result = [];
-      let current = "";
-      let insideQuotes = false;
+    function findReferenceByExamName(name) {
+      const normalized = normalize(name);
 
-      for (let index = 0; index < line.length; index += 1) {
-        const char = line[index];
-        const next = line[index + 1];
-
-        if (char === '"' && insideQuotes && next === '"') {
-          current += '"';
-          index += 1;
-        } else if (char === '"') {
-          insideQuotes = !insideQuotes;
-        } else if (char === delimiter && !insideQuotes) {
-          result.push(current.trim());
-          current = "";
-        } else {
-          current += char;
-        }
-      }
-
-      result.push(current.trim());
-      return result;
-    }
-
-    function csvEscape(value) {
-      const text = String(value ?? "");
-      if (/[;"\n\r]/.test(text)) {
-        return `"${text.replace(/"/g, '""')}"`;
-      }
-      return text;
-    }
-
-    function findCatalogByName(name) {
-      const normalizedName = normalize(name);
-
-      return EXAM_CATALOG.find((exam) =>
-        normalize(exam.label) === normalizedName ||
-        exam.synonyms.some((synonym) => normalizedName.includes(normalize(synonym)))
+      return REFERENCES.find((ref) =>
+        normalize(ref.exam) === normalized ||
+        ref.aliases.some((alias) => normalized.includes(normalize(alias)) || normalize(alias).includes(normalized))
       );
     }
 
-    function findReference(line) {
-      const patterns = [
-        /(?:ref(?:er[eê]ncia)?|valor(?:es)? de ref(?:er[eê]ncia)?|vr)\s*[:=\-–—]?\s*([<>≤≥]?\s*\d+(?:[.,]\d+)?\s*(?:a|-|até|ate)\s*\d+(?:[.,]\d+)?|[<>≤≥]\s*\d+(?:[.,]\d+)?)/i,
-        /(?:normal|desej[aá]vel)\s*[:=\-–—]?\s*([<>≤≥]?\s*\d+(?:[.,]\d+)?)/i,
-        /([<>≤≥]\s*\d+(?:[.,]\d+)?)/i,
-        /(\d+(?:[.,]\d+)?)\s*(?:a|-|até|ate)\s*(\d+(?:[.,]\d+)?)/i
-      ];
+    function containsExamAlias(normalizedLine, alias) {
+      const normalizedAlias = normalize(alias);
+      if (!normalizedAlias) return false;
 
-      for (const pattern of patterns) {
-        const match = String(line || "").match(pattern);
-        if (match) {
-          if (match[2]) {
-            return `${match[1]} - ${match[2]}`;
-          }
-          return match[1].replace(/\s+/g, " ").trim();
+      if (normalizedAlias.length <= 3) {
+        const escaped = normalizedAlias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i").test(normalizedLine);
+      }
+
+      return normalizedLine.includes(normalizedAlias);
+    }
+
+    function longestAlias(ref) {
+      return Math.max(...ref.aliases.map((alias) => alias.length));
+    }
+
+    function chooseBestEvolutionExam(records) {
+      const numericRecords = records.filter((record) => Number.isFinite(record.valueNumber));
+      const grouped = groupBy(numericRecords, "examId");
+      let best = "";
+
+      for (const [examId, list] of Object.entries(grouped)) {
+        if (!best || list.length > grouped[best].length) {
+          best = examId;
         }
       }
 
-      return "";
+      return best || "";
     }
 
-    function parseReference(reference) {
-      const ref = normalize(String(reference || "").replace(",", "."));
-
-      if (!ref) return null;
-
-      const range = ref.match(/(-?\d+(?:\.\d+)?)\s*(?:a|-|ate)\s*(-?\d+(?:\.\d+)?)/);
-      if (range) {
-        return {
-          low: Number(range[1]),
-          high: Number(range[2])
-        };
-      }
-
-      const lessThan = ref.match(/(?:<|≤|menor que|ate)\s*(-?\d+(?:\.\d+)?)/);
-      if (lessThan) {
-        return {
-          low: null,
-          high: Number(lessThan[1])
-        };
-      }
-
-      const greaterThan = ref.match(/(?:>|≥|maior que)\s*(-?\d+(?:\.\d+)?)/);
-      if (greaterThan) {
-        return {
-          low: Number(greaterThan[1]),
-          high: null
-        };
-      }
-
-      return null;
+    function groupBy(records, key) {
+      return records.reduce((acc, record) => {
+        const value = record[key] || "Outros";
+        acc[value] = acc[value] || [];
+        acc[value].push(record);
+        return acc;
+      }, {});
     }
 
     function extractBestDate(text) {
       const candidates = String(text || "").match(/\b(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{4}[\/.-]\d{1,2}[\/.-]\d{1,2})\b/g);
       if (!candidates || !candidates.length) return "";
-      return normalizeDate(candidates[0]);
+      return normalizeDate(candidates[candidates.length - 1]);
+    }
+
+    function extractByLinePatterns(lines, patterns) {
+      for (const line of lines) {
+        for (const pattern of patterns) {
+          const match = line.match(pattern);
+          if (match) return match[1].trim();
+        }
+      }
+      return "";
+    }
+
+    function extractByRegex(text, regex) {
+      const match = String(text || "").match(regex);
+      return match ? match[1].trim() : "";
+    }
+
+    function cleanPersonName(value) {
+      return String(value || "")
+        .replace(/\b(sexo|idade|nascimento|data)\b.*$/i, "")
+        .replace(/[0-9]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function cleanSmallText(value) {
+      return String(value || "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function normalizeSex(value) {
+      const normalized = normalize(value);
+      if (normalized === "m" || normalized.includes("masculino")) return "masculino";
+      if (normalized === "f" || normalized.includes("feminino")) return "feminino";
+      return "";
     }
 
     function normalizeDate(input) {
@@ -1774,11 +2520,44 @@
       return `${parts[2]}/${parts[1]}/${parts[0]}`;
     }
 
+    function calculateAge(birthDate, referenceDate) {
+      if (!birthDate || !referenceDate) return "";
+
+      const birth = new Date(`${birthDate}T00:00:00`);
+      const reference = new Date(`${referenceDate}T00:00:00`);
+
+      if (Number.isNaN(birth.getTime()) || Number.isNaN(reference.getTime())) return "";
+
+      let age = reference.getFullYear() - birth.getFullYear();
+      const monthDiff = reference.getMonth() - birth.getMonth();
+
+      if (monthDiff < 0 || (monthDiff === 0 && reference.getDate() < birth.getDate())) {
+        age -= 1;
+      }
+
+      return age >= 0 ? age : "";
+    }
+
+    function extractUnit(text) {
+      const normalizedText = String(text || "");
+      for (const unit of UNIT_PATTERNS) {
+        const pattern = new RegExp(unit.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+        const match = normalizedText.match(pattern);
+        if (match) return match[0];
+      }
+      return "";
+    }
+
+    function inferUnit(referenceText) {
+      return extractUnit(referenceText);
+    }
+
     function toNumber(value) {
       if (typeof value === "number") return value;
 
       const text = String(value ?? "")
         .trim()
+        .replace(/[<>≤≥]/g, "")
         .replace(/[^\d,.\-]/g, "")
         .replace(/\.(?=\d{3}\b)/g, "")
         .replace(",", ".");
@@ -1787,27 +2566,29 @@
       return Number.isFinite(number) ? number : NaN;
     }
 
-    function normalizeUnit(unit) {
-      return String(unit || "")
-        .replace(/\s+/g, "")
-        .replace("μ", "µ")
-        .trim();
-    }
-
     function normalize(value) {
       return String(value ?? "")
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/[µμ]/g, "u")
+        .replace(/[³]/g, "3")
+        .replace(/[²]/g, "2")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function normalizeExamName(value) {
+      return normalize(value)
+        .replace(/\btotal\b/g, "total")
         .replace(/\s+/g, " ")
         .trim();
     }
 
     function slugify(value) {
       return normalize(value)
-        .replace(/[^a-z0-9]+/g, "_")
-        .replace(/^_+|_+$/g, "") || "exame";
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "") || "item";
     }
 
     function escapeHtml(value) {
@@ -1819,22 +2600,72 @@
         .replace(/'/g, "&#039;");
     }
 
+    function csvEscape(value) {
+      const text = String(value ?? "");
+      if (/[;"\n\r]/.test(text)) {
+        return `"${text.replace(/"/g, '""')}"`;
+      }
+      return text;
+    }
+
+    function splitCsvLine(line, delimiter) {
+      const result = [];
+      let current = "";
+      let insideQuotes = false;
+
+      for (let index = 0; index < line.length; index += 1) {
+        const char = line[index];
+        const next = line[index + 1];
+
+        if (char === '"' && insideQuotes && next === '"') {
+          current += '"';
+          index += 1;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === delimiter && !insideQuotes) {
+          result.push(current.trim());
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+
+      result.push(current.trim());
+      return result;
+    }
+
     function countChar(text, char) {
       return String(text || "").split(char).length - 1;
     }
 
-    function round(value) {
+    function capitalize(value) {
+      const text = String(value || "");
+      return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
+    }
+
+    function formatNumber(value) {
       const number = Number(value);
       if (!Number.isFinite(number)) return "—";
-
-      if (Math.abs(number) >= 1000) {
-        return number.toLocaleString("pt-BR", { maximumFractionDigits: 0 });
-      }
 
       return number.toLocaleString("pt-BR", {
         minimumFractionDigits: Number.isInteger(number) ? 0 : 1,
         maximumFractionDigits: 2
       });
+    }
+
+    function statusBadge(status) {
+      return `<span class="badge ${escapeHtml(status.type)}">${escapeHtml(status.label)}</span>`;
+    }
+
+    function isChangedStatus(type) {
+      return ["high", "low", "changed"].includes(type);
+    }
+
+    function chartColorByStatus(type) {
+      if (type === "ok") return "#10b981";
+      if (type === "warn") return "#f59e0b";
+      if (isChangedStatus(type)) return "#ef4444";
+      return "#64748b";
     }
 
     function cryptoRandomId() {
