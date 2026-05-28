@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Evolutivo de Exames Laboratoriais</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --brand: #0f766e;
+      --brand-2: #14b8a6;
+      --brand-dark: #064e3b;
+      --bg: #f4f8f8;
+      --card: #ffffff;
+      --text: #102a2a;
+      --muted: #64748b;
+      --border: #dbe7e7;
+      --danger: #dc2626;
+      --warning: #d97706;
+      --success: #059669;
+      --shadow: 0 20px 50px rgba(15, 118, 110, 0.12);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(20, 184, 166, 0.18), transparent 32%),
+        linear-gradient(135deg, #f8ffff 0%, var(--bg) 45%, #edf7f7 100%);
+      color: var(--text);
+    }
+
+    header {
+      padding: 28px clamp(18px, 4vw, 52px);
+      background: linear-gradient(135deg, var(--brand-dark), var(--brand));
+      color: white;
+      border-bottom-left-radius: 36px;
+      border-bottom-right-radius: 36px;
+      box-shadow: var(--shadow);
+    }
+
+    .header-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: clamp(1.25rem, 2.5vw, 2rem);
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      font-size: 1.55rem;
+    }
+
+    .subtitle {
+      margin: 10px 0 0 62px;
+      max-width: 800px;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.5;
+    }
+
+    .privacy-pill {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    main {
+      max-width: 1400px;
+      margin: 28px auto;
+      padding: 0 clamp(18px, 4vw, 52px) 42px;
+      display: grid;
+      grid-template-columns: 410px 1fr;
+      gap: 24px;
+    }
+
+    .panel,
+    .card,
+    .chart-card,
+    .table-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .panel {
+      padding: 22px;
+      position: sticky;
+      top: 18px;
+      align-self: start;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      letter-spacing: -0.04em;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 700;
+      margin: 14px 0 7px;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      width: 100%;
+      font: inherit;
+    }
+
+    input,
+    select,
+    textarea {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 13px;
+      background: #ffffff;
+      color: var(--text);
+      outline: none;
+      transition: 160ms ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--brand-2);
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.13);
+    }
+
+    textarea {
+      min-height: 128px;
+      resize: vertical;
+    }
+
+    .drop-zone {
+      margin-top: 14px;
+      padding: 22px;
+      border: 2px dashed rgba(15, 118, 110, 0.35);
+      background: rgba(20, 184, 166, 0.07);
+      border-radius: 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.dragover {
+      background: rgba(20, 184, 166, 0.14);
+      border-color: var(--brand);
+      transform: translateY(-1px);
+    }
+
+    .drop-zone strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .drop-zone span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 12px 24px rgba(15, 118, 110, 0.16);
+      transition: 160ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.02);
+    }
+
+    button.secondary {
+      background: #e8f4f3;
+      color: var(--brand-dark);
+      box-shadow: none;
+    }
+
+    button.danger {
+      background: #fee2e2;
+      color: #991b1b;
+      box-shadow: none;
+    }
+
+    .dashboard {
+      display: grid;
+      gap: 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      padding: 18px;
+    }
+
+    .card small {
+      color: var(--muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.72rem;
+    }
+
+    .card strong {
+      display: block;
+      margin-top: 10px;
+      font-size: clamp(1.4rem, 3vw, 2.1rem);
+      letter-spacing: -0.05em;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    .chart-card,
+    .table-card {
+      padding: 20px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .summary-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      background: #f8fbfb;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .summary-item b {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .summary-item small {
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.76rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .badge.ok {
+      color: #065f46;
+      background: #d1fae5;
+    }
+
+    .badge.warn {
+      color: #92400e;
+      background: #fef3c7;
+    }
+
+    .badge.danger {
+      color: #991b1b;
+      background: #fee2e2;
+    }
+
+    .badge.neutral {
+      color: #475569;
+      background: #e2e8f0;
+    }
+
+    .log {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 14px;
+      background: #f8fbfb;
+      color: var(--muted);
+      font-size: 0.86rem;
+      max-height: 140px;
+      overflow: auto;
+      border: 1px solid var(--border);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: 520px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      min-width: 820px;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: middle;
+      font-size: 0.92rem;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #f1fbfa;
+      color: var(--brand-dark);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    tr:hover td {
+      background: #f9fefe;
+    }
+
+    .empty {
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      background: #fbffff;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+      margin-top: 10px;
+    }
+
+    .patient-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .patient-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    canvas {
+      max-height: 360px;
+    }
+
+    @media (max-width: 1100px) {
+      main,
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        position: static;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .header-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .subtitle {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .cards,
+      .actions,
+      .toolbar,
+      .patient-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        border-bottom-left-radius: 22px;
+        border-bottom-right-radius: 22px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      header,
+      .panel,
+      .no-print {
+        display: none !important;
+      }
+
+      main {
+        display: block;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .card,
+      .chart-card,
+      .table-card {
+        box-shadow: none;
+        border-color: #cbd5e1;
+        break-inside: avoid;
+      }
+
+      .table-wrap {
+        max-height: none;
+        overflow: visible;
+      }
+
+      th {
+        position: static;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-grid">
+      <div>
+        <div class="logo">
+          <div class="logo-mark">🧬</div>
+          <div>Dashboard Evolutivo de Exames</div>
+        </div>
+        <p class="subtitle">
+          Upload de PDFs laboratoriais, CSV ou JSON para organizar resultados por paciente,
+          gerar gráficos evolutivos e exportar o acompanhamento.
+        </p>
+      </div>
+      <div class="privacy-pill">Processamento local no navegador</div>
+    </div>
+  </header>
+
+  <main>
+    <aside class="panel no-print">
+      <h2>Entrada de dados</h2>
+
+      <div class="patient-grid">
+        <div class="full">
+          <label for="patientName">Paciente</label>
+          <input id="patientName" type="text" placeholder="Nome do paciente" />
+        </div>
+
+        <div>
+          <label for="patientId">ID / Prontuário</label>
+          <input id="patientId" type="text" placeholder="Ex: 000123" />
+        </div>
+
+        <div>
+          <label for="patientBirth">Nascimento</label>
+          <input id="patientBirth" type="date" />
+        </div>
+
+        <div class="full">
+          <label for="defaultDate">Data padrão do exame</label>
+          <input id="defaultDate" type="date" />
+        </div>
+      </div>
+
+      <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Selecionar arquivos">
+        <strong>Arraste PDFs, CSV ou JSON aqui</strong>
+        <span>Ou clique para selecionar arquivos</span>
+      </div>
+
+      <input id="fileInput" type="file" multiple accept=".pdf,.csv,.json,application/pdf,text/csv,application/json" hidden />
+
+      <label for="pasteArea">Ou cole texto do laudo</label>
+      <textarea id="pasteArea" placeholder="Exemplo: Data: 10/03/2026&#10;Glicose: 92 mg/dL Ref: 70 - 99&#10;Creatinina: 0,9 mg/dL Ref: 0,6 - 1,3"></textarea>
+
+      <div class="actions">
+        <button id="parseTextBtn" type="button">Ler texto</button>
+        <button id="sampleBtn" type="button" class="secondary">Dados exemplo</button>
+        <button id="saveBtn" type="button" class="secondary">Salvar local</button>
+        <button id="clearBtn" type="button" class="danger">Limpar</button>
+      </div>
+
+      <div class="actions">
+        <button id="exportJsonBtn" type="button" class="secondary">Exportar JSON</button>
+        <button id="exportCsvBtn" type="button" class="secondary">Exportar CSV</button>
+      </div>
+
+      <div class="actions">
+        <button id="printBtn" type="button">Imprimir / PDF</button>
+        <button id="dedupeBtn" type="button" class="secondary">Remover duplicados</button>
+      </div>
+
+      <p class="hint">
+        PDFs escaneados como imagem precisam de OCR. Este MVP lê PDFs com texto selecionável.
+        Para produção clínica, use autenticação, criptografia, controle de acesso e auditoria.
+      </p>
+
+      <div id="log" class="log" aria-live="polite">Pronto para importar exames.</div>
+    </aside>
+
+    <section id="report" class="dashboard">
+      <section class="cards">
+        <article class="card">
+          <small>Total de resultados</small>
+          <strong id="cardTotal">0</strong>
+        </article>
+
+        <article class="card">
+          <small>Tipos de exame</small>
+          <strong id="cardTypes">0</strong>
+        </article>
+
+        <article class="card">
+          <small>Período</small>
+          <strong id="cardPeriod">—</strong>
+        </article>
+
+        <article class="card">
+          <small>Última coleta</small>
+          <strong id="cardLast">—</strong>
+        </article>
+      </section>
+
+      <section class="summary-grid">
+        <article class="chart-card">
+          <div class="toolbar">
+            <div>
+              <h2 id="patientTitle">Resumo do paciente</h2>
+              <p id="patientMeta" class="hint">Nenhum paciente selecionado.</p>
+            </div>
+
+            <div>
+              <label for="examFilter">Gráfico evolutivo</label>
+              <select id="examFilter"></select>
+            </div>
+          </div>
+
+          <canvas id="evolutionChart" aria-label="Gráfico evolutivo de exames"></canvas>
+        </article>
+
+        <article class="chart-card">
+          <h2>Resumo automático</h2>
+          <div id="summaryList" class="summary-list">
+            <div class="empty">Importe exames para gerar o resumo evolutivo.</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="table-card">
+        <div class="toolbar">
+          <div>
+            <h2>Resultados organizados</h2>
+            <p class="hint">Valide sempre os dados extraídos antes de usar clinicamente.</p>
+          </div>
+
+          <div>
+            <label for="tableSearch">Buscar</label>
+            <input id="tableSearch" type="search" placeholder="Ex: glicose, LDL..." />
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Exame</th>
+                <th>Resultado</th>
+                <th>Unidade</th>
+                <th>Referência</th>
+                <th>Status</th>
+                <th>Fonte</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody">
+              <tr>
+                <td colspan="7" class="empty">Nenhum resultado importado.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "dashboard-exames-laboratoriais-v1";
+
+    const EXAM_CATALOG = [
+      {
+        key: "hba1c",
+        label: "Hemoglobina glicada (HbA1c)",
+        synonyms: ["hemoglobina glicada", "hba1c", "hb a1c", "a1c"],
+        defaultUnit: "%"
+      },
+      {
+        key: "colesterol_ldl",
+        label: "Colesterol LDL",
+        synonyms: ["colesterol ldl", "ldl colesterol", "ldl"],
+        defaultUnit: "mg/dL"
+      },
+      {
+        key: "colesterol_hdl",
+        label: "Colesterol HDL",
+        synonyms: ["colesterol hdl", "hdl colesterol", "hdl"],
+        defaultUnit: "mg/dL"
+      },
+      {
+        key: "colesterol_total",
+        label: "Colesterol total",
+        synonyms: ["colesterol total"],
+        defaultUnit: "mg/dL"
+      },
+      {
+        key: "triglicerides",
+        label: "Triglicerídeos",
+        synonyms: ["triglicerideos", "triglicerídeos", "triglycerides"],
+        defaultUnit: "mg/dL"
+      },
+      {
+        key: "glicose",
+        label: "Glicose",
+        synonyms: ["glicose", "glucose"],
+        defaultUnit: "mg/dL"
+      },
+      {
+        key: "creatinina",
+        label: "Creatinina",
+        synonyms: ["creatinina"],
+        defaultUnit: "mg/dL"
+      },
+      {
+        key: "ureia",
+        label: "Ureia",
+        synonyms: ["ureia", "uréia"],
+        defaultUnit: "mg/dL"
+      },
+      {
+        key: "tsh",
+        label: "TSH",
+        synonyms: ["tsh", "hormonio tireoestimulante", "hormônio tireoestimulante"],
+        defaultUnit: "µUI/mL"
+      },
+      {
+        key: "t4_livre",
+        label: "T4 Livre",
+        synonyms: ["t4 livre", "tiroxina livre"],
+        defaultUnit: "ng/dL"
+      },
+      {
+        key: "hemoglobina",
+        label: "Hemoglobina",
+        synonyms: ["hemoglobina"],
+        defaultUnit: "g/dL"
+      },
+      {
+        key: "hematocrito",
+        label: "Hematócrito",
+        synonyms: ["hematocrito", "hematócrito"],
+        defaultUnit: "%"
+      },
+      {
+        key: "leucocitos",
+        label: "Leucócitos",
+        synonyms: ["leucocitos", "leucócitos"],
+        defaultUnit: "/mm³"
+      },
+      {
+        key: "plaquetas",
+        label: "Plaquetas",
+        synonyms: ["plaquetas"],
+        defaultUnit: "/mm³"
+      },
+      {
+        key: "pcr",
+        label: "PCR",
+        synonyms: ["proteina c reativa", "proteína c reativa", "pcr"],
+        defaultUnit: "mg/L"
+      },
+      {
+        key: "vitamina_d",
+        label: "Vitamina D",
+        synonyms: ["vitamina d", "25 oh vitamina d", "25-oh vitamina d"],
+        defaultUnit: "ng/mL"
+      },
+      {
+        key: "ferritina",
+        label: "Ferritina",
+        synonyms: ["ferritina"],
+        defaultUnit: "ng/mL"
+      },
+      {
+        key: "sodio",
+        label: "Sódio",
+        synonyms: ["sodio", "sódio", "na+"],
+        defaultUnit: "mEq/L"
+      },
+      {
+        key: "potassio",
+        label: "Potássio",
+        synonyms: ["potassio", "potássio", "k+"],
+        defaultUnit: "mEq/L"
+      }
+    ];
+
+    const state = {
+      patient: {
+        name: "",
+        id: "",
+        birth: ""
+      },
+      records: []
+    };
+
+    let chart = null;
+
+    const els = {
+      patientName: document.getElementById("patientName"),
+      patientId: document.getElementById("patientId"),
+      patientBirth: document.getElementById("patientBirth"),
+      defaultDate: document.getElementById("defaultDate"),
+      dropZone: document.getElementById("dropZone"),
+      fileInput: document.getElementById("fileInput"),
+      pasteArea: document.getElementById("pasteArea"),
+      parseTextBtn: document.getElementById("parseTextBtn"),
+      sampleBtn: document.getElementById("sampleBtn"),
+      saveBtn: document.getElementById("saveBtn"),
+      clearBtn: document.getElementById("clearBtn"),
+      exportJsonBtn: document.getElementById("exportJsonBtn"),
+      exportCsvBtn: document.getElementById("exportCsvBtn"),
+      printBtn: document.getElementById("printBtn"),
+      dedupeBtn: document.getElementById("dedupeBtn"),
+      log: document.getElementById("log"),
+      cardTotal: document.getElementById("cardTotal"),
+      cardTypes: document.getElementById("cardTypes"),
+      cardPeriod: document.getElementById("cardPeriod"),
+      cardLast: document.getElementById("cardLast"),
+      patientTitle: document.getElementById("patientTitle"),
+      patientMeta: document.getElementById("patientMeta"),
+      examFilter: document.getElementById("examFilter"),
+      summaryList: document.getElementById("summaryList"),
+      resultsBody: document.getElementById("resultsBody"),
+      tableSearch: document.getElementById("tableSearch"),
+      chartCanvas: document.getElementById("evolutionChart")
+    };
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+    initialize();
+
+    function initialize() {
+      const today = new Date().toISOString().slice(0, 10);
+      els.defaultDate.value = today;
+
+      loadLocal();
+
+      els.patientName.addEventListener("input", updatePatientFromForm);
+      els.patientId.addEventListener("input", updatePatientFromForm);
+      els.patientBirth.addEventListener("input", updatePatientFromForm);
+
+      els.dropZone.addEventListener("click", () => els.fileInput.click());
+      els.dropZone.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          els.fileInput.click();
+        }
+      });
+
+      els.fileInput.addEventListener("change", async () => {
+        await handleFiles(Array.from(els.fileInput.files || []));
+        els.fileInput.value = "";
+      });
+
+      ["dragenter", "dragover"].forEach((eventName) => {
+        els.dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          els.dropZone.classList.add("dragover");
+        });
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        els.dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          els.dropZone.classList.remove("dragover");
+        });
+      });
+
+      els.dropZone.addEventListener("drop", async (event) => {
+        const files = Array.from(event.dataTransfer.files || []);
+        await handleFiles(files);
+      });
+
+      els.parseTextBtn.addEventListener("click", () => {
+        const text = els.pasteArea.value.trim();
+        if (!text) {
+          writeLog("Cole o texto do laudo antes de processar.");
+          return;
+        }
+
+        const records = parseLabText(text, "Texto colado");
+        addRecords(records);
+        writeLog(`${records.length} resultado(s) extraído(s) do texto colado.`);
+      });
+
+      els.sampleBtn.addEventListener("click", addSampleData);
+      els.saveBtn.addEventListener("click", saveLocal);
+      els.clearBtn.addEventListener("click", clearAll);
+      els.exportJsonBtn.addEventListener("click", exportJson);
+      els.exportCsvBtn.addEventListener("click", exportCsv);
+      els.printBtn.addEventListener("click", () => window.print());
+      els.dedupeBtn.addEventListener("click", removeDuplicates);
+      els.examFilter.addEventListener("change", renderChart);
+      els.tableSearch.addEventListener("input", renderTable);
+
+      render();
+    }
+
+    async function handleFiles(files) {
+      if (!files.length) return;
+
+      let imported = 0;
+
+      for (const file of files) {
+        try {
+          const lowerName = file.name.toLowerCase();
+
+          if (lowerName.endsWith(".pdf") || file.type === "application/pdf") {
+            writeLog(`Lendo PDF: ${file.name}`);
+            const buffer = await readAsArrayBuffer(file);
+            const text = await extractTextFromPdf(buffer);
+            const records = parseLabText(text, file.name);
+            addRecords(records, false);
+            imported += records.length;
+            writeLog(`${records.length} resultado(s) extraído(s) de ${file.name}.`);
+          } else if (lowerName.endsWith(".csv") || file.type.includes("csv")) {
+            writeLog(`Lendo CSV: ${file.name}`);
+            const text = await readAsText(file);
+            const records = parseCsv(text, file.name);
+            addRecords(records, false);
+            imported += records.length;
+            writeLog(`${records.length} resultado(s) importado(s) de ${file.name}.`);
+          } else if (lowerName.endsWith(".json") || file.type === "application/json") {
+            writeLog(`Lendo JSON: ${file.name}`);
+            const text = await readAsText(file);
+            const records = parseJson(text, file.name);
+            addRecords(records, false);
+            imported += records.length;
+            writeLog(`${records.length} resultado(s) importado(s) de ${file.name}.`);
+          } else {
+            writeLog(`Arquivo ignorado: ${file.name}. Use PDF, CSV ou JSON.`);
+          }
+        } catch (error) {
+          console.error(error);
+          writeLog(`Erro ao processar ${file.name}: ${error.message}`);
+        }
+      }
+
+      render();
+      writeLog(`Importação finalizada: ${imported} resultado(s) adicionados.`);
+    }
+
+    function readAsArrayBuffer(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error("Falha ao ler o arquivo."));
+        reader.onload = () => resolve(reader.result);
+        reader.readAsArrayBuffer(file);
+      });
+    }
+
+    function readAsText(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error("Falha ao ler o arquivo."));
+        reader.onload = () => resolve(reader.result);
+        reader.readAsText(file, "UTF-8");
+      });
+    }
+
+    async function extractTextFromPdf(buffer) {
+      const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(buffer) });
+      const pdf = await loadingTask.promise;
+      const pages = [];
+
+      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+        const page = await pdf.getPage(pageNumber);
+        const content = await page.getTextContent();
+
+        const items = content.items
+          .map((item) => ({
+            text: item.str,
+            x: item.transform[4],
+            y: item.transform[5]
+          }))
+          .filter((item) => item.text && item.text.trim());
+
+        items.sort((a, b) => {
+          const yDiff = b.y - a.y;
+          if (Math.abs(yDiff) > 3) return yDiff;
+          return a.x - b.x;
+        });
+
+        const lines = [];
+        let currentLine = [];
+        let currentY = null;
+
+        for (const item of items) {
+          if (currentY === null || Math.abs(item.y - currentY) <= 3) {
+            currentLine.push(item.text);
+            currentY = currentY === null ? item.y : currentY;
+          } else {
+            lines.push(currentLine.join(" "));
+            currentLine = [item.text];
+            currentY = item.y;
+          }
+        }
+
+        if (currentLine.length) {
+          lines.push(currentLine.join(" "));
+        }
+
+        pages.push(lines.join("\n"));
+      }
+
+      return pages.join("\n");
+    }
+
+    function parseLabText(text, source) {
+      const cleanText = String(text || "").replace(/\u00A0/g, " ");
+      const lines = cleanText
+        .split(/\r?\n/)
+        .map((line) => line.replace(/\s+/g, " ").trim())
+        .filter(Boolean);
+
+      const fallbackDate = extractBestDate(cleanText) || els.defaultDate.value || new Date().toISOString().slice(0, 10);
+      const records = [];
+
+      for (const line of lines) {
+        const normalizedLine = normalize(line);
+        const lineDate = extractBestDate(line) || fallbackDate;
+
+        for (const exam of EXAM_CATALOG) {
+          let matched = false;
+
+          for (const synonym of exam.synonyms) {
+            const normalizedSynonym = normalize(synonym);
+            const index = normalizedLine.indexOf(normalizedSynonym);
+
+            if (index === -1) continue;
+
+            const afterExamName = line.slice(Math.min(line.length, index + synonym.length));
+            const valueMatch = afterExamName.match(/(?:resultado\s*)?[:=\-–—]?\s*(?:[<>≤≥]\s*)?(-?\d{1,6}(?:[.,]\d{1,4})?)/i);
+
+            if (!valueMatch) continue;
+
+            const value = toNumber(valueMatch[1]);
+
+            if (!Number.isFinite(value)) continue;
+
+            const afterValue = afterExamName.slice(valueMatch.index + valueMatch[0].length);
+            const unitMatch = afterValue.match(/^\s*([a-zA-Zµμ%/³².]+(?:\s*\/\s*[a-zA-Zµμ]+)?)/);
+            const unit = normalizeUnit(unitMatch ? unitMatch[1] : exam.defaultUnit);
+            const reference = findReference(line);
+
+            records.push({
+              id: cryptoRandomId(),
+              date: lineDate,
+              examKey: exam.key,
+              exam: exam.label,
+              value,
+              unit,
+              reference,
+              source,
+              raw: line
+            });
+
+            matched = true;
+            break;
+          }
+
+          if (matched) {
+            continue;
+          }
+        }
+      }
+
+      return records;
+    }
+
+    function parseCsv(text, source) {
+      const lines = String(text || "")
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      if (!lines.length) return [];
+
+      const delimiter = countChar(lines[0], ";") >= countChar(lines[0], ",") ? ";" : ",";
+      const rows = lines.map((line) => splitCsvLine(line, delimiter));
+      const firstRowNormalized = rows[0].map(normalize);
+
+      const hasHeader = firstRowNormalized.some((header) =>
+        ["data", "date", "exame", "exam", "valor", "value", "resultado", "unidade", "referencia"].some((token) =>
+          header.includes(token)
+        )
+      );
+
+      const headers = hasHeader ? rows.shift().map(normalize) : [];
+      const findColumn = (tokens, fallbackIndex) => {
+        if (!hasHeader) return fallbackIndex;
+        const index = headers.findIndex((header) => tokens.some((token) => header.includes(token)));
+        return index >= 0 ? index : fallbackIndex;
+      };
+
+      const dateIndex = findColumn(["data", "date"], 0);
+      const examIndex = findColumn(["exame", "exam", "analito", "parametro", "parâmetro"], 1);
+      const valueIndex = findColumn(["valor", "value", "resultado", "result"], 2);
+      const unitIndex = findColumn(["unidade", "unit"], 3);
+      const referenceIndex = findColumn(["referencia", "referência", "ref", "vr"], 4);
+
+      const records = [];
+
+      for (const row of rows) {
+        const date = normalizeDate(row[dateIndex]) || els.defaultDate.value || new Date().toISOString().slice(0, 10);
+        const examName = row[examIndex] || "";
+        const value = toNumber(row[valueIndex]);
+        const unit = normalizeUnit(row[unitIndex] || "");
+        const reference = row[referenceIndex] || "";
+
+        if (!examName || !Number.isFinite(value)) continue;
+
+        const catalog = findCatalogByName(examName);
+
+        records.push({
+          id: cryptoRandomId(),
+          date,
+          examKey: catalog ? catalog.key : slugify(examName),
+          exam: catalog ? catalog.label : examName.trim(),
+          value,
+          unit: unit || (catalog ? catalog.defaultUnit : ""),
+          reference,
+          source,
+          raw: row.join(" | ")
+        });
+      }
+
+      return records;
+    }
+
+    function parseJson(text, source) {
+      const parsed = JSON.parse(text);
+      const inputRecords = Array.isArray(parsed) ? parsed : parsed.records;
+
+      if (!Array.isArray(inputRecords)) {
+        throw new Error("JSON inválido. Use um array de resultados ou { records: [...] }.");
+      }
+
+      return inputRecords
+        .map((item) => {
+          const examName = item.exam || item.exame || item.nome || "";
+          const catalog = findCatalogByName(examName);
+          const value = toNumber(item.value ?? item.valor ?? item.resultado);
+
+          if (!examName || !Number.isFinite(value)) return null;
+
+          return {
+            id: cryptoRandomId(),
+            date: normalizeDate(item.date || item.data) || els.defaultDate.value || new Date().toISOString().slice(0, 10),
+            examKey: item.examKey || item.chave || (catalog ? catalog.key : slugify(examName)),
+            exam: catalog ? catalog.label : examName,
+            value,
+            unit: normalizeUnit(item.unit || item.unidade || ""),
+            reference: item.reference || item.referencia || item.ref || "",
+            source,
+            raw: JSON.stringify(item)
+          };
+        })
+        .filter(Boolean);
+    }
+
+    function addRecords(records, shouldRender = true) {
+      state.records.push(...records);
+      if (shouldRender) render();
+    }
+
+    function removeDuplicates() {
+      const seen = new Set();
+      const unique = [];
+
+      for (const record of state.records) {
+        const signature = [
+          record.date,
+          normalize(record.exam),
+          record.value,
+          normalize(record.unit),
+          normalize(record.reference)
+        ].join("|");
+
+        if (!seen.has(signature)) {
+          seen.add(signature);
+          unique.push(record);
+        }
+      }
+
+      const removed = state.records.length - unique.length;
+      state.records = unique;
+      render();
+      writeLog(`${removed} duplicado(s) removido(s).`);
+    }
+
+    function updatePatientFromForm() {
+      state.patient.name = els.patientName.value.trim();
+      state.patient.id = els.patientId.value.trim();
+      state.patient.birth = els.patientBirth.value;
+      renderPatient();
+    }
+
+    function render() {
+      renderPatient();
+      renderCards();
+      renderExamFilter();
+      renderChart();
+      renderSummary();
+      renderTable();
+    }
+
+    function renderPatient() {
+      const name = state.patient.name || "Paciente sem nome";
+      const id = state.patient.id ? `Prontuário: ${state.patient.id}` : "Prontuário não informado";
+      const birth = state.patient.birth ? `Nascimento: ${formatDate(state.patient.birth)}` : "Nascimento não informado";
+
+      els.patientTitle.textContent = `Resumo — ${name}`;
+      els.patientMeta.textContent = `${id} • ${birth}`;
+    }
+
+    function renderCards() {
+      const records = state.records;
+      const examTypes = new Set(records.map((record) => record.examKey));
+      const dates = records.map((record) => record.date).filter(Boolean).sort();
+
+      els.cardTotal.textContent = records.length;
+      els.cardTypes.textContent = examTypes.size;
+      els.cardPeriod.textContent = dates.length ? `${formatDate(dates[0])} a ${formatDate(dates[dates.length - 1])}` : "—";
+      els.cardLast.textContent = dates.length ? formatDate(dates[dates.length - 1]) : "—";
+    }
+
+    function renderExamFilter() {
+      const previous = els.examFilter.value;
+      const grouped = groupByExam();
+
+      const options = Array.from(grouped.entries())
+        .sort((a, b) => a[1][0].exam.localeCompare(b[1][0].exam))
+        .map(([key, records]) => ({
+          key,
+          label: `${records[0].exam} (${records.length})`
+        }));
+
+      if (!options.length) {
+        els.examFilter.innerHTML = '<option value="">Sem exames</option>';
+        return;
+      }
+
+      els.examFilter.innerHTML = options
+        .map((option) => `<option value="${escapeHtml(option.key)}">${escapeHtml(option.label)}</option>`)
+        .join("");
+
+      const hasPrevious = options.some((option) => option.key === previous);
+      els.examFilter.value = hasPrevious ? previous : chooseDefaultExam(options.map((option) => option.key));
+    }
+
+    function renderChart() {
+      const selectedKey = els.examFilter.value;
+      const records = state.records
+        .filter((record) => record.examKey === selectedKey)
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+      if (chart) {
+        chart.destroy();
+        chart = null;
+      }
+
+      const ctx = els.chartCanvas.getContext("2d");
+
+      if (!records.length) {
+        chart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: ["Sem dados"],
+            datasets: [{
+              label: "Sem dados",
+              data: [0],
+              borderColor: "#94a3b8",
+              backgroundColor: "rgba(148, 163, 184, 0.12)"
+            }]
+          },
+          options: baseChartOptions()
+        });
+        return;
+      }
+
+      const label = records[0].exam;
+      const unit = records[0].unit || "";
+
+      chart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: records.map((record) => formatDate(record.date)),
+          datasets: [{
+            label: `${label}${unit ? ` (${unit})` : ""}`,
+            data: records.map((record) => record.value),
+            borderColor: "#0f766e",
+            backgroundColor: "rgba(20, 184, 166, 0.16)",
+            pointBackgroundColor: "#0f766e",
+            pointBorderColor: "#ffffff",
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            tension: 0.35,
+            fill: true
+          }]
+        },
+        options: baseChartOptions()
+      });
+    }
+
+    function baseChartOptions() {
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              usePointStyle: true,
+              boxWidth: 8,
+              font: {
+                weight: "bold"
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => ` ${context.dataset.label}: ${context.parsed.y}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            beginAtZero: false,
+            grid: {
+              color: "rgba(100, 116, 139, 0.14)"
+            }
+          }
+        }
+      };
+    }
+
+    function renderSummary() {
+      const grouped = groupByExam();
+
+      if (!grouped.size) {
+        els.summaryList.innerHTML = '<div class="empty">Importe exames para gerar o resumo evolutivo.</div>';
+        return;
+      }
+
+      const items = Array.from(grouped.values())
+        .map((records) => {
+          const sorted = records.slice().sort((a, b) => a.date.localeCompare(b.date));
+          const latest = sorted[sorted.length - 1];
+          const previous = sorted.length > 1 ? sorted[sorted.length - 2] : null;
+          const delta = previous ? latest.value - previous.value : null;
+          const status = getStatus(latest);
+
+          return {
+            latest,
+            previous,
+            delta,
+            status,
+            count: sorted.length
+          };
+        })
+        .sort((a, b) => b.latest.date.localeCompare(a.latest.date))
+        .slice(0, 8);
+
+      els.summaryList.innerHTML = items.map((item) => {
+        const deltaText = item.delta === null
+          ? "Sem comparação anterior"
+          : `${item.delta > 0 ? "+" : ""}${round(item.delta)} desde ${formatDate(item.previous.date)}`;
+
+        return `
+          <div class="summary-item">
+            <div>
+              <b>${escapeHtml(item.latest.exam)}</b>
+              <small>
+                Último: ${round(item.latest.value)} ${escapeHtml(item.latest.unit || "")}
+                em ${formatDate(item.latest.date)} • ${escapeHtml(deltaText)}
+              </small>
+            </div>
+            ${statusBadge(item.status)}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderTable() {
+      const query = normalize(els.tableSearch.value);
+      const filtered = state.records
+        .filter((record) => {
+          if (!query) return true;
+          return [
+            record.date,
+            record.exam,
+            record.value,
+            record.unit,
+            record.reference,
+            record.source
+          ].some((field) => normalize(field).includes(query));
+        })
+        .sort((a, b) => b.date.localeCompare(a.date) || a.exam.localeCompare(b.exam));
+
+      if (!filtered.length) {
+        els.resultsBody.innerHTML = '<tr><td colspan="7" class="empty">Nenhum resultado encontrado.</td></tr>';
+        return;
+      }
+
+      els.resultsBody.innerHTML = filtered.map((record) => {
+        const status = getStatus(record);
+
+        return `
+          <tr>
+            <td>${formatDate(record.date)}</td>
+            <td><strong>${escapeHtml(record.exam)}</strong></td>
+            <td>${round(record.value)}</td>
+            <td>${escapeHtml(record.unit || "—")}</td>
+            <td>${escapeHtml(record.reference || "—")}</td>
+            <td>${statusBadge(status)}</td>
+            <td>${escapeHtml(record.source || "—")}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function getStatus(record) {
+      const parsed = parseReference(record.reference);
+
+      if (!parsed) {
+        return {
+          type: "neutral",
+          label: "Sem faixa"
+        };
+      }
+
+      if (parsed.low !== null && record.value < parsed.low) {
+        return {
+          type: "warn",
+          label: "Abaixo da faixa"
+        };
+      }
+
+      if (parsed.high !== null && record.value > parsed.high) {
+        return {
+          type: "danger",
+          label: "Acima da faixa"
+        };
+      }
+
+      return {
+        type: "ok",
+        label: "Na faixa"
+      };
+    }
+
+    function statusBadge(status) {
+      return `<span class="badge ${escapeHtml(status.type)}">${escapeHtml(status.label)}</span>`;
+    }
+
+    function groupByExam() {
+      const grouped = new Map();
+
+      for (const record of state.records) {
+        if (!grouped.has(record.examKey)) {
+          grouped.set(record.examKey, []);
+        }
+
+        grouped.get(record.examKey).push(record);
+      }
+
+      return grouped;
+    }
+
+    function chooseDefaultExam(keys) {
+      let bestKey = keys[0] || "";
+
+      for (const key of keys) {
+        const count = state.records.filter((record) => record.examKey === key).length;
+        const bestCount = state.records.filter((record) => record.examKey === bestKey).length;
+
+        if (count > bestCount) {
+          bestKey = key;
+        }
+      }
+
+      return bestKey;
+    }
+
+    function addSampleData() {
+      const sample = [
+        ["2025-10-12", "Glicose", 102, "mg/dL", "70 - 99"],
+        ["2025-10-12", "Hemoglobina glicada (HbA1c)", 5.8, "%", "4.0 - 5.6"],
+        ["2025-10-12", "Colesterol LDL", 142, "mg/dL", "< 130"],
+        ["2025-10-12", "Colesterol HDL", 48, "mg/dL", "> 40"],
+        ["2025-10-12", "Triglicerídeos", 170, "mg/dL", "< 150"],
+        ["2026-01-20", "Glicose", 95, "mg/dL", "70 - 99"],
+        ["2026-01-20", "Hemoglobina glicada (HbA1c)", 5.6, "%", "4.0 - 5.6"],
+        ["2026-01-20", "Colesterol LDL", 128, "mg/dL", "< 130"],
+        ["2026-01-20", "Colesterol HDL", 51, "mg/dL", "> 40"],
+        ["2026-01-20", "Triglicerídeos", 138, "mg/dL", "< 150"],
+        ["2026-04-18", "Glicose", 89, "mg/dL", "70 - 99"],
+        ["2026-04-18", "Hemoglobina glicada (HbA1c)", 5.4, "%", "4.0 - 5.6"],
+        ["2026-04-18", "Colesterol LDL", 116, "mg/dL", "< 130"],
+        ["2026-04-18", "Colesterol HDL", 55, "mg/dL", "> 40"],
+        ["2026-04-18", "Triglicerídeos", 121, "mg/dL", "< 150"]
+      ];
+
+      if (!state.patient.name) {
+        state.patient.name = "Paciente Exemplo";
+        state.patient.id = "PX-001";
+        state.patient.birth = "1985-06-14";
+
+        els.patientName.value = state.patient.name;
+        els.patientId.value = state.patient.id;
+        els.patientBirth.value = state.patient.birth;
+      }
+
+      const records = sample.map(([date, exam, value, unit, reference]) => {
+        const catalog = findCatalogByName(exam);
+
+        return {
+          id: cryptoRandomId(),
+          date,
+          examKey: catalog ? catalog.key : slugify(exam),
+          exam,
+          value,
+          unit,
+          reference,
+          source: "Dados exemplo",
+          raw: `${exam}: ${value} ${unit} Ref: ${reference}`
+        };
+      });
+
+      addRecords(records);
+      writeLog(`${records.length} resultado(s) de exemplo adicionados.`);
+    }
+
+    function saveLocal() {
+      updatePatientFromForm();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      writeLog("Dados salvos localmente neste navegador.");
+    }
+
+    function loadLocal() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+
+      if (!saved) {
+        render();
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(saved);
+        state.patient = parsed.patient || state.patient;
+        state.records = Array.isArray(parsed.records) ? parsed.records : [];
+
+        els.patientName.value = state.patient.name || "";
+        els.patientId.value = state.patient.id || "";
+        els.patientBirth.value = state.patient.birth || "";
+
+        writeLog("Dados locais carregados.");
+      } catch (error) {
+        console.error(error);
+        writeLog("Não foi possível carregar os dados salvos.");
+      }
+    }
+
+    function clearAll() {
+      const confirmed = confirm("Deseja limpar todos os dados deste painel?");
+      if (!confirmed) return;
+
+      state.patient = {
+        name: "",
+        id: "",
+        birth: ""
+      };
+      state.records = [];
+
+      els.patientName.value = "";
+      els.patientId.value = "";
+      els.patientBirth.value = "";
+      els.pasteArea.value = "";
+      els.tableSearch.value = "";
+
+      localStorage.removeItem(STORAGE_KEY);
+      render();
+      writeLog("Painel limpo.");
+    }
+
+    function exportJson() {
+      updatePatientFromForm();
+
+      const payload = {
+        generatedAt: new Date().toISOString(),
+        patient: state.patient,
+        records: state.records
+      };
+
+      downloadFile(
+        `exames-${slugify(state.patient.name || "paciente")}.json`,
+        JSON.stringify(payload, null, 2),
+        "application/json"
+      );
+    }
+
+    function exportCsv() {
+      const headers = ["data", "exame", "valor", "unidade", "referencia", "fonte"];
+      const rows = state.records
+        .slice()
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .map((record) => [
+          record.date,
+          record.exam,
+          String(record.value).replace(".", ","),
+          record.unit,
+          record.reference,
+          record.source
+        ]);
+
+      const csv = [headers, ...rows]
+        .map((row) => row.map(csvEscape).join(";"))
+        .join("\n");
+
+      downloadFile(
+        `exames-${slugify(state.patient.name || "paciente")}.csv`,
+        csv,
+        "text/csv;charset=utf-8"
+      );
+    }
+
+    function downloadFile(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      URL.revokeObjectURL(url);
+    }
+
+    function splitCsvLine(line, delimiter) {
+      const result = [];
+      let current = "";
+      let insideQuotes = false;
+
+      for (let index = 0; index < line.length; index += 1) {
+        const char = line[index];
+        const next = line[index + 1];
+
+        if (char === '"' && insideQuotes && next === '"') {
+          current += '"';
+          index += 1;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === delimiter && !insideQuotes) {
+          result.push(current.trim());
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+
+      result.push(current.trim());
+      return result;
+    }
+
+    function csvEscape(value) {
+      const text = String(value ?? "");
+      if (/[;"\n\r]/.test(text)) {
+        return `"${text.replace(/"/g, '""')}"`;
+      }
+      return text;
+    }
+
+    function findCatalogByName(name) {
+      const normalizedName = normalize(name);
+
+      return EXAM_CATALOG.find((exam) =>
+        normalize(exam.label) === normalizedName ||
+        exam.synonyms.some((synonym) => normalizedName.includes(normalize(synonym)))
+      );
+    }
+
+    function findReference(line) {
+      const patterns = [
+        /(?:ref(?:er[eê]ncia)?|valor(?:es)? de ref(?:er[eê]ncia)?|vr)\s*[:=\-–—]?\s*([<>≤≥]?\s*\d+(?:[.,]\d+)?\s*(?:a|-|até|ate)\s*\d+(?:[.,]\d+)?|[<>≤≥]\s*\d+(?:[.,]\d+)?)/i,
+        /(?:normal|desej[aá]vel)\s*[:=\-–—]?\s*([<>≤≥]?\s*\d+(?:[.,]\d+)?)/i,
+        /([<>≤≥]\s*\d+(?:[.,]\d+)?)/i,
+        /(\d+(?:[.,]\d+)?)\s*(?:a|-|até|ate)\s*(\d+(?:[.,]\d+)?)/i
+      ];
+
+      for (const pattern of patterns) {
+        const match = String(line || "").match(pattern);
+        if (match) {
+          if (match[2]) {
+            return `${match[1]} - ${match[2]}`;
+          }
+          return match[1].replace(/\s+/g, " ").trim();
+        }
+      }
+
+      return "";
+    }
+
+    function parseReference(reference) {
+      const ref = normalize(String(reference || "").replace(",", "."));
+
+      if (!ref) return null;
+
+      const range = ref.match(/(-?\d+(?:\.\d+)?)\s*(?:a|-|ate)\s*(-?\d+(?:\.\d+)?)/);
+      if (range) {
+        return {
+          low: Number(range[1]),
+          high: Number(range[2])
+        };
+      }
+
+      const lessThan = ref.match(/(?:<|≤|menor que|ate)\s*(-?\d+(?:\.\d+)?)/);
+      if (lessThan) {
+        return {
+          low: null,
+          high: Number(lessThan[1])
+        };
+      }
+
+      const greaterThan = ref.match(/(?:>|≥|maior que)\s*(-?\d+(?:\.\d+)?)/);
+      if (greaterThan) {
+        return {
+          low: Number(greaterThan[1]),
+          high: null
+        };
+      }
+
+      return null;
+    }
+
+    function extractBestDate(text) {
+      const candidates = String(text || "").match(/\b(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{4}[\/.-]\d{1,2}[\/.-]\d{1,2})\b/g);
+      if (!candidates || !candidates.length) return "";
+      return normalizeDate(candidates[0]);
+    }
+
+    function normalizeDate(input) {
+      const value = String(input || "").trim();
+      if (!value) return "";
+
+      let match = value.match(/^(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})$/);
+      if (match) {
+        const [, year, month, day] = match;
+        return `${year.padStart(4, "0")}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+      }
+
+      match = value.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})$/);
+      if (match) {
+        let [, day, month, year] = match;
+        if (year.length === 2) {
+          year = Number(year) > 50 ? `19${year}` : `20${year}`;
+        }
+        return `${year.padStart(4, "0")}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+      }
+
+      return "";
+    }
+
+    function formatDate(date) {
+      if (!date) return "—";
+      const normalized = normalizeDate(date) || date;
+      const parts = normalized.split("-");
+      if (parts.length !== 3) return date;
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+
+    function toNumber(value) {
+      if (typeof value === "number") return value;
+
+      const text = String(value ?? "")
+        .trim()
+        .replace(/[^\d,.\-]/g, "")
+        .replace(/\.(?=\d{3}\b)/g, "")
+        .replace(",", ".");
+
+      const number = Number(text);
+      return Number.isFinite(number) ? number : NaN;
+    }
+
+    function normalizeUnit(unit) {
+      return String(unit || "")
+        .replace(/\s+/g, "")
+        .replace("μ", "µ")
+        .trim();
+    }
+
+    function normalize(value) {
+      return String(value ?? "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[µμ]/g, "u")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function slugify(value) {
+      return normalize(value)
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "") || "exame";
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function countChar(text, char) {
+      return String(text || "").split(char).length - 1;
+    }
+
+    function round(value) {
+      const number = Number(value);
+      if (!Number.isFinite(number)) return "—";
+
+      if (Math.abs(number) >= 1000) {
+        return number.toLocaleString("pt-BR", { maximumFractionDigits: 0 });
+      }
+
+      return number.toLocaleString("pt-BR", {
+        minimumFractionDigits: Number.isInteger(number) ? 0 : 1,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function cryptoRandomId() {
+      if (window.crypto && crypto.randomUUID) {
+        return crypto.randomUUID();
+      }
+
+      return `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
+    function writeLog(message) {
+      const time = new Date().toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      els.log.innerHTML = `<div><strong>${time}</strong> — ${escapeHtml(message)}</div>` + els.log.innerHTML;
+    }
+  </script>
+</body>
+</html>
