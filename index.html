@@ -1268,7 +1268,13 @@ Sorologias/infecções	Rubéola IgG	Reagente = imune	Reagente = imune	Importante
       const fallbackDate = extractPatientMetadata(text, source).examDate || els.defaultExamDate.value || new Date().toISOString().slice(0, 10);
       const sortedReferences = REFERENCES.slice().sort((a, b) => longestAlias(b) - longestAlias(a));
       const records = [];
+// Parser específico: Álvaro / DASA / Laboratório Missões
 
+const specificRecords = parseKnownLabLayouts(cleanText, source, patient, fallbackDate);
+
+for (const record of specificRecords) {
+  records.push(record);
+}
       for (const line of lines) {
         const lineDate = extractBestDate(line) || fallbackDate;
         const normalizedLine = normalize(line);
@@ -1308,7 +1314,182 @@ Sorologias/infecções	Rubéola IgG	Reagente = imune	Reagente = imune	Importante
 
       return records;
     }
+function parseKnownLabLayouts(text, source, patient, fallbackDate) {
+  const records = [];
 
+  const exams = [
+    {
+      exam: "Ferritina",
+      category: "Ferro/anemia",
+      regex: /Ferritina\s+(\d+[,.]?\d*)\s*ng\/mL/i,
+      unit: "ng/mL"
+    },
+    {
+      exam: "Vitamina B12",
+      category: "Vitaminas/micronutrientes",
+      regex: /Vitamina\s*B12\s+(\d+[,.]?\d*)\s*pg\/mL/i,
+      unit: "pg/mL"
+    },
+    {
+      exam: "Homocisteína",
+      category: "Inflamação/cardiovascular",
+      regex: /Homociste[ií]na\s+(\d+[,.]?\d*)\s*µmol\/L/i,
+      unit: "µmol/L"
+    },
+    {
+      exam: "Magnésio",
+      category: "Rim/eletrólitos",
+      regex: /Magn[eé]sio\s+(\d+[,.]?\d*)\s*mg\/dL/i,
+      unit: "mg/dL"
+    },
+    {
+      exam: "Cistatina C",
+      category: "Rim/eletrólitos",
+      regex: /Cistatina\s*C\s+(\d+[,.]?\d*)\s*mg\/L/i,
+      unit: "mg/L"
+    },
+    {
+      exam: "Hemoglobina glicada",
+      category: "Glicêmico/metabólico",
+      regex: /Hemoglobina\s+Glicada[\s\S]{0,80}?(\d+[,.]?\d*)\s*%/i,
+      unit: "%"
+    },
+    {
+      exam: "Glicemia jejum",
+      category: "Glicêmico/metabólico",
+      regex: /(?:Glicose|GLICOSE)[\s\S]{0,80}?(\d+[,.]?\d*)\s*mg\/d[lL]/i,
+      unit: "mg/dL"
+    },
+    {
+      exam: "Insulina jejum",
+      category: "Glicêmico/metabólico",
+      regex: /Insulina\s+(\d+[,.]?\d*)\s*µUI\/mL/i,
+      unit: "µUI/mL"
+    },
+    {
+      exam: "HOMA-IR",
+      category: "Glicêmico/metabólico",
+      regex: /(?:HOMAIR|HOMA-IR|Índice de HOMAIR)\s+(\d+[,.]?\d*)/i,
+      unit: ""
+    },
+    {
+      exam: "ApoB",
+      category: "Perfil lipídico",
+      regex: /Apolipoprote[ií]na\s+"?B"?\s+(\d+[,.]?\d*)\s*mg\/dL/i,
+      unit: "mg/dL"
+    },
+    {
+      exam: "Ferro sérico",
+      category: "Ferro/anemia",
+      regex: /Ferro\s+(\d+[,.]?\d*)\s*µg\/dL/i,
+      unit: "µg/dL"
+    },
+    {
+      exam: "CTLF/TIBC",
+      category: "Ferro/anemia",
+      regex: /Capacidade Total de Fixa[cç][aã]o do Ferro\s+(\d+[,.]?\d*)\s*µg\/dL/i,
+      unit: "µg/dL"
+    },
+    {
+      exam: "Saturação transferrina",
+      category: "Ferro/anemia",
+      regex: /Índice de Satura[cç][aã]o da Transferrina\s+(\d+[,.]?\d*)\s*%/i,
+      unit: "%"
+    },
+    {
+      exam: "Colesterol total",
+      category: "Perfil lipídico",
+      regex: /COLESTEROL TOTAL[\s\S]{0,80}?Resultado:\s*(\d+[,.]?\d*)\s*mg\/d[lL]/i,
+      unit: "mg/dL"
+    },
+    {
+      exam: "HDL",
+      category: "Perfil lipídico",
+      regex: /COLESTEROL HDL[\s\S]{0,80}?Resultado:\s*(\d+[,.]?\d*)\s*mg\/d[lL]/i,
+      unit: "mg/dL"
+    },
+    {
+      exam: "LDL",
+      category: "Perfil lipídico",
+      regex: /COLESTEROL LDL[\s\S]{0,80}?Resultado:\s*(\d+[,.]?\d*)\s*mg\/d[lL]/i,
+      unit: "mg/dL"
+    },
+    {
+      exam: "Triglicerídeos",
+      category: "Perfil lipídico",
+      regex: /TRIGLICERIDES[\s\S]{0,80}?Resultado:\s*(\d+[,.]?\d*)\s*mg\/d[lL]/i,
+      unit: "mg/dL"
+    },
+    {
+      exam: "Ureia",
+      category: "Rim/eletrólitos",
+      regex: /UR[ÉE]IA[\s\S]{0,100}?(\d+[,.]?\d*)\s*mg\/d[lL]/i,
+      unit: "mg/dL"
+    },
+    {
+      exam: "Creatinina",
+      category: "Rim/eletrólitos",
+      regex: /CREATININA[\s\S]{0,100}?(\d+[,.]?\d*)\s*mg\/d[lL]/i,
+      unit: "mg/dL"
+    },
+    {
+      exam: "TGO/AST",
+      category: "Fígado/vias biliares",
+      regex: /TRANSAMINASE OXALACETICA[\s\S]{0,100}?(\d+[,.]?\d*)\s*U\/L/i,
+      unit: "U/L"
+    },
+    {
+      exam: "TGP/ALT",
+      category: "Fígado/vias biliares",
+      regex: /TRANSAMINASE PIRUVICA[\s\S]{0,100}?(\d+[,.]?\d*)\s*U\/?[lL]/i,
+      unit: "U/L"
+    },
+    {
+      exam: "GGT",
+      category: "Fígado/vias biliares",
+      regex: /GAMA\s*-\s*GT[\s\S]{0,100}?(\d+[,.]?\d*)\s*U\/?[lL]/i,
+      unit: "U/L"
+    }
+  ];
+
+  for (const item of exams) {
+    const match = text.match(item.regex);
+    if (!match) continue;
+
+    const ref = REFERENCES.find(r => r.exam === item.exam);
+    const referenceText = ref ? chooseReferenceText(ref, patient.sex) : "";
+    const valueNumber = toNumber(match[1]);
+
+    const result = {
+      raw: match[1],
+      number: valueNumber,
+      unit: item.unit
+    };
+
+    records.push({
+      id: cryptoRandomId(),
+      patientKey: patient.key,
+      patientName: patient.name,
+      patientSex: patient.sex,
+      date: fallbackDate,
+      category: item.category,
+      examId: ref ? ref.id : slugify(item.exam),
+      exam: item.exam,
+      valueRaw: match[1],
+      valueNumber,
+      unit: item.unit,
+      reference: referenceText,
+      observation: ref ? ref.observation : "",
+      status: referenceText
+        ? classifyResult(result, referenceText)
+        : { type: "neutral", label: "Sem referência", detail: "Sem referência interna." },
+      source,
+      rawLine: match[0]
+    });
+  }
+
+  return records;
+}
     function extractResultFromLine(line, matchedAlias) {
       const normalizedOriginal = normalize(line);
       const normalizedAlias = normalize(matchedAlias);
