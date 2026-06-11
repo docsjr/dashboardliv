@@ -3,2874 +3,2760 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Laboratorial Evolutivo</title>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
+  <title>DocLiv | Workshop Interativo</title>
+  <meta
+    name="description"
+    content="Workshop interativo DocLiv: como organizar o corpo para ter mais energia, menos inflamação e emagrecer com segurança."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap"
+    rel="stylesheet"
+  />
   <style>
     :root {
-      --brand: #0f766e;
-      --brand-2: #14b8a6;
-      --brand-dark: #064e3b;
-      --bg: #f4f8f8;
-      --card: #ffffff;
-      --text: #102a2a;
-      --muted: #64748b;
-      --border: #dbe7e7;
-      --danger: #dc2626;
-      --warning: #d97706;
-      --success: #059669;
-      --info: #2563eb;
-      --shadow: 0 20px 50px rgba(15, 118, 110, 0.12);
-      --radius: 22px;
+      --navy: #0E2238;
+      --navy-2: #122C47;
+      --green: #1F6B5C;
+      --orange: #F47A20;
+      --red: #A61E2A;
+      --yellow: #F2C230;
+      --ivory: #F8F6F1;
+      --white: #FFFFFF;
+      --graphite: #2A2A2A;
+      --muted: #6E7781;
+      --line: rgba(14, 34, 56, 0.10);
+      --line-light: rgba(255, 255, 255, 0.10);
+      --success: #1E7B63;
+      --shadow-soft: 0 14px 40px rgba(14, 34, 56, 0.08);
+      --shadow-card: 0 20px 60px rgba(14, 34, 56, 0.10);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --container: 1180px;
+      --transition: 260ms ease;
     }
 
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(20, 184, 166, 0.2), transparent 32%),
-        linear-gradient(135deg, #f8ffff 0%, var(--bg) 45%, #edf7f7 100%);
-      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--ivory);
+      color: var(--graphite);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
     }
 
-    header {
-      padding: 28px clamp(18px, 4vw, 52px);
-      background: linear-gradient(135deg, var(--brand-dark), var(--brand));
-      color: white;
-      border-bottom-left-radius: 36px;
-      border-bottom-right-radius: 36px;
-      box-shadow: var(--shadow);
+    ::selection {
+      background: rgba(244, 122, 32, 0.18);
+      color: var(--navy);
     }
 
-    .header-grid {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 24px;
-      align-items: center;
-      max-width: 1500px;
-      margin: 0 auto;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      font-size: clamp(1.35rem, 2.5vw, 2.15rem);
-    }
-
-    .logo-mark {
-      width: 52px;
-      height: 52px;
-      display: grid;
-      place-items: center;
-      border-radius: 17px;
-      background: rgba(255, 255, 255, 0.16);
-      border: 1px solid rgba(255, 255, 255, 0.26);
-      font-size: 1.6rem;
-    }
-
-    .subtitle {
-      margin: 10px 0 0 66px;
-      max-width: 900px;
-      color: rgba(255, 255, 255, 0.78);
-      line-height: 1.55;
-    }
-
-    .privacy-pill {
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 999px;
-      padding: 10px 16px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    main {
-      max-width: 1500px;
-      margin: 28px auto;
-      padding: 0 clamp(18px, 4vw, 52px) 44px;
-      display: grid;
-      grid-template-columns: 420px 1fr;
-      gap: 24px;
-    }
-
-    .panel,
-    .card,
-    .chart-card,
-    .table-card,
-    .summary-card {
-      background: rgba(255, 255, 255, 0.93);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-    }
-
-    .panel {
-      padding: 22px;
-      position: sticky;
-      top: 18px;
-      align-self: start;
-    }
-
-    h1, h2, h3 {
-      margin: 0;
-      letter-spacing: -0.04em;
-    }
-
-    h2 {
-      font-size: 1.25rem;
-      margin-bottom: 16px;
-    }
-
-    h3 {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-
-    label {
+    img,
+    svg {
       display: block;
-      font-size: 0.84rem;
-      color: var(--muted);
-      font-weight: 800;
-      margin: 13px 0 7px;
+      max-width: 100%;
     }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
     input,
-    select,
     textarea,
-    button {
-      width: 100%;
+    select {
       font: inherit;
     }
 
-    input,
-    select,
-    textarea {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 13px;
-      background: #ffffff;
-      color: var(--text);
-      outline: none;
-      transition: 160ms ease;
+    .container {
+      width: min(calc(100% - 32px), var(--container));
+      margin: 0 auto;
     }
 
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: var(--brand-2);
-      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.13);
+    .progress {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 4px;
+      z-index: 999;
+      background: transparent;
+      pointer-events: none;
     }
 
-    textarea {
-      min-height: 120px;
-      resize: vertical;
+    .progress__bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--green), var(--orange), var(--red));
+      box-shadow: 0 0 24px rgba(244, 122, 32, 0.30);
+      transition: width 140ms linear;
     }
 
-    .drop-zone {
-      margin-top: 14px;
-      padding: 22px;
-      border: 2px dashed rgba(15, 118, 110, 0.36);
-      background: rgba(20, 184, 166, 0.07);
-      border-radius: 18px;
-      text-align: center;
-      cursor: pointer;
-      transition: 160ms ease;
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(248, 246, 241, 0.84);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(14, 34, 56, 0.08);
     }
 
-    .drop-zone:hover,
-    .drop-zone.dragover {
-      background: rgba(20, 184, 166, 0.14);
-      border-color: var(--brand);
-      transform: translateY(-1px);
-    }
-
-    .drop-zone strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .drop-zone span {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .full {
-      grid-column: 1 / -1;
-    }
-
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    button {
-      border: 0;
-      cursor: pointer;
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-weight: 900;
-      color: white;
-      background: linear-gradient(135deg, var(--brand), var(--brand-2));
-      box-shadow: 0 12px 24px rgba(15, 118, 110, 0.16);
-      transition: 160ms ease;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.02);
-    }
-
-    button.secondary {
-      background: #e8f4f3;
-      color: var(--brand-dark);
-      box-shadow: none;
-    }
-
-    button.danger {
-      background: #fee2e2;
-      color: #991b1b;
-      box-shadow: none;
-    }
-
-    .dashboard {
-      display: grid;
-      gap: 18px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .card {
-      padding: 18px;
-    }
-
-    .card small {
-      color: var(--muted);
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-size: 0.7rem;
-    }
-
-    .card strong {
-      display: block;
-      margin-top: 10px;
-      font-size: clamp(1.35rem, 3vw, 2rem);
-      letter-spacing: -0.05em;
-    }
-
-    .layout-2 {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 18px;
-    }
-
-    .layout-3 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .chart-card,
-    .table-card,
-    .summary-card {
-      padding: 20px;
-    }
-
-    .toolbar {
-      display: grid;
-      grid-template-columns: 1fr 240px;
-      gap: 12px;
-      align-items: end;
-      margin-bottom: 16px;
-    }
-
-    .summary-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .summary-item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
+    .topbar__inner {
+      min-height: 76px;
+      display: flex;
       align-items: center;
-      padding: 12px;
-      background: #f8fbfb;
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      justify-content: space-between;
+      gap: 20px;
     }
 
-    .summary-item b {
-      display: block;
-      margin-bottom: 4px;
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
-    .summary-item small {
-      color: var(--muted);
-      line-height: 1.4;
+    .brand__name {
+      font-family: "Sora", sans-serif;
+      font-size: 1.12rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--navy);
     }
 
-    .badge {
+    .brand__sub {
+      color: rgba(42, 42, 42, 0.72);
+      font-size: 0.84rem;
+      max-width: 52ch;
+    }
+
+    .topbar__meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .meta-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 14px;
       border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 0.76rem;
-      font-weight: 900;
+      border: 1px solid rgba(14, 34, 56, 0.09);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--navy);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .meta-pill strong {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      outline: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 56px;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition), color var(--transition);
       white-space: nowrap;
     }
 
-    .badge.ok {
-      color: #065f46;
-      background: #d1fae5;
+    .btn:hover {
+      transform: translateY(-2px);
     }
 
-    .badge.high,
-    .badge.low,
-    .badge.changed {
-      color: #991b1b;
-      background: #fee2e2;
+    .btn--primary {
+      background: linear-gradient(135deg, var(--orange), #f09345);
+      color: #fff;
+      box-shadow: 0 16px 36px rgba(244, 122, 32, 0.24);
     }
 
-    .badge.warn {
-      color: #92400e;
-      background: #fef3c7;
+    .btn--primary:hover {
+      box-shadow: 0 18px 40px rgba(244, 122, 32, 0.32);
     }
 
-    .badge.neutral {
-      color: #475569;
-      background: #e2e8f0;
+    .btn--secondary {
+      background: rgba(255, 255, 255, 0.80);
+      color: var(--navy);
+      border: 1px solid rgba(14, 34, 56, 0.10);
     }
 
-    .badge.info {
-      color: #1d4ed8;
-      background: #dbeafe;
+    .btn--dark {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--ivory);
     }
 
-    .log {
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 14px;
-      background: #f8fbfb;
-      color: var(--muted);
-      font-size: 0.86rem;
-      max-height: 150px;
-      overflow: auto;
-      border: 1px solid var(--border);
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(31, 107, 92, 0.08), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(244, 122, 32, 0.10), transparent 20%),
+        linear-gradient(180deg, #FCFBF8 0%, var(--ivory) 100%);
+      padding: 56px 0 90px;
     }
 
-    .table-wrap {
-      overflow: auto;
-      max-height: 540px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
+   
+.hero::after {
+  content: none;
+}
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 28px;
+      align-items: stretch;
     }
 
-    table {
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(14, 34, 56, 0.12);
+      background: rgba(255,255,255,0.74);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), var(--yellow));
+      box-shadow: 0 0 16px rgba(244, 122, 32, 0.35);
+    }
+
+    .dark .eyebrow {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
+      color: var(--ivory);
+    }
+
+    h1, h2, h3, h4 {
+      font-family: "Sora", sans-serif;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 6vw, 5.2rem);
+      max-width: 11ch;
+      color: var(--navy);
+      margin-top: 18px;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      max-width: 14ch;
+    }
+
+    h3 {
+      font-size: clamp(1.16rem, 2vw, 1.4rem);
+    }
+
+    p {
+      font-size: 1.02rem;
+      opacity: 0.95;
+    }
+
+    .lead {
+      font-size: clamp(1.08rem, 1.55vw, 1.22rem);
+      line-height: 1.82;
+      max-width: 64ch;
+    }
+
+    .accent {
+      color: var(--orange);
+    }
+
+    .accent-green {
+      color: var(--green);
+    }
+
+    .section {
+      padding: 96px 0;
+      position: relative;
+    }
+
+    .section--tight {
+      padding: 72px 0;
+    }
+
+    .section--dark {
+      background:
+        radial-gradient(circle at 86% 12%, rgba(244, 122, 32, 0.09), transparent 26%),
+        radial-gradient(circle at 14% 80%, rgba(31, 107, 92, 0.10), transparent 26%),
+        linear-gradient(180deg, var(--navy), #091727);
+      color: var(--ivory);
+    }
+
+    .section__head {
+      display: grid;
+      gap: 16px;
+      max-width: 860px;
+      margin-bottom: 36px;
+    }
+
+    .divider {
       width: 100%;
-      border-collapse: collapse;
-      background: white;
-      min-width: 1050px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(14, 34, 56, 0.16), transparent);
+      margin-top: 12px;
     }
 
-    th,
-    td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border);
-      text-align: left;
-      vertical-align: middle;
+    .section--dark .divider {
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+    }
+
+    .hero__copy {
+      display: grid;
+      gap: 22px;
+      padding-top: 16px;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .hero__details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .detail {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(14, 34, 56, 0.09);
+      color: var(--navy);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .hero__panel {
+      background: linear-gradient(180deg, rgba(14, 34, 56, 0.98), rgba(9, 23, 39, 1));
+      color: var(--ivory);
+      border-radius: var(--radius-xl);
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+      min-height: 100%;
+    }
+
+    .hero__panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), transparent 35%),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0 80px,
+          rgba(255,255,255,0.03) 80px 81px
+        );
+      pointer-events: none;
+    }
+
+    .hero__panel::after {
+  content: none;
+}
+
+    .panel-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(248, 246, 241, 0.78);
+      font-weight: 700;
+    }
+
+    .panel-kicker::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--yellow));
+      box-shadow: 0 0 18px rgba(31, 107, 92, 0.45);
+    }
+
+    .panel-title {
+      font-size: clamp(1.5rem, 2vw, 1.95rem);
+      max-width: 12ch;
+      margin-bottom: 18px;
+    }
+
+    .stat-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      display: grid;
+      place-items: center;
+      color: var(--yellow);
+    }
+
+    .stat-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .stat-card h4 {
+      font-family: "Inter", sans-serif;
+      font-size: 1rem;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .stat-card p {
+      font-size: 0.92rem;
+      color: rgba(248, 246, 241, 0.78);
+    }
+
+    .score-legend {
+      display: grid;
+      gap: 14px;
+    }
+
+    .legend-card {
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(14, 34, 56, 0.08);
+      border-radius: 22px;
+      box-shadow: var(--shadow-soft);
+      padding: 20px;
+    }
+
+    .legend-card h3 {
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .legend-card p {
+      color: var(--graphite);
+      opacity: 0.92;
+    }
+
+    .legend-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .legend-list li {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+      color: var(--graphite);
+      font-size: 0.96rem;
+    }
+
+    .letter-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #fff;
+      font-family: "Sora", sans-serif;
+      letter-spacing: -0.03em;
+      box-shadow: inset 0 -10px 16px rgba(0,0,0,0.10);
+    }
+
+    .letter-A { background: linear-gradient(135deg, var(--navy), #20456a); }
+    .letter-B { background: linear-gradient(135deg, var(--green), #248a75); }
+    .letter-C { background: linear-gradient(135deg, #8E4C97, #A05AAC); }
+    .letter-D { background: linear-gradient(135deg, var(--orange), #f29c4f); }
+    .letter-E { background: linear-gradient(135deg, var(--red), #bf3441); }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(14, 34, 56, 0.08);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card--dark {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.09);
+      color: var(--ivory);
+      box-shadow: none;
+    }
+
+    .card--accent::before {
+      content: "";
+      position: absolute;
+      top: 22px;
+      bottom: 22px;
+      left: 0;
+      width: 4px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--orange), var(--green));
+    }
+
+    .card__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      margin-bottom: 14px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(14, 34, 56, 0.06);
+      color: var(--navy);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .card--dark .card__tag {
+      background: rgba(255,255,255,0.08);
+      color: var(--ivory);
+    }
+
+    .inline-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(14, 34, 56, 0.08);
+      color: var(--navy);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .section-shell {
+      display: grid;
+      gap: 24px;
+    }
+
+    .question-section {
+      scroll-margin-top: 110px;
+    }
+
+    .question-card {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      align-items: start;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(14, 34, 56, 0.08);
+      border-radius: 30px;
+      box-shadow: var(--shadow-soft);
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .question-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.35), transparent 28%);
+      pointer-events: none;
+    }
+
+    .question-card.is-missing {
+      outline: 2px solid rgba(166, 30, 42, 0.22);
+      box-shadow: 0 0 0 5px rgba(166, 30, 42, 0.06);
+    }
+
+    .question-card__content {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .question-card__content h3 {
+      color: var(--navy);
+      margin-top: 2px;
+    }
+
+    .question-card__content p {
+      color: var(--graphite);
+      opacity: 0.92;
+    }
+
+    .question-card__helper {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .subpoints {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .subpoints li {
+      position: relative;
+      padding-left: 18px;
+      font-size: 0.97rem;
+      color: var(--graphite);
+    }
+
+    .subpoints li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.78em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--orange));
+      transform: translateY(-50%);
+    }
+
+    .question-card__form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .question-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+
+    .question-index {
+      font-family: "Sora", sans-serif;
+      font-size: 0.94rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .question-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .question-count {
+      color: var(--muted);
       font-size: 0.9rem;
     }
 
-    th {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      background: #f1fbfa;
-      color: var(--brand-dark);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+    .option {
+      position: relative;
     }
 
-    tr:hover td {
-      background: #f9fefe;
+    .option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .empty {
-      padding: 28px;
-      text-align: center;
-      color: var(--muted);
-      border: 1px dashed var(--border);
-      border-radius: 18px;
-      background: #fbffff;
+    .option label {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(14, 34, 56, 0.10);
+      background: rgba(255,255,255,0.72);
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition), box-shadow var(--transition);
+      box-shadow: 0 8px 20px rgba(14, 34, 56, 0.04);
     }
 
-    .hint {
-      color: var(--muted);
-      font-size: 0.86rem;
+    .option label:hover {
+      transform: translateY(-1px);
+      border-color: rgba(31, 107, 92, 0.34);
+      box-shadow: 0 14px 30px rgba(14, 34, 56, 0.07);
+    }
+
+    .option-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-family: "Sora", sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      background: rgba(14, 34, 56, 0.06);
+      border: 1px solid rgba(14, 34, 56, 0.08);
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+
+    .option-text {
+      display: grid;
+      gap: 4px;
+    }
+
+    .option-title {
+      color: var(--graphite);
+      font-weight: 700;
       line-height: 1.45;
+    }
+
+    .option-desc {
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.55;
+    }
+
+    .option input:checked + label {
+      background: linear-gradient(180deg, rgba(14, 34, 56, 0.04), rgba(31, 107, 92, 0.06));
+      border-color: rgba(31, 107, 92, 0.48);
+      box-shadow: 0 16px 36px rgba(14, 34, 56, 0.09);
+    }
+
+    .option input:checked + label .option-badge {
+      background: linear-gradient(135deg, var(--green), var(--orange));
+      border-color: transparent;
+      color: #fff;
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
       margin-top: 10px;
     }
 
-    .danger-text {
-      color: var(--danger);
-      font-weight: 900;
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 24px;
+      align-items: stretch;
     }
 
-    .muted {
+    .tracker-card,
+    .result-card {
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .tracker-card {
+      background: linear-gradient(180deg, rgba(14,34,56,0.98), rgba(9,23,39,1));
+      color: var(--ivory);
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+   .tracker-card::after {
+  content: none;
+}
+
+    .result-card {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(14, 34, 56, 0.08);
+    }
+
+    .tracker-header,
+    .result-header {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mini-progress {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .mini-progress__bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--green), var(--orange));
+      border-radius: inherit;
+      transition: width 260ms ease;
+    }
+
+    .scoreboard {
+      display: grid;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: 34px minmax(100px, 1fr) 1fr 28px;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .score-name {
+      font-size: 0.92rem;
+      color: rgba(248, 246, 241, 0.78);
+    }
+
+    .score-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      overflow: hidden;
+    }
+
+    .score-bar__fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      transition: width 320ms ease;
+    }
+
+    .fill-A { background: linear-gradient(90deg, #3c6da1, #5c8fc2); }
+    .fill-B { background: linear-gradient(90deg, #1F6B5C, #2b9b83); }
+    .fill-C { background: linear-gradient(90deg, #8E4C97, #B96BC1); }
+    .fill-D { background: linear-gradient(90deg, #F47A20, #F7A34B); }
+    .fill-E { background: linear-gradient(90deg, #A61E2A, #C73A46); }
+
+    .score-value {
+      font-weight: 800;
+      color: var(--ivory);
+      text-align: right;
+    }
+
+    .result-placeholder {
+      padding: 22px;
+      border-radius: 20px;
+      background: rgba(14, 34, 56, 0.04);
+      border: 1px dashed rgba(14, 34, 56, 0.18);
       color: var(--muted);
     }
 
-    canvas {
-      max-height: 360px;
+    .result-profile {
+      display: none;
+      gap: 18px;
     }
 
-    .small-chart canvas {
-      max-height: 280px;
+    .result-profile.is-visible {
+      display: grid;
     }
 
-    @media (max-width: 1200px) {
-      main,
-      .layout-2,
-      .layout-3 {
+    .result-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(14,34,56,0.06);
+      color: var(--navy);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .result-badge span {
+      color: var(--green);
+    }
+
+    .result-title {
+      font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+      color: var(--navy);
+      max-width: 18ch;
+    }
+
+    .result-fields {
+      display: grid;
+      gap: 14px;
+    }
+
+    .result-item {
+      border: 1px solid rgba(14, 34, 56, 0.08);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.72);
+      padding: 18px 18px 16px;
+    }
+
+    .result-item h4 {
+      font-family: "Inter", sans-serif;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+
+    .result-item p {
+      color: var(--graphite);
+      font-size: 0.98rem;
+      line-height: 1.7;
+    }
+
+    .motivation {
+      padding: 20px 22px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(242,194,48,0.18), transparent 24%),
+        linear-gradient(135deg, rgba(14,34,56,0.98), rgba(18,44,71,0.98));
+      color: var(--ivory);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .motivation h4 {
+      font-family: "Inter", sans-serif;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(248, 246, 241, 0.76);
+      margin-bottom: 10px;
+    }
+
+    .motivation p {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--ivory);
+    }
+
+    .result-note {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .sticky-cta {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 90;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px;
+      border-radius: 22px;
+      background: rgba(14,34,56,0.94);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 18px 50px rgba(14,34,56,0.24);
+      backdrop-filter: blur(14px);
+      color: var(--ivory);
+    }
+
+    .sticky-cta small {
+      display: block;
+      color: rgba(248,246,241,0.72);
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .sticky-cta strong {
+      display: block;
+      max-width: 24ch;
+      font-size: 0.98rem;
+      line-height: 1.3;
+    }
+
+    .footer {
+      padding: 34px 0 92px;
+      color: rgba(42,42,42,0.68);
+      font-size: 0.92rem;
+    }
+
+    .footer__inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(14,34,56,0.08);
+      padding-top: 22px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1120px) {
+      .hero__grid,
+      .summary-grid,
+      .question-card,
+      .grid-4 {
         grid-template-columns: 1fr;
       }
 
-      .panel {
-        position: static;
-      }
-
-      .cards {
+      .grid-3 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-
-      .header-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .subtitle {
-        margin-left: 0;
-      }
     }
 
-    @media (max-width: 640px) {
-      .cards,
-      .actions,
-      .toolbar,
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 760px) {
+  .section {
+    padding: 56px 0;
+  }
 
-      header {
-        border-bottom-left-radius: 22px;
-        border-bottom-right-radius: 22px;
-      }
-    }
+  .section--tight {
+    padding: 44px 0;
+  }
 
-    @media print {
-      body {
-        background: white;
-      }
+  .topbar__inner {
+    min-height: 62px;
+    gap: 12px;
+  }
 
-      header,
-      .panel,
-      .no-print {
-        display: none !important;
-      }
+  .brand__name {
+    font-size: 1rem;
+  }
 
-      main {
-        display: block;
-        max-width: none;
-        margin: 0;
-        padding: 0;
-      }
+  .brand__sub {
+    font-size: 0.76rem;
+    max-width: 30ch;
+    line-height: 1.4;
+  }
 
-      .card,
-      .chart-card,
-      .table-card,
-      .summary-card {
-        box-shadow: none;
-        border-color: #cbd5e1;
-        break-inside: avoid;
-        margin-bottom: 14px;
-      }
+  .topbar__meta .meta-pill {
+    display: none;
+  }
 
-      .table-wrap {
-        max-height: none;
-        overflow: visible;
-      }
+  .hero {
+    padding: 24px 0 48px;
+  }
 
-      th {
-        position: static;
-      }
-    }
-  </style>
+  h1 {
+    font-size: clamp(2rem, 9vw, 2.7rem);
+    max-width: 12ch;
+  }
+
+  h2 {
+    font-size: clamp(1.55rem, 6vw, 2rem);
+    max-width: 16ch;
+  }
+
+  h3 {
+    font-size: 1.05rem;
+  }
+
+  p,
+  .lead {
+    font-size: 0.96rem;
+    line-height: 1.68;
+  }
+
+  .eyebrow {
+    padding: 7px 11px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .hero__details {
+    display: none;
+  }
+
+  .hero__grid,
+  .summary-grid,
+  .question-card,
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .hero__panel,
+  .tracker-card,
+  .result-card,
+  .question-card,
+  .card,
+  .legend-card {
+    padding: 18px;
+    border-radius: 20px;
+    box-shadow: 0 10px 24px rgba(14, 34, 56, 0.06);
+  }
+
+  .section__head {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .question-card__content {
+    gap: 10px;
+  }
+
+  .question-title {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .question-meta {
+    gap: 8px;
+    margin-bottom: 0;
+  }
+
+  .question-index,
+  .question-count {
+    font-size: 0.8rem;
+  }
+
+  .option label {
+    grid-template-columns: 38px 1fr;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 16px;
+    box-shadow: none;
+  }
+
+  .option-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    font-size: 0.92rem;
+  }
+
+  .option-title {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .option-desc {
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .subpoints {
+    gap: 8px;
+  }
+
+  .subpoints li {
+    font-size: 0.92rem;
+    padding-left: 16px;
+  }
+
+  .inline-pills,
+  .hero__actions,
+  .quiz-actions {
+    gap: 10px;
+  }
+
+  .pill,
+  .detail,
+  .meta-pill {
+    padding: 8px 11px;
+    font-size: 0.82rem;
+  }
+
+  .btn {
+    min-height: 48px;
+    padding: 0 16px;
+    font-size: 0.92rem;
+  }
+
+  .scoreboard {
+    gap: 10px;
+  }
+
+  .score-row {
+    grid-template-columns: 30px 1fr 22px;
+    gap: 8px;
+  }
+
+  .score-name {
+    display: none;
+  }
+
+  .letter-badge {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    font-size: 0.84rem;
+  }
+
+  .result-fields {
+    gap: 10px;
+  }
+
+  .result-item {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .result-item h4 {
+    font-size: 0.78rem;
+    margin-bottom: 6px;
+  }
+
+  .result-item p {
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+
+  .motivation {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+    .footer {
+    padding: 26px 0 40px;
+  }
+}  </style>
 </head>
-
 <body>
-  <header>
-    <div class="header-grid">
-      <div>
-        <div class="logo">
-          <div class="logo-mark">🧬</div>
-          <div>Dashboard Laboratorial Evolutivo</div>
-        </div>
-        <p class="subtitle">
-          Importação de PDFs laboratoriais, organização por paciente, comparação com referência interna,
-          histórico evolutivo, gráficos, resumo e exportação.
-        </p>
+  <div class="progress" aria-hidden="true">
+    <div class="progress__bar" id="scrollProgress"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <div class="brand">
+        <span class="brand__name">DocLiv</span>
+        <span class="brand__sub">Medicina de precisão para emagrecer, recuperar função e performar melhor.</span>
       </div>
-      <div class="privacy-pill">Processamento local no navegador</div>
+
+      <div class="topbar__meta">
+        <span class="meta-pill"><strong>Workshop</strong> interativo</span>
+        <span class="meta-pill">Dr. Sandro Pereira / @dr.sandropj</span>
+        <a class="btn btn--primary" href="#resultado">Ver meu resultado</a>
+      </div>
     </div>
   </header>
 
   <main>
-    <aside class="panel no-print">
-      <h2>Paciente e importação</h2>
+    <section class="hero">
+      <div class="container">
+        <div class="hero__grid">
+          <div class="hero__copy reveal">
+            <span class="eyebrow">Uma parceria Leve Fitnes & DocLiv</span>
 
-      <label for="patientSelector">Paciente ativo</label>
-      <select id="patientSelector">
-        <option value="">Novo paciente</option>
-      </select>
+            <h1>
+              Performance com <span class="accent"> direção.</span>,
+             Energia com <span class="accent-green"> método.</span> 
+            </h1>
 
-      <div class="grid-2">
-        <div class="full">
-          <label for="patientName">Nome do paciente</label>
-          <input id="patientName" type="text" placeholder="Capturado do PDF ou preenchido manualmente" />
-        </div>
-
-        <div>
-          <label for="patientId">ID / Prontuário</label>
-          <input id="patientId" type="text" placeholder="Ex: 000123" />
-        </div>
-
-        <div>
-          <label for="patientSex">Sexo biológico</label>
-          <select id="patientSex">
-            <option value="">Não informado</option>
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="patientBirth">Nascimento</label>
-          <input id="patientBirth" type="date" />
-        </div>
-
-        <div>
-          <label for="patientAge">Idade</label>
-          <input id="patientAge" type="number" min="0" max="130" placeholder="Auto" />
-        </div>
-
-        <div>
-          <label for="defaultExamDate">Data padrão do exame</label>
-          <input id="defaultExamDate" type="date" />
-        </div>
-      </div>
-
-      <div id="dropZone" class="drop-zone" tabindex="0" role="button">
-        <strong>Arraste PDFs, CSV ou JSON aqui</strong>
-        <span>Ou clique para selecionar arquivos</span>
-      </div>
-
-      <input id="fileInput" type="file" multiple accept=".pdf,.csv,.json,application/pdf,text/csv,application/json" hidden />
-
-      <label for="pasteArea">Ou cole texto do laudo</label>
-      <textarea id="pasteArea" placeholder="Exemplo:
-Paciente: João Silva
-Sexo: Masculino
-Nascimento: 10/03/1985
-Data da coleta: 12/04/2026
-Glicemia jejum: 96 mg/dL
-Creatinina: 1,10 mg/dL"></textarea>
-
-      <div class="actions">
-        <button id="parseTextBtn" type="button">Ler texto</button>
-        <button id="sampleBtn" type="button" class="secondary">Dados exemplo</button>
-      </div>
-
-      <div class="actions">
-        <button id="saveBtn" type="button" class="secondary">Salvar local</button>
-        <button id="dedupeBtn" type="button" class="secondary">Remover duplicados</button>
-      </div>
-
-      <div class="actions">
-        <button id="exportJsonBtn" type="button" class="secondary">Exportar JSON</button>
-        <button id="exportCsvBtn" type="button" class="secondary">Exportar CSV</button>
-      </div>
-
-      <div class="actions">
-        <button id="printBtn" type="button">Imprimir / PDF</button>
-        <button id="clearBtn" type="button" class="danger">Limpar tudo</button>
-      </div>
-
-      <p class="hint">
-        PDFs escaneados como imagem precisam de OCR. Esta versão lê PDFs com texto selecionável.
-        A classificação é triagem automática e não substitui interpretação médica.
-      </p>
-
-      <div id="log" class="log" aria-live="polite">Pronto para importar exames.</div>
-    </aside>
-
-    <section class="dashboard">
-      <section class="cards">
-        <article class="card">
-          <small>Pacientes</small>
-          <strong id="cardPatients">0</strong>
-        </article>
-
-        <article class="card">
-          <small>Resultados</small>
-          <strong id="cardTotal">0</strong>
-        </article>
-
-        <article class="card">
-          <small>Alterados</small>
-          <strong id="cardChanged">0</strong>
-        </article>
-
-        <article class="card">
-          <small>Tipos de exame</small>
-          <strong id="cardTypes">0</strong>
-        </article>
-
-        <article class="card">
-          <small>Período</small>
-          <strong id="cardPeriod">—</strong>
-        </article>
-      </section>
-
-      <section class="layout-2">
-        <article class="chart-card">
-          <div class="toolbar">
-            <div>
-              <h2 id="patientTitle">Resumo do paciente</h2>
-              <p id="patientMeta" class="hint">Nenhum paciente ativo.</p>
-            </div>
-
-            <div>
-              <label for="examFilter">Exame no gráfico</label>
-              <select id="examFilter"></select>
-            </div>
-          </div>
-
-          <canvas id="evolutionChart"></canvas>
-        </article>
-
-        <article class="summary-card">
-          <h2>Parecer automático total</h2>
-          <div id="globalOpinion" class="summary-list">
-            <div class="empty">Importe exames para gerar o parecer gráfico.</div>
-          </div>
-        </article>
-      </section>
-
-      <section class="layout-3">
-        <article class="chart-card small-chart">
-          <h2>Distribuição dos resultados</h2>
-          <canvas id="statusChart"></canvas>
-        </article>
-
-        <article class="chart-card small-chart">
-          <h2>Alterações por categoria</h2>
-          <canvas id="categoryChart"></canvas>
-        </article>
-      </section>
-
-      <section class="table-card">
-        <div class="toolbar">
-          <div>
-            <h2>Resultados laboratoriais organizados</h2>
-            <p class="hint">
-              O sistema usa a referência interna pré-estabelecida e mantém o histórico ao importar novos PDFs do mesmo paciente.
+            <p class="lead">
+              Esta experiência foi desenhada para que você avance pela leitura, responda às perguntas ao longo do conteúdo
+              e receba ao final um direcionamento claro sobre o que priorizar neste momento.
             </p>
+
+            <div class="hero__details">
+              <span class="detail">10 perguntas integradas à leitura</span>
+              <span class="detail">Perfis A–E com diagnóstico final</span>
+              <span class="detail">Recomendação prática e motivadora</span>
+            </div>
+
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#instrucoes">Começar agora</a>
+              <a class="btn btn--secondary" href="#resultado">Ir para o painel final</a>
+            </div>
           </div>
 
-          <div>
-            <label for="tableSearch">Buscar</label>
-            <input id="tableSearch" type="search" placeholder="Ex: glicose, LDL, creatinina..." />
-          </div>
+          <aside class="hero__panel reveal">
+            <div class="panel-kicker">DocLiv | experiência guiada</div>
+            <h2 class="panel-title">Energia com método. Leitura com direção.</h2>
+
+            <p style="max-width: 44ch; color: rgba(248,246,241,0.82);">
+              O workshop conduz a leitura em blocos estratégicos: sinais do corpo, rotina, alimentação, treino,
+              constância e recuperação — sempre com uma resposta prática ao final.
+            </p>
+
+            <div class="stat-grid">
+              <article class="stat-card">
+                <div class="stat-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M4 14l4-4 4 3 6-7 2 2" />
+                    <path d="M18 8h2v2" />
+                    <path d="M4 20h16" />
+                  </svg>
+                </div>
+                <div>
+                  <h4>Leitura com progressão</h4>
+                  <p>Cada sessão educa, pergunta e aproxima da resposta final.</p>
+                </div>
+              </article>
+
+              <article class="stat-card">
+                <div class="stat-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 3l7 4v5c0 4.5-2.8 7.8-7 9-4.2-1.2-7-4.5-7-9V7l7-4z" />
+                    <path d="M9 12l2 2 4-4" />
+                  </svg>
+                </div>
+                <div>
+                  <h4>Segurança clínica</h4>
+                  <p>Tom médico, linguagem clara e foco em direção prática.</p>
+                </div>
+              </article>
+
+              <article class="stat-card">
+                <div class="stat-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="4" y="4" width="16" height="16" rx="4" />
+                    <path d="M8 12h8M12 8v8" />
+                  </svg>
+                </div>
+                <div>
+                  <h4>Resultado aplicável</h4>
+                  <p>No final, a cliente recebe foco, evitar, organizar, fazer e preferir comer.</p>
+                </div>
+              </article>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight" id="instrucoes">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="eyebrow">Como responder</span>
+          <h2>Cada resposta compõe sua estratégia o final.</h2>
+          <p class="lead">
+            Em cada pergunta, marque apenas uma alternativa. No fim, você receberá dicas e métodos simples para iniciar.
+           </p>
+          <div class="divider"></div>
         </div>
 
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Paciente</th>
-                <th>Data</th>
-                <th>Categoria</th>
-                <th>Exame</th>
-                <th>Resultado</th>
-                <th>Referência usada</th>
-                <th>Status</th>
-                <th>Fonte</th>
-              </tr>
-            </thead>
-            <tbody id="resultsBody">
-              <tr>
-                <td colspan="8" class="empty">Nenhum resultado importado.</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="grid-2">
+          <article class="legend-card reveal">
+            <h3>Leitura guiada</h3>
+            <p>
+              A cada bloco em sequência, responde durante a jornada e chega ao final com uma direção clara.
+             </p>
+
+            <div class="inline-pills">
+              <span class="pill">1 resposta por sessão</span>
+              <span class="pill">Pontuação automática</span>
+              <span class="pill">Resultado final completo</span>
+            </div>
+          </article>
+
+          <article class="legend-card reveal">
+            <h3>Perfis possíveis</h3>
+            <ul class="legend-list">
+              <li>
+                <span class="letter-badge letter-A">A</span>
+                <span>Metabolismo desorganizado</span>
+              </li>
+              <li>
+                <span class="letter-badge letter-B">B</span>
+                <span>Inflamação / sobrecarga do corpo</span>
+              </li>
+              <li>
+                <span class="letter-badge letter-C">C</span>
+                <span>Sono, estresse e eixo hormonal sofrendo</span>
+              </li>
+              <li>
+                <span class="letter-badge letter-D">D</span>
+                <span>Rotina desorganizada / falta de constância</span>
+              </li>
+              <li>
+                <span class="letter-badge letter-E">E</span>
+                <span>Perda de força e necessidade de preservar massa muscular</span>
+              </li>
+            </ul>
+          </article>
         </div>
-      </section>
+      </div>
+    </section>
+
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section__head reveal dark">
+          <span class="eyebrow">Pontos chaves</span>
+          <h2>O corpo não está “falhando”. Ele está sinalizando.</h2>
+          <p class="lead">
+            Muitas vezes, o que parece preguiça, envelhecimento acelerado ou falta de força é, na verdade,
+            um corpo sobrecarregado, inflamado, mal dormido, mal nutrido e mal regulado.
+          </p>
+          <div class="divider"></div>
+        </div>
+
+        <div class="grid-3">
+          <article class="card card--dark card--accent reveal">
+            <div class="card__tag">Energia</div>
+            <h3>Quando o corpo perde estabilidade</h3>
+            <p>Energia ruim nem sempre pede mais estímulo. Muitas vezes pede base, sono e regularidade.</p>
+          </article>
+
+          <article class="card card--dark card--accent reveal">
+            <div class="card__tag">Metabolismo</div>
+            <h3>Quando o peso não responde</h3>
+            <p>Fome, compulsão, sonolência após comer e barriga podem apontar desorganização metabólica.</p>
+          </article>
+
+          <article class="card card--dark card--accent reveal">
+            <div class="card__tag">Inflamação</div>
+            <h3>Quando o corpo pede alívio</h3>
+            <p>Dor, rigidez, inchaço e recuperação lenta costumam mostrar sobrecarga e baixa recuperação.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container section-shell">
+
+        <!-- Q1 -->
+        <section class="question-section reveal" id="q1">
+          <div class="question-card">
+            <div class="question-card__content">
+              <span class="eyebrow">Tema 1</span>
+              <h3>O que o seu corpo está tentando te dizer?</h3>
+              <p>
+                Antes de pensar em dieta, treino ou remédio, vale entender o que mais incomoda hoje.
+                O primeiro passo é reconhecer o sinal predominante.
+              </p>
+              <p class="question-card__helper">
+                Pergunta central: o que mais chama atenção no seu corpo neste momento?
+              </p>
+            </div>
+
+            <div class="question-card__form">
+              <div class="question-meta">
+                <span class="question-index">Pergunta 01</span>
+                <span class="question-count">Escolha 1 alternativa</span>
+              </div>
+              <div class="question-title">O que mais te incomoda hoje?</div>
+
+              <div class="option">
+                <input id="q1a" type="radio" name="q1" value="A" />
+                <label for="q1a">
+                  <span class="option-badge">A</span>
+                  <span class="option-text">
+                    <span class="option-title">Ganho de peso, barriga e dificuldade para emagrecer</span>
+                    <span class="option-desc">Sinais mais ligados a organização metabólica.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q1b" type="radio" name="q1" value="B" />
+                <label for="q1b">
+                  <span class="option-badge">B</span>
+                  <span class="option-text">
+                    <span class="option-title">Dores, inchaço, rigidez ou sensação de corpo pesado</span>
+                    <span class="option-desc">Indica maior foco em inflamação e recuperação.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q1c" type="radio" name="q1" value="C" />
+                <label for="q1c">
+                  <span class="option-badge">C</span>
+                  <span class="option-text">
+                    <span class="option-title">Cansaço ao acordar, sono ruim, ansiedade ou baixa libido</span>
+                    <span class="option-desc">Aponta para sono, estresse e eixo do corpo.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q1d" type="radio" name="q1" value="D" />
+                <label for="q1d">
+                  <span class="option-badge">D</span>
+                  <span class="option-text">
+                    <span class="option-title">Sensação de estar sem ritmo, sem rotina e sempre recomeçando</span>
+                    <span class="option-desc">Mostra falta de base e constância.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q1e" type="radio" name="q1" value="E" />
+                <label for="q1e">
+                  <span class="option-badge">E</span>
+                  <span class="option-text">
+                    <span class="option-title">Fraqueza, perda de firmeza, menos disposição física e menos força</span>
+                    <span class="option-desc">Sinaliza necessidade de preservar músculo e autonomia.</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Q2 -->
+        <section class="question-section reveal" id="q2">
+          <div class="question-card">
+            <div class="question-card__content">
+              <span class="eyebrow">Tema 2</span>
+              <h3>Como entender o corpo sem complicar</h3>
+              <p>
+                O corpo funciona em áreas conectadas: energia, metabolismo, inflamação e hormônios.
+                Se uma piora, as outras sentem. Dormir mal, restringir demais a comida ou exagerar no treino desorganiza tudo.
+              </p>
+              <ul class="subpoints">
+                <li>Dormir mal pode piorar estresse e fome.</li>
+                <li>Dieta muito restrita pode reduzir energia e desacelerar o metabolismo.</li>
+                <li>Excesso de treino pode piorar recuperação e inflamação.</li>
+              </ul>
+            </div>
+
+            <div class="question-card__form">
+              <div class="question-meta">
+                <span class="question-index">Pergunta 02</span>
+                <span class="question-count">Escolha 1 alternativa</span>
+              </div>
+              <div class="question-title">Qual dessas situações mais parece com a sua rotina hoje?</div>
+
+              <div class="option">
+                <input id="q2a" type="radio" name="q2" value="A" />
+                <label for="q2a">
+                  <span class="option-badge">A</span>
+                  <span class="option-text">
+                    <span class="option-title">Como errado ou em horários ruins e sinto que isso mexe com meu peso</span>
+                    <span class="option-desc">A alimentação parece bagunçar metabolismo e fome.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q2b" type="radio" name="q2" value="B" />
+                <label for="q2b">
+                  <span class="option-badge">B</span>
+                  <span class="option-text">
+                    <span class="option-title">Tenho a sensação de que meu corpo vive cansado e inflamado</span>
+                    <span class="option-desc">O corpo parece mais sobrecarregado do que estável.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q2c" type="radio" name="q2" value="C" />
+                <label for="q2c">
+                  <span class="option-badge">C</span>
+                  <span class="option-text">
+                    <span class="option-title">Durmo mal, me estresso fácil e sinto que isso bagunça tudo</span>
+                    <span class="option-desc">Sono e eixo do corpo parecem sofrer primeiro.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q2d" type="radio" name="q2" value="D" />
+                <label for="q2d">
+                  <span class="option-badge">D</span>
+                  <span class="option-text">
+                    <span class="option-title">Sei o que deveria fazer, mas não consigo manter constância</span>
+                    <span class="option-desc">O problema principal é a repetição da base.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q2e" type="radio" name="q2" value="E" />
+                <label for="q2e">
+                  <span class="option-badge">E</span>
+                  <span class="option-text">
+                    <span class="option-title">Tenho medo de estar emagrecendo ou envelhecendo perdendo músculo</span>
+                    <span class="option-desc">A prioridade passa a ser preservar força e massa muscular.</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Q3 -->
+        <section class="question-section reveal" id="q3">
+          <div class="question-card">
+            <div class="question-card__content">
+              <span class="eyebrow">Tema 3</span>
+              <h3>Sinais e sintomas: o que mais combina com você?</h3>
+              <p>
+                Esses sinais não fecham diagnóstico sozinhos. Eles apenas mostram que o corpo merece atenção.
+                Fome constante, rigidez, sono ruim, falta de constância ou perda de força mudam a direção do cuidado.
+              </p>
+              <p class="question-card__helper">
+                Pense no grupo de sinais que mais se repete na sua rotina.
+              </p>
+            </div>
+
+            <div class="question-card__form">
+              <div class="question-meta">
+                <span class="question-index">Pergunta 03</span>
+                <span class="question-count">Escolha 1 alternativa</span>
+              </div>
+              <div class="question-title">Qual grupo de sinais mais se parece com o que você sente?</div>
+
+              <div class="option">
+                <input id="q3a" type="radio" name="q3" value="A" />
+                <label for="q3a">
+                  <span class="option-badge">A</span>
+                  <span class="option-text">
+                    <span class="option-title">Muita fome, vontade de doce, barriga, sono depois de comer</span>
+                    <span class="option-desc">Padrão mais ligado ao eixo metabólico.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q3b" type="radio" name="q3" value="B" />
+                <label for="q3b">
+                  <span class="option-badge">B</span>
+                  <span class="option-text">
+                    <span class="option-title">Inchaço, dores, rigidez ao acordar, recuperação lenta</span>
+                    <span class="option-desc">Perfil mais compatível com sobrecarga inflamatória.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q3c" type="radio" name="q3" value="C" />
+                <label for="q3c">
+                  <span class="option-badge">C</span>
+                  <span class="option-text">
+                    <span class="option-title">Acordar cansado, sono leve, irritação, desânimo, libido pior</span>
+                    <span class="option-desc">Mostra mais sofrimento do sono, estresse e eixo hormonal.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q3d" type="radio" name="q3" value="D" />
+                <label for="q3d">
+                  <span class="option-badge">D</span>
+                  <span class="option-text">
+                    <span class="option-title">Sedentarismo, dias bagunçados, alimentação improvisada, recomeços</span>
+                    <span class="option-desc">Pede construção de uma base repetível.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q3e" type="radio" name="q3" value="E" />
+                <label for="q3e">
+                  <span class="option-badge">E</span>
+                  <span class="option-text">
+                    <span class="option-title">Perda de força, menos firmeza, dificuldade de manter massa muscular</span>
+                    <span class="option-desc">Mostra necessidade de proteger estrutura e autonomia.</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Q4 -->
+        <section class="question-section reveal" id="q4">
+          <div class="question-card">
+            <div class="question-card__content">
+              <span class="eyebrow">Tema 4</span>
+              <h3>Quando você percebe que está pior?</h3>
+              <p>
+                O corpo geralmente sai do eixo em padrões previsíveis. Açúcar em excesso, sono ruim, ansiedade,
+                falta de planejamento ou longos períodos sem estímulo físico costumam deixar isso evidente.
+              </p>
+              <ul class="subpoints">
+                <li>Beliscar o dia todo pode piorar fome e metabolismo.</li>
+                <li>Dormir mal por dias seguidos tende a ampliar estresse e sobrecarga.</li>
+                <li>Ficar sem movimento favorece perda de força e autonomia.</li>
+              </ul>
+            </div>
+
+            <div class="question-card__form">
+              <div class="question-meta">
+                <span class="question-index">Pergunta 04</span>
+                <span class="question-count">Escolha 1 alternativa</span>
+              </div>
+              <div class="question-title">Em qual situação seu corpo mais parece sair do eixo?</div>
+
+              <div class="option">
+                <input id="q4a" type="radio" name="q4" value="A" />
+                <label for="q4a">
+                  <span class="option-badge">A</span>
+                  <span class="option-text">
+                    <span class="option-title">Quando como demais, belisco o dia todo ou exagero em açúcar</span>
+                    <span class="option-desc">O gatilho maior parece alimentar e metabólico.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q4b" type="radio" name="q4" value="B" />
+                <label for="q4b">
+                  <span class="option-badge">B</span>
+                  <span class="option-text">
+                    <span class="option-title">Quando passo dias dormindo mal, comendo mal e ficando mais travado</span>
+                    <span class="option-desc">O corpo entra em sobrecarga e inflama mais.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q4c" type="radio" name="q4" value="C" />
+                <label for="q4c">
+                  <span class="option-badge">C</span>
+                  <span class="option-text">
+                    <span class="option-title">Quando fico mais ansioso, acelerado, com sono ruim e cabeça cheia</span>
+                    <span class="option-desc">A piora acontece quando o eixo perde estabilidade.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q4d" type="radio" name="q4" value="D" />
+                <label for="q4d">
+                  <span class="option-badge">D</span>
+                  <span class="option-text">
+                    <span class="option-title">Quando deixo tudo solto, sem horário, sem treino e sem planejamento</span>
+                    <span class="option-desc">A falta de estrutura pesa mais do que tudo.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q4e" type="radio" name="q4" value="E" />
+                <label for="q4e">
+                  <span class="option-badge">E</span>
+                  <span class="option-text">
+                    <span class="option-title">Quando fico muitos dias sem estímulo físico e percebo perda de força</span>
+                    <span class="option-desc">A prioridade está em manter músculo e capacidade física.</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Q5 -->
+        <section class="question-section reveal" id="q5">
+          <div class="question-card">
+            <div class="question-card__content">
+              <span class="eyebrow">Tema 5</span>
+              <h3>Qual tipo de alimentação parece mais adequada para você hoje?</h3>
+              <p>
+                Não existe uma dieta perfeita para todo mundo. Existe a dieta certa para o objetivo e para o momento.
+                Às vezes o foco é desinflamar. Em outros casos, é estabilizar fome, energia, rotina ou proteger músculo.
+              </p>
+              <p class="question-card__helper">
+                Escolha a estratégia que mais faz sentido para o seu momento atual.
+              </p>
+            </div>
+
+            <div class="question-card__form">
+              <div class="question-meta">
+                <span class="question-index">Pergunta 05</span>
+                <span class="question-count">Escolha 1 alternativa</span>
+              </div>
+              <div class="question-title">Pensando no seu momento atual, qual estratégia faria mais sentido?</div>
+
+              <div class="option">
+                <input id="q5a" type="radio" name="q5" value="A" />
+                <label for="q5a">
+                  <span class="option-badge">A</span>
+                  <span class="option-text">
+                    <span class="option-title">Comer de forma mais organizada para controlar fome e emagrecer melhor</span>
+                    <span class="option-desc">Mais estrutura metabólica, mais saciedade.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q5b" type="radio" name="q5" value="B" />
+                <label for="q5b">
+                  <span class="option-badge">B</span>
+                  <span class="option-text">
+                    <span class="option-title">Comer de forma mais limpa e anti-inflamatória para o corpo aliviar</span>
+                    <span class="option-desc">Menos agressão, mais recuperação e leveza.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q5c" type="radio" name="q5" value="C" />
+                <label for="q5c">
+                  <span class="option-badge">C</span>
+                  <span class="option-text">
+                    <span class="option-title">Comer de forma mais estável para melhorar energia e disposição</span>
+                    <span class="option-desc">Menos pico, mais constância ao longo do dia.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q5d" type="radio" name="q5" value="D" />
+                <label for="q5d">
+                  <span class="option-badge">D</span>
+                  <span class="option-text">
+                    <span class="option-title">Fazer refeições mais simples, práticas e repetíveis para criar rotina</span>
+                    <span class="option-desc">Adesão primeiro, sofisticação depois.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q5e" type="radio" name="q5" value="E" />
+                <label for="q5e">
+                  <span class="option-badge">E</span>
+                  <span class="option-text">
+                    <span class="option-title">Aumentar proteína e qualidade da alimentação para proteger músculo</span>
+                    <span class="option-desc">Estratégia mais voltada a força, estrutura e recuperação.</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Q6 -->
+        <section class="question-section reveal" id="q6">
+          <div class="question-card">
+            <div class="question-card__content">
+              <span class="eyebrow">Tema 6</span>
+              <h3>O que mais tem piorado seu corpo?</h3>
+              <p>
+                Sono ruim repetido, excesso de estimulantes, dieta muito restrita, treino intenso demais para o momento
+                e rotina irregular são erros que costumam sabotar o corpo antes mesmo de qualquer estratégia avançada.
+              </p>
+              <ul class="subpoints">
+                <li>Dormir mal reduz recuperação, piora fome e disposição.</li>
+                <li>Restrição exagerada pode derrubar energia e massa muscular.</li>
+                <li>Treino sem recuperação pode aumentar estresse e inflamação.</li>
+              </ul>
+            </div>
+
+            <div class="question-card__form">
+              <div class="question-meta">
+                <span class="question-index">Pergunta 06</span>
+                <span class="question-count">Escolha 1 alternativa</span>
+              </div>
+              <div class="question-title">Qual erro você acha que mais te atrapalha hoje?</div>
+
+              <div class="option">
+                <input id="q6a" type="radio" name="q6" value="A" />
+                <label for="q6a">
+                  <span class="option-badge">A</span>
+                  <span class="option-text">
+                    <span class="option-title">Comer muito pouco às vezes e exagerar em outros momentos</span>
+                    <span class="option-desc">Oscilação alimentar que piora controle metabólico.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q6b" type="radio" name="q6" value="B" />
+                <label for="q6b">
+                  <span class="option-badge">B</span>
+                  <span class="option-text">
+                    <span class="option-title">Excesso de açúcar, industrializados, álcool ou beliscos</span>
+                    <span class="option-desc">Mais agressão, mais sobrecarga e menos recuperação.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q6c" type="radio" name="q6" value="C" />
+                <label for="q6c">
+                  <span class="option-badge">C</span>
+                  <span class="option-text">
+                    <span class="option-title">Dormir mal, café demais, viver cansado e estressado</span>
+                    <span class="option-desc">O eixo do corpo perde estabilidade e responde pior.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q6d" type="radio" name="q6" value="D" />
+                <label for="q6d">
+                  <span class="option-badge">D</span>
+                  <span class="option-text">
+                    <span class="option-title">Falta de regularidade, ficar no tudo ou nada</span>
+                    <span class="option-desc">A rotina quebra antes do resultado aparecer.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q6e" type="radio" name="q6" value="E" />
+                <label for="q6e">
+                  <span class="option-badge">E</span>
+                  <span class="option-text">
+                    <span class="option-title">Não dar prioridade para força, proteína e preservação muscular</span>
+                    <span class="option-desc">A base estrutural do corpo fica desprotegida.</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Q7 -->
+        <section class="question-section reveal" id="q7">
+          <div class="question-card">
+            <div class="question-card__content">
+              <span class="eyebrow">Tema 7</span>
+              <h3>O que você mais precisa organizar primeiro?</h3>
+              <p>
+                Poucos acertos de alto impacto mudam o corpo mais do que excesso de tentativa.
+                Regular horário, melhorar o sono, incluir proteína, caminhar e parar de oscilar entre extremos costuma ser o começo mais inteligente.
+              </p>
+              <p class="question-card__helper">
+                Se tivesse que começar por uma única prioridade, qual seria?
+              </p>
+            </div>
+
+            <div class="question-card__form">
+              <div class="question-meta">
+                <span class="question-index">Pergunta 07</span>
+                <span class="question-count">Escolha 1 alternativa</span>
+              </div>
+              <div class="question-title">Se tivesse que começar por uma coisa, qual seria?</div>
+
+              <div class="option">
+                <input id="q7a" type="radio" name="q7" value="A" />
+                <label for="q7a">
+                  <span class="option-badge">A</span>
+                  <span class="option-text">
+                    <span class="option-title">Fome, horários e qualidade da alimentação</span>
+                    <span class="option-desc">Organização metabólica como primeiro passo.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q7b" type="radio" name="q7" value="B" />
+                <label for="q7b">
+                  <span class="option-badge">B</span>
+                  <span class="option-text">
+                    <span class="option-title">Inflamação, recuperação e excessos da rotina</span>
+                    <span class="option-desc">Aliviar a sobrecarga antes de acelerar.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q7c" type="radio" name="q7" value="C" />
+                <label for="q7c">
+                  <span class="option-badge">C</span>
+                  <span class="option-text">
+                    <span class="option-title">Sono, estresse e energia do dia a dia</span>
+                    <span class="option-desc">O corpo precisa primeiro voltar a estabilizar.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q7d" type="radio" name="q7" value="D" />
+                <label for="q7d">
+                  <span class="option-badge">D</span>
+                  <span class="option-text">
+                    <span class="option-title">Constância, planejamento e rotina básica</span>
+                    <span class="option-desc">Sem base repetível, o restante não se sustenta.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q7e" type="radio" name="q7" value="E" />
+                <label for="q7e">
+                  <span class="option-badge">E</span>
+                  <span class="option-text">
+                    <span class="option-title">Força, massa muscular e autonomia</span>
+                    <span class="option-desc">Preservar músculo vira prioridade clínica e funcional.</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Q8 -->
+        <section class="question-section reveal" id="q8">
+          <div class="question-card">
+            <div class="question-card__content">
+              <span class="eyebrow">Tema 8</span>
+              <h3>Qual treino parece mais adequado para você hoje?</h3>
+              <p>
+                O melhor treino não é o mais pesado. É o que o corpo consegue repetir, recuperar e aproveitar.
+                Em muitos casos, caminhar, treinar força com boa dose e progredir aos poucos é melhor do que radicalizar.
+              </p>
+              <ul class="subpoints">
+                <li>Exercício moderado ajuda metabolismo e inflamação.</li>
+                <li>Força protege músculo durante o emagrecimento.</li>
+                <li>Treino bom é o que cabe na vida real e se repete.</li>
+              </ul>
+            </div>
+
+            <div class="question-card__form">
+              <div class="question-meta">
+                <span class="question-index">Pergunta 08</span>
+                <span class="question-count">Escolha 1 alternativa</span>
+              </div>
+              <div class="question-title">O que faria mais sentido para o seu corpo nesse momento?</div>
+
+              <div class="option">
+                <input id="q8a" type="radio" name="q8" value="A" />
+                <label for="q8a">
+                  <span class="option-badge">A</span>
+                  <span class="option-text">
+                    <span class="option-title">Caminhada + treino de força para emagrecer sem perder músculo</span>
+                    <span class="option-desc">Boa combinação para destravar metabolismo com segurança.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q8b" type="radio" name="q8" value="B" />
+                <label for="q8b">
+                  <span class="option-badge">B</span>
+                  <span class="option-text">
+                    <span class="option-title">Movimento moderado, mobilidade e treino sem exagero para desinflamar</span>
+                    <span class="option-desc">Mais recuperação, menos agressão.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q8c" type="radio" name="q8" value="C" />
+                <label for="q8c">
+                  <span class="option-badge">C</span>
+                  <span class="option-text">
+                    <span class="option-title">Caminhada e força moderada para melhorar energia e regular o corpo</span>
+                    <span class="option-desc">Movimento com estabilidade e menos estímulo excessivo.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q8d" type="radio" name="q8" value="D" />
+                <label for="q8d">
+                  <span class="option-badge">D</span>
+                  <span class="option-text">
+                    <span class="option-title">Um plano simples e possível de repetir, sem radicalismo</span>
+                    <span class="option-desc">Aderência e consistência vêm antes da intensidade.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q8e" type="radio" name="q8" value="E" />
+                <label for="q8e">
+                  <span class="option-badge">E</span>
+                  <span class="option-text">
+                    <span class="option-title">Treino de força como prioridade, com foco em preservar capacidade física</span>
+                    <span class="option-desc">Proteção de força e autonomia como eixo principal.</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Q9 -->
+        <section class="question-section reveal" id="q9">
+          <div class="question-card">
+            <div class="question-card__content">
+              <span class="eyebrow">Tema 9</span>
+              <h3>O que você quer sentir daqui para frente?</h3>
+              <p>
+                A direção certa geralmente aparece quando o objetivo é descrito com clareza. Menos fome?
+                Menos dor? Mais energia? Mais rotina? Mais força? O destino muda a estratégia.
+              </p>
+              <p class="question-card__helper">
+                Escolha o resultado que mais resume o que você busca agora.
+              </p>
+            </div>
+
+            <div class="question-card__form">
+              <div class="question-meta">
+                <span class="question-index">Pergunta 09</span>
+                <span class="question-count">Escolha 1 alternativa</span>
+              </div>
+              <div class="question-title">Qual resultado mais resume o que você busca?</div>
+
+              <div class="option">
+                <input id="q9a" type="radio" name="q9" value="A" />
+                <label for="q9a">
+                  <span class="option-badge">A</span>
+                  <span class="option-text">
+                    <span class="option-title">Menos fome, menos barriga e mais facilidade para emagrecer</span>
+                    <span class="option-desc">Direção mais metabólica e voltada ao emagrecimento inteligente.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q9b" type="radio" name="q9" value="B" />
+                <label for="q9b">
+                  <span class="option-badge">B</span>
+                  <span class="option-text">
+                    <span class="option-title">Menos dor, menos inchaço e mais leveza no corpo</span>
+                    <span class="option-desc">Foco maior em desinflamar e aliviar a sobrecarga.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q9c" type="radio" name="q9" value="C" />
+                <label for="q9c">
+                  <span class="option-badge">C</span>
+                  <span class="option-text">
+                    <span class="option-title">Mais energia, melhor sono e mais equilíbrio</span>
+                    <span class="option-desc">O eixo do corpo precisa responder melhor.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q9d" type="radio" name="q9" value="D" />
+                <label for="q9d">
+                  <span class="option-badge">D</span>
+                  <span class="option-text">
+                    <span class="option-title">Mais organização, regularidade e menos culpa</span>
+                    <span class="option-desc">A meta é criar base sustentável e parar de recomeçar.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q9e" type="radio" name="q9" value="E" />
+                <label for="q9e">
+                  <span class="option-badge">E</span>
+                  <span class="option-text">
+                    <span class="option-title">Mais força, mais firmeza e mais autonomia</span>
+                    <span class="option-desc">Preservar músculo e capacidade física fica em primeiro plano.</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Q10 -->
+        <section class="question-section reveal" id="q10">
+          <div class="question-card">
+            <div class="question-card__content">
+              <span class="eyebrow">Tema 10</span>
+              <h3>Pergunta final de definição</h3>
+              <p>
+                Essa orientação não substitui a avaliação de um profissional.
+              </p>
+              <p class="question-card__helper">
+                Hoje, qual deveria ser o seu foco principal?
+              </p>
+            </div>
+
+            <div class="question-card__form">
+              <div class="question-meta">
+                <span class="question-index">Pergunta 10</span>
+                <span class="question-count">Escolha 1 alternativa</span>
+              </div>
+              <div class="question-title">Hoje, seu foco principal deveria ser:</div>
+
+              <div class="option">
+                <input id="q10a" type="radio" name="q10" value="A" />
+                <label for="q10a">
+                  <span class="option-badge">A</span>
+                  <span class="option-text">
+                    <span class="option-title">Destravar metabolismo</span>
+                    <span class="option-desc">Quando o corpo pede organização metabólica e emagrecimento inteligente.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q10b" type="radio" name="q10" value="B" />
+                <label for="q10b">
+                  <span class="option-badge">B</span>
+                  <span class="option-text">
+                    <span class="option-title">Desinflamar o corpo</span>
+                    <span class="option-desc">Quando a prioridade é aliviar sobrecarga e melhorar recuperação.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q10c" type="radio" name="q10" value="C" />
+                <label for="q10c">
+                  <span class="option-badge">C</span>
+                  <span class="option-text">
+                    <span class="option-title">Melhorar sono, estresse e eixo do corpo</span>
+                    <span class="option-desc">Quando a energia boa depende de estabilidade.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q10d" type="radio" name="q10" value="D" />
+                <label for="q10d">
+                  <span class="option-badge">D</span>
+                  <span class="option-text">
+                    <span class="option-title">Criar base e constância</span>
+                    <span class="option-desc">Quando a organização precisa vir antes de qualquer aceleração.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="option">
+                <input id="q10e" type="radio" name="q10" value="E" />
+                <label for="q10e">
+                  <span class="option-badge">E</span>
+                  <span class="option-text">
+                    <span class="option-title">Preservar força e massa muscular</span>
+                    <span class="option-desc">Quando o futuro funcional e a autonomia devem ser protegidos.</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section__head reveal dark">
+          <span class="eyebrow">Estratégia com inteligência</span>
+          <h2>O objetivo não é fazer o máximo. É fazer o certo, de forma repetível.</h2>
+          <p class="lead">
+            Emagrecer, desinflamar, recuperar energia ou envelhecer melhor quase nunca exige punição.
+            Exige direção, constância e uma base que o corpo consiga sustentar.
+          </p>
+          <div class="divider"></div>
+        </div>
+
+        <div class="grid-4">
+          <article class="card card--dark card--accent reveal">
+            <div class="card__tag">Sono</div>
+            <h3>Proteja recuperação</h3>
+            <p>Regular horário, reduzir tela à noite e controlar cafeína já muda muito o eixo do corpo.</p>
+          </article>
+
+          <article class="card card--dark card--accent reveal">
+            <div class="card__tag">Comida</div>
+            <h3>Menos extremo, mais base</h3>
+            <p>Comida de verdade, proteína, fibra, água e menos ultraprocessado costumam ser o centro do processo.</p>
+          </article>
+
+          <article class="card card--dark card--accent reveal">
+            <div class="card__tag">Treino</div>
+            <h3>Treine para evoluir</h3>
+            <p>O melhor treino é o que cabe na sua vida, respeita recuperação e realmente se repete.</p>
+          </article>
+
+          <article class="card card--dark card--accent reveal">
+            <div class="card__tag">Método</div>
+            <h3>Constância vence radicalismo</h3>
+            <p>O corpo costuma responder melhor a poucos acertos de alto impacto do que a estratégias agressivas.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="resultado">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="eyebrow">Resultado final</span>
+          <h2>Veja o seu padrão predominante.</h2>
+          <p class="lead">
+            Ao terminar, clique no botão para calcular o resultado geral com base nas alternativas selecionadas ao longo da leitura.
+          </p>
+          <div class="divider"></div>
+        </div>
+
+        <div class="summary-grid">
+          <aside class="tracker-card reveal">
+            <div class="tracker-header">
+              <span class="eyebrow" style="margin-bottom: 2px;">Painel de respostas</span>
+              <h3 style="color: var(--ivory);">Seu avanço no workshop</h3>
+              <p style="color: rgba(248,246,241,0.78);">
+                Responda todas as perguntas para liberar a leitura final.
+              </p>
+
+              <div class="mini-progress" aria-hidden="true">
+                <div class="mini-progress__bar" id="quizProgressBar"></div>
+              </div>
+
+              <p style="color: rgba(248,246,241,0.78); font-size: 0.94rem;">
+                <span id="answeredCount">0</span> de 10 perguntas respondidas
+              </p>
+            </div>
+
+            <div class="scoreboard">
+              <div class="score-row">
+                <span class="letter-badge letter-A">A</span>
+                <span class="score-name">Metabolismo</span>
+                <span class="score-bar"><span class="score-bar__fill fill-A" id="barA"></span></span>
+                <span class="score-value" id="scoreA">0</span>
+              </div>
+
+              <div class="score-row">
+                <span class="letter-badge letter-B">B</span>
+                <span class="score-name">Inflamação</span>
+                <span class="score-bar"><span class="score-bar__fill fill-B" id="barB"></span></span>
+                <span class="score-value" id="scoreB">0</span>
+              </div>
+
+              <div class="score-row">
+                <span class="letter-badge letter-C">C</span>
+                <span class="score-name">Sono / estresse</span>
+                <span class="score-bar"><span class="score-bar__fill fill-C" id="barC"></span></span>
+                <span class="score-value" id="scoreC">0</span>
+              </div>
+
+              <div class="score-row">
+                <span class="letter-badge letter-D">D</span>
+                <span class="score-name">Constância</span>
+                <span class="score-bar"><span class="score-bar__fill fill-D" id="barD"></span></span>
+                <span class="score-value" id="scoreD">0</span>
+              </div>
+
+              <div class="score-row">
+                <span class="letter-badge letter-E">E</span>
+                <span class="score-name">Força / músculo</span>
+                <span class="score-bar"><span class="score-bar__fill fill-E" id="barE"></span></span>
+                <span class="score-value" id="scoreE">0</span>
+              </div>
+            </div>
+
+            <div class="quiz-actions">
+              <button class="btn btn--primary" id="calculateBtn" type="button">Calcular meu resultado</button>
+              <button class="btn btn--dark" id="resetBtn" type="button">Limpar respostas</button>
+            </div>
+          </aside>
+
+          <article class="result-card reveal">
+            <div class="result-header">
+              <span class="eyebrow">Leitura interpretada</span>
+              <h3>Diagnóstico de direção</h3>
+              <p class="result-note" id="resultIntro">
+                Preencha as 10 perguntas para gerar o resultado completo. </p>
+            </div>
+
+            <div class="result-placeholder" id="resultPlaceholder">
+              Seu resultado aparecerá aqui após o cálculo.
+            </div>
+
+            <div class="result-profile" id="resultProfile">
+              <div class="result-badge">
+                Perfil predominante <span id="resultLetter">A</span>
+              </div>
+
+              <h3 class="result-title" id="resultTitle"></h3>
+
+              <div class="result-fields">
+                <div class="result-item">
+                  <h4>Foco principal sugerido deve ser:</h4>
+                  <p id="resultFocus"></p>
+                </div>
+
+                <div class="result-item">
+                  <h4>Você deve evitar:</h4>
+                  <p id="resultAvoid"></p>
+                </div>
+
+                <div class="result-item">
+                  <h4>Você deve organizar:</h4>
+                  <p id="resultOrganize"></p>
+                </div>
+
+                <div class="result-item">
+                  <h4>Você deve fazer:</h4>
+                  <p id="resultDo"></p>
+                </div>
+
+                <div class="result-item">
+                  <h4>Você deve preferir comer:</h4>
+                  <p id="resultEat"></p>
+                </div>
+              </div>
+
+              <div class="motivation">
+                <h4>Frase final</h4>
+                <p id="resultPhrase"></p>
+              </div>
+
+              <p class="result-note" id="tieNote"></p>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
   </main>
 
-  <script>
-    const STORAGE_KEY = "dashboard-laboratorial-evolutivo-v2";
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>
+        <strong>DocLiv</strong> — medicina de precisão para emagrecer, recuperar função e performar melhor.
+      </div>
+      <div>
+        Dr. Sandro Pereira / @dr.sandropj
+      </div>
+    </div>
+  </footer>
 
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-    const REFERENCE_TSV = String.raw`
-Categoria	Exame	Masculino	Feminino	Observação
-Hemograma	Hemácias	4,5–6,0 milhões/mm³	4,0–5,4 milhões/mm³	AAS podem elevar massa eritrocitária
-Hemograma	Hemoglobina	13,5–17,5 g/dL	12,0–15,5 g/dL	Avaliar anemia/policitemia
-Hemograma	Hematócrito	41–53%	36–46%	Em AAS: >52% alerta; ≥54–56% exige conduta
-Hemograma	VCM	80–100 fL	80–100 fL	Macrocitose: B12/folato/álcool/fígado
-Hemograma	HCM	27–33 pg	27–33 pg	Avalia conteúdo de Hb por hemácia
-Hemograma	CHCM	32–36 g/dL	32–36 g/dL	Hipocromia se reduzido
-Hemograma	RDW	11,5–14,5%	11,5–14,5%	Aumenta em carências mistas
-Hemograma	Leucócitos	4.000–10.000/mm³	4.000–10.000/mm³	Inflamação, infecção, estresse
-Hemograma	Neutrófilos	1.500–7.500/mm³	1.500–7.500/mm³	Infecção bacteriana/estresse
-Hemograma	Linfócitos	1.000–4.000/mm³	1.000–4.000/mm³	Imunidade/infecções virais
-Hemograma	Plaquetas	150.000–450.000/mm³	150.000–450.000/mm³	Risco trombótico/hemorrágico
-Glicêmico/metabólico	Glicemia jejum	70–99 mg/dL	70–99 mg/dL	100–125 pré-diabetes; ≥126 diabetes
-Glicêmico/metabólico	Hemoglobina glicada	<5,7%	<5,7%	5,7–6,4% risco aumentado; ≥6,5% diabetes
-Glicêmico/metabólico	Insulina jejum	2–20 µUI/mL	2–20 µUI/mL	Funcionalmente ideal costuma ser menor
-Glicêmico/metabólico	HOMA-IR	<2,5	<2,5	Contextualizar por IMC, cintura e TG
-Glicêmico/metabólico	Peptídeo C	0,8–3,1 ng/mL	0,8–3,1 ng/mL	Reserva pancreática
-Glicêmico/metabólico	Frutosamina	205–285 µmol/L	205–285 µmol/L	Média glicêmica de 2–3 semanas
-Glicêmico/metabólico	TOTG 2h	<140 mg/dL	<140 mg/dL	140–199 intolerância; ≥200 diabetes
-Perfil lipídico	Colesterol total	<190–200 mg/dL	<190–200 mg/dL	Meta depende do risco CV
-Perfil lipídico	HDL	>40 mg/dL	>50 mg/dL	Em AAS pode cair de forma importante
-Perfil lipídico	LDL	<100 mg/dL	<100 mg/dL	Alto risco: alvo pode ser <70 ou <55
-Perfil lipídico	VLDL	5–40 mg/dL	5–40 mg/dL	Estimado por TG/5
-Perfil lipídico	Triglicerídeos	<150 mg/dL	<150 mg/dL	150–199 limítrofe; ≥500 alto risco
-Perfil lipídico	Colesterol não-HDL	<130 mg/dL	<130 mg/dL	Melhor marcador quando TG alto
-Perfil lipídico	ApoB	<90 mg/dL	<90 mg/dL	Alto risco: <65–70
-Perfil lipídico	ApoA1	110–180 mg/dL	125–215 mg/dL	Relacionada ao HDL
-Perfil lipídico	Relação ApoB/ApoA1	<0,7	<0,6	Risco aterogênico
-Perfil lipídico	Lipoproteína(a)	<30 mg/dL ou <75 nmol/L	<30 mg/dL ou <75 nmol/L	Genético; mede 1x na vida
-Fígado/vias biliares	TGO/AST	8–48 U/L	8–48 U/L	Pode subir por treino/músculo
-Fígado/vias biliares	TGP/ALT	7–55 U/L	7–55 U/L	Mais hepatoespecífica que AST
-Fígado/vias biliares	GGT	8–61 U/L	5–36 U/L	Ajuda diferenciar fígado vs músculo
-Fígado/vias biliares	Fosfatase alcalina	40–129 U/L	35–104 U/L	Ossos, bile, gestação
-Fígado/vias biliares	Bilirrubina total	0,1–1,2 mg/dL	0,1–1,2 mg/dL	Elevação indireta pode ser Gilbert/hemólise
-Fígado/vias biliares	Bilirrubina direta	<0,3 mg/dL	<0,3 mg/dL	Colestase se elevada
-Fígado/vias biliares	Bilirrubina indireta	0,2–0,9 mg/dL	0,2–0,9 mg/dL	Hemólise/Gilbert
-Fígado/vias biliares	Albumina	3,5–5,0 g/dL	3,5–5,0 g/dL	Síntese hepática/nutrição
-Fígado/vias biliares	Proteínas totais	6,3–7,9 g/dL	6,3–7,9 g/dL	Nutrição, inflamação, imunoglobulinas
-Fígado/vias biliares	TAP/INR	0,8–1,2	0,8–1,2	Síntese hepática/coagulação
-Rim/eletrólitos	Ureia	10–50 mg/dL	10–50 mg/dL	Sobe com proteína/treino/desidratação
-Rim/eletrólitos	Creatinina	0,74–1,35 mg/dL	0,59–1,04 mg/dL	Massa muscular e creatina interferem
-Rim/eletrólitos	eTFG	>90 mL/min/1,73m²	>90 mL/min/1,73m²	60–89 pode ser aceitável sem lesão renal
-Rim/eletrólitos	Cistatina C	0,6–1,0 mg/L	0,6–1,0 mg/L	Melhor em atletas/muita massa muscular
-Rim/eletrólitos	Ácido úrico	3,5–7,2 mg/dL	2,6–6,0 mg/dL	Gota, RI, dieta, rim
-Rim/eletrólitos	Sódio	135–145 mmol/L	135–145 mmol/L	Hidratação, adrenal, rim
-Rim/eletrólitos	Potássio	3,5–5,1 mmol/L	3,5–5,1 mmol/L	Risco cardíaco se muito alterado
-Rim/eletrólitos	Cloro	98–107 mmol/L	98–107 mmol/L	Equilíbrio ácido-base
-Rim/eletrólitos	Bicarbonato	22–29 mmol/L	22–29 mmol/L	Acidose/alcalose
-Rim/eletrólitos	Cálcio total	8,6–10,2 mg/dL	8,6–10,2 mg/dL	Corrigir por albumina
-Rim/eletrólitos	Cálcio ionizado	1,12–1,32 mmol/L	1,12–1,32 mmol/L	Melhor fração ativa
-Rim/eletrólitos	Magnésio	1,7–2,2 mg/dL	1,7–2,2 mg/dL	Serum nem sempre reflete estoque
-Rim/eletrólitos	Fósforo	2,5–4,5 mg/dL	2,5–4,5 mg/dL	Rim, PTH, vitamina D
-Urina/proteinúria	EAS/urina tipo 1	Sem proteinúria, hematúria ou glicose	Sem proteinúria, hematúria ou glicose	Avaliação renal e urinária
-Urina/proteinúria	Relação albumina/creatinina	<30 mg/g	<30 mg/g	30–300 microalbuminúria
-Urina/proteinúria	Relação proteína/creatinina	<150 mg/g	<150 mg/g	Proteinúria se elevado
-Urina/proteinúria	Proteína 24h	<150 mg/24h	<150 mg/24h	Útil se suspeita renal
-Ferro/anemia	Ferritina	30–400 ng/mL	15–150 ng/mL	Também sobe por inflamação
-Ferro/anemia	Ferro sérico	60–170 µg/dL	50–170 µg/dL	Varia com horário
-Ferro/anemia	Transferrina	200–360 mg/dL	200–360 mg/dL	Transporte de ferro
-Ferro/anemia	CTLF/TIBC	250–450 µg/dL	250–450 µg/dL	Capacidade de ligação
-Ferro/anemia	Saturação transferrina	20–50%	15–50%	Baixa: deficiência; alta: sobrecarga
-Ferro/anemia	Reticulócitos	0,5–2,5%	0,5–2,5%	Resposta medular
-Ferro/anemia	Haptoglobina	30–200 mg/dL	30–200 mg/dL	Reduz em hemólise
-Vitaminas/micronutrientes	Vitamina B12	200–900 pg/mL	200–900 pg/mL	Funcionalmente ideal muitas vezes >400
-Vitaminas/micronutrientes	Ácido fólico	>4 ng/mL	>4 ng/mL	Hematopoiese/metilação
-Vitaminas/micronutrientes	25-OH vitamina D	30–100 ng/mL	30–100 ng/mL	<20 deficiência; 20–29 insuficiência
-Vitaminas/micronutrientes	Zinco	70–120 µg/dL	70–120 µg/dL	Imunidade, pele, eixo hormonal
-Vitaminas/micronutrientes	Cobre	70–140 µg/dL	80–155 µg/dL	Interpretar com ceruloplasmina
-Vitaminas/micronutrientes	Selênio	70–150 µg/L	70–150 µg/L	Tireóide/antioxidante
-Vitaminas/micronutrientes	Vitamina A	20–60 µg/dL	20–60 µg/dL	Excesso é tóxico
-Vitaminas/micronutrientes	Vitamina E	5–20 mg/L	5–20 mg/L	Antioxidante lipossolúvel
-Tireóide	TSH	0,4–4,0 mUI/L	0,4–4,0 mUI/L	Gestação tem faixas próprias
-Tireóide	T4 livre	0,8–1,8 ng/dL	0,8–1,8 ng/dL	Avalia produção tireoidiana
-Tireóide	T3 livre	2,3–4,2 pg/mL	2,3–4,2 pg/mL	Conversão periférica
-Tireóide	T3 reverso	10–24 ng/dL	10–24 ng/dL	Uso seletivo; método variável
-Tireóide	Anti-TPO	<35 UI/mL	<35 UI/mL	Tireoidite autoimune
-Tireóide	Anti-tireoglobulina	<40 UI/mL	<40 UI/mL	Autoimunidade tireoidiana
-Tireóide	TRAb	<1,75 UI/L	<1,75 UI/L	Graves se positivo
-Tireóide	Tireoglobulina	Método-dependente	Método-dependente	Útil em seguimento de câncer tireoide
-Tireóide	Calcitonina	<8–10 pg/mL	<5 pg/mL	Avaliação específica/nódulo
-Hormonal	Testosterona total	300–1000 ng/dL	15–70 ng/dL	Em homens, sintomas + SHBG mudam leitura
-Hormonal	Testosterona livre	50–210 pg/mL	0,5–6,5 pg/mL	Método-dependente
-Hormonal	Testosterona biodisponível	110–575 ng/dL	0,5–8,5 ng/dL	Método-dependente
-Hormonal	SHBG	10–57 nmol/L	18–144 nmol/L	Sobe com estrogênio/tireóide; cai com RI
-Hormonal	LH	1,7–8,6 UI/L	Folicular 2–13; pico 14–96; lútea 1–11	Em AAS tende a suprimir
-Hormonal	FSH	1,5–12,4 UI/L	Folicular 3–12; pico 4–22; lútea 1–8	Pós-menopausa: alto
-Hormonal	Estradiol	10–40 pg/mL	Folicular 30–100; ovulação 100–300; lútea 70–250; pós-menopausa <30	Não tratar número isolado
-Hormonal	Progesterona	<1 ng/mL	Folicular <1; lútea 5–20; pós-menopausa <1	Melhor avaliar fase lútea
-Hormonal	Prolactina	2–18 ng/mL	4–23 ng/mL	Estresse, sono e fármacos interferem
-Hormonal	DHT	30–85 ng/dL	4–22 ng/dL	Acne/alopecia/próstata
-Hormonal	DHEA-S	80–560 µg/dL	35–430 µg/dL	Muito dependente da idade
-Hormonal	Androstenediona	0,6–3,1 ng/mL	0,3–3,3 ng/mL	SOP/adrenal/ovário
-Hormonal	17-OH-progesterona	<2 ng/mL	Folicular <1–2 ng/mL	Triagem hiperplasia adrenal
-Hormonal	Cortisol 8h	5–25 µg/dL	5–25 µg/dL	Ritmo circadiano é crucial
-Hormonal	ACTH	7–63 pg/mL	7–63 pg/mL	Coletar em condição adequada
-Hormonal	IGF-1	Idade-dependente	Idade-dependente	Eixo GH; usar faixa do laudo
-Hormonal	PSA total	<4,0 ng/mL	Não aplicável	Interpretar por idade, próstata e risco
-Hormonal	PSA livre/total	>25% quando PSA 4–10	Não aplicável	Menor % aumenta suspeita
-Hormonal	Inibina B	80–350 pg/mL	Variável por fase/idade	Fertilidade/reserva gonadal
-Hormonal	Beta-hCG	<5 mUI/mL	<5 mUI/mL se não gestante	Primeiro exame em amenorreia
-Hormonal	AMH	Não usual	Idade-dependente	Reserva ovariana; não define fertilidade sozinho
-Músculo/performance	CK total	39–308 U/L	26–192 U/L	Pode subir muito após treino
-Músculo/performance	LDH	122–222 U/L	122–222 U/L	Músculo, hemólise, fígado
-Músculo/performance	Aldolase	1–7,5 U/L	1–7,5 U/L	Lesão muscular
-Músculo/performance	Mioglobina	<85 ng/mL	<85 ng/mL	Rabdomiólise se elevada
-Inflamação/cardiovascular	PCR ultrassensível	<1 baixo risco; 1–3 moderado; >3 alto	<1 baixo risco; 1–3 moderado; >3 alto	Não interpretar durante infecção
-Inflamação/cardiovascular	VHS	<15–20 mm/h	<20–30 mm/h	Aumenta com idade/sexo feminino
-Inflamação/cardiovascular	Homocisteína	5–15 µmol/L	5–15 µmol/L	B12/folato/B6/rim
-Inflamação/cardiovascular	Fibrinogênio	200–400 mg/dL	200–400 mg/dL	Inflamação/coagulação
-Inflamação/cardiovascular	D-dímero	<500 ng/mL FEU	<500 ng/mL FEU	Usar com probabilidade clínica
-Inflamação/cardiovascular	Troponina	Conforme método; abaixo do p99	Conforme método; abaixo do p99	Sintomas = urgência
-Inflamação/cardiovascular	CK-MB	<5 ng/mL ou <5% CK total	<5 ng/mL ou <5% CK total	Menos usada que troponina
-Inflamação/cardiovascular	BNP	<100 pg/mL	<100 pg/mL	Insuficiência cardíaca
-Inflamação/cardiovascular	NT-proBNP	<125 pg/mL se <75 anos	<125 pg/mL se <75 anos	Idade e rim alteram
-Coagulação	TP/INR	0,8–1,2	0,8–1,2	Anticoagulantes mudam alvo
-Coagulação	TTPA	25–35 s	25–35 s	Via intrínseca
-Coagulação	Plaquetas	150–450 mil/mm³	150–450 mil/mm³	Já listado no hemograma
-Gastrointestinal	Amilase	30–110 U/L	30–110 U/L	Pâncreas/salivar
-Gastrointestinal	Lipase	13–60 U/L	13–60 U/L	Mais específica para pâncreas
-Gastrointestinal	Calprotectina fecal	<50 µg/g	<50 µg/g	Inflamação intestinal
-Gastrointestinal	Elastase fecal	>200 µg/g	>200 µg/g	Insuficiência pancreática se baixa
-Gastrointestinal	Anti-transglutaminase IgA	Negativo	Negativo	Avaliar IgA total junto
-Gastrointestinal	IgA total	70–400 mg/dL	70–400 mg/dL	Deficiência falseia sorologia celíaca
-Gastrointestinal	Sangue oculto fecal	Negativo	Negativo	Rastreamento/hemorragia GI
-Gastrointestinal	H. pylori antígeno fecal	Negativo	Negativo	Suspender IBP conforme protocolo
-Autoimune/reumatológico	FAN	Negativo ou <1:80	Negativo ou <1:80	Título baixo pode ser inespecífico
-Autoimune/reumatológico	Fator reumatoide	<14 UI/mL	<14 UI/mL	Pode positivar em outras doenças
-Autoimune/reumatológico	Anti-CCP	<20 U	<20 U	Mais específico para AR
-Autoimune/reumatológico	C3	90–180 mg/dL	90–180 mg/dL	Consumo em autoimunidade
-Autoimune/reumatológico	C4	10–40 mg/dL	10–40 mg/dL	Complemento
-Autoimune/reumatológico	ANCA	Negativo	Negativo	Vasculites
-Autoimune/reumatológico	Anti-DNA	Negativo	Negativo	Lupus se positivo relevante
-Sorologias/infecções	HIV 1/2 Ag/Ac	Não reagente	Não reagente	Repetir conforme janela
-Sorologias/infecções	HBsAg	Não reagente	Não reagente	Hepatite B ativa se positivo
-Sorologias/infecções	Anti-HBs	≥10 mUI/mL protetor	≥10 mUI/mL protetor	Imunidade vacinal/natural
-Sorologias/infecções	Anti-HBc total	Não reagente	Não reagente	Contato prévio com HBV
-Sorologias/infecções	Anti-HCV	Não reagente	Não reagente	Se positivo, confirmar RNA
-Sorologias/infecções	VDRL	Não reagente	Não reagente	Sífilis; confirmar com teste treponêmico
-Sorologias/infecções	Clamídia/Gonococo PCR	Negativo	Negativo	Conforme exposição
-Sorologias/infecções	EBV/CMV IgM	Não reagente	Não reagente	IgG indica contato prévio
-Sorologias/infecções	Toxoplasmose IgM	Não reagente	Não reagente	Gestação muda interpretação
-Sorologias/infecções	Rubéola IgG	Reagente = imune	Reagente = imune	Importante em mulheres férteis
-`;
-
-    const EXTRA_ALIASES = {
-      "Glicemia jejum": ["glicemia de jejum", "glicose jejum", "glicose em jejum", "glicose", "glucose"],
-      "Hemoglobina glicada": ["hba1c", "hb a1c", "a1c", "hemoglobina glicosilada"],
-      "Colesterol total": ["colesterol total", "ct"],
-      "HDL": ["hdl", "colesterol hdl", "hdl colesterol"],
-      "LDL": ["ldl", "colesterol ldl", "ldl colesterol"],
-      "VLDL": ["vldl", "colesterol vldl"],
-      "Triglicerídeos": ["triglicerideos", "triglicerídeos", "triglycerides", "tg"],
-      "TGO/AST": ["tgo", "ast", "transaminase oxalacetica", "aspartato aminotransferase"],
-      "TGP/ALT": ["tgp", "alt", "transaminase piruvica", "alanina aminotransferase"],
-      "GGT": ["ggt", "gama gt", "gama glutamil transferase"],
-      "Creatinina": ["creatinina", "creatinine"],
-      "eTFG": ["etfg", "tfge", "egfr", "filtracao glomerular", "filtração glomerular"],
-      "Ácido úrico": ["acido urico", "ácido úrico"],
-      "Sódio": ["sodio", "sódio", "na+"],
-      "Potássio": ["potassio", "potássio", "k+"],
-      "25-OH vitamina D": ["vitamina d", "25 oh vitamina d", "25-oh vitamina d", "25 hidroxivitamina d"],
-      "Vitamina B12": ["vitamina b12", "b12", "cobalamina"],
-      "TSH": ["tsh", "hormonio tireoestimulante", "hormônio tireoestimulante"],
-      "T4 livre": ["t4 livre", "tiroxina livre"],
-      "T3 livre": ["t3 livre", "triiodotironina livre"],
-      "Testosterona total": ["testosterona total"],
-      "Testosterona livre": ["testosterona livre"],
-      "PCR ultrassensível": ["pcr ultrassensivel", "pcr ultrassensível", "proteina c reativa ultrassensivel", "proteína c reativa ultrassensível", "hs-crp"],
-      "FAN": ["fan", "fator antinuclear"],
-      "HIV 1/2 Ag/Ac": ["hiv", "hiv 1/2", "hiv ag/ac"],
-      "Beta-hCG": ["beta hcg", "beta-hcg", "hcg"]
+    <script>
+    const profiles = {
+      A: {
+        name: "Metabolismo desorganizado",
+        title: "Organização metabólica e emagrecimento inteligente",
+        focus: "Organização metabólica e emagrecimento inteligente.",
+        avoid: "Beliscar o dia todo, exagero em açúcar, longos períodos sem comer, viver de café, dieta muito restrita e reações impulsivas com comida.",
+        organize: "Horários das refeições, proteína, fibra, hidratação e rotina alimentar.",
+        doText: "Caminhar com frequência, incluir treino de força 2 a 4 vezes por semana, dormir melhor e observar fome, vontade de doce e sonolência após comer.",
+        eat: "Proteínas magras, ovos, iogurte natural, feijão, legumes, verduras, frutas, aveia, arroz e feijão em boas porções e refeições que gerem saciedade.",
+        phrase: "Seu corpo não precisa de fome. Precisa de direção."
+      },
+      B: {
+        name: "Inflamação / sobrecarga do corpo",
+        title: "Desinflamar e aliviar a sobrecarga do corpo",
+        focus: "Desinflamar e aliviar a sobrecarga do corpo.",
+        avoid: "Ultraprocessados, açúcar em excesso, álcool frequente, noites mal dormidas, excesso de beliscos e treino pesado demais para o seu momento.",
+        organize: "Recuperação, sono, hidratação, qualidade das refeições e redução dos excessos.",
+        doText: "Caminhada regular, mobilidade, treino de força com boa técnica e progressão gradual, respeitando recuperação.",
+        eat: "Comida de verdade, proteínas, legumes, verduras, frutas, azeite, peixe, castanhas quando possível e água ao longo do dia.",
+        phrase: "Quando o corpo desinflama, ele volta a responder."
+      },
+      C: {
+        name: "Sono, estresse e eixo hormonal sofrendo",
+        title: "Melhorar sono, estresse e equilíbrio do corpo",
+        focus: "Melhorar sono, estresse e equilíbrio do corpo.",
+        avoid: "Cafeína tarde, telas à noite, excesso de estímulo, treinos muito tarde, excesso de ansiedade na rotina e alimentação muito desorganizada.",
+        organize: "Horário de dormir, rotina do fim do dia, primeira refeição com proteína, pausas na rotina e horários mais estáveis.",
+        doText: "Caminhada, treino de força moderado, higiene do sono, mais luz natural pela manhã e menos aceleração no fim do dia.",
+        eat: "Refeições estáveis, com proteína, carboidratos de melhor qualidade, legumes, verduras, frutas e menos picos de açúcar ao longo do dia.",
+        phrase: "Energia boa não vem de pressa. Vem de estabilidade."
+      },
+      D: {
+        name: "Rotina desorganizada / falta de constância",
+        title: "Criar base, constância e rotina sustentável",
+        focus: "Criar base, constância e rotina sustentável.",
+        avoid: "Pensar em tudo ou nada, começar radical e abandonar, improvisar o tempo todo, pular etapas e buscar resultado rápido sem base.",
+        organize: "Dias da semana, horários mínimos para comer, rotina de movimento e planejamento simples.",
+        doText: "Escolher metas pequenas e repetíveis, caminhar todos os dias que conseguir, fazer treino de força 2 vezes por semana para começar e manter consistência.",
+        eat: "Refeições simples, completas e possíveis de repetir; comida de verdade, proteína, legumes, frutas e opções práticas que facilitem adesão.",
+        phrase: "Constância vale mais do que intensidade."
+      },
+      E: {
+        name: "Perda de força e necessidade de preservar massa muscular",
+        title: "Preservar massa muscular, força e autonomia",
+        focus: "Preservar massa muscular, força e autonomia.",
+        avoid: "Emagrecer rápido demais, almoçar só salada, fazer só aeróbico, passar muitas horas sem proteína e ficar muito tempo sem estímulo físico.",
+        organize: "Distribuição de proteína ao longo do dia, treino de força, hidratação, recuperação e regularidade do movimento.",
+        doText: "Treino de força como prioridade, caminhada, exercícios de equilíbrio e mobilidade, com progressão segura e contínua.",
+        eat: "Proteína em todas as refeições principais, ovos, iogurte, carnes magras, feijão, frutas, verduras, legumes e refeições que sustentem força e recuperação.",
+        phrase: "Preservar músculo é preservar saúde, autonomia e futuro."
+      }
     };
 
-    const UNIT_PATTERNS = [
-      "milhões/mm³", "milhoes/mm3", "mil/mm³", "/mm³", "mm³", "mg/dL", "g/dL", "ng/dL",
-      "pg/mL", "ng/mL", "µUI/mL", "uUI/mL", "mUI/L", "UI/L", "U/L", "mmol/L",
-      "mEq/L", "µmol/L", "umol/L", "µg/dL", "ug/dL", "µg/L", "ug/L", "mg/L",
-      "mg/g", "mg/24h", "mL/min/1,73m²", "mL/min/1.73m2", "ng/mL FEU",
-      "mm/h", "s", "fL", "pg", "%", "U"
-    ];
-
-    const REFERENCES = parseReferenceTable(REFERENCE_TSV);
-
-    const state = {
-      patients: {},
-      selectedPatientKey: ""
+    const questionNames = Array.from({ length: 10 }, (_, index) => `q${index + 1}`);
+    const scoreElements = {
+      A: document.getElementById("scoreA"),
+      B: document.getElementById("scoreB"),
+      C: document.getElementById("scoreC"),
+      D: document.getElementById("scoreD"),
+      E: document.getElementById("scoreE")
+    };
+    const barElements = {
+      A: document.getElementById("barA"),
+      B: document.getElementById("barB"),
+      C: document.getElementById("barC"),
+      D: document.getElementById("barD"),
+      E: document.getElementById("barE")
     };
 
-    let evolutionChart = null;
-    let statusChart = null;
-    let categoryChart = null;
+    const answeredCount = document.getElementById("answeredCount");
+    const quizProgressBar = document.getElementById("quizProgressBar");
+    const scrollProgress = document.getElementById("scrollProgress");
+    const calculateBtn = document.getElementById("calculateBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resultPlaceholder = document.getElementById("resultPlaceholder");
+    const resultProfile = document.getElementById("resultProfile");
+    const resultIntro = document.getElementById("resultIntro");
+    const resultLetter = document.getElementById("resultLetter");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultFocus = document.getElementById("resultFocus");
+    const resultAvoid = document.getElementById("resultAvoid");
+    const resultOrganize = document.getElementById("resultOrganize");
+    const resultDo = document.getElementById("resultDo");
+    const resultEat = document.getElementById("resultEat");
+    const resultPhrase = document.getElementById("resultPhrase");
+    const tieNote = document.getElementById("tieNote");
 
-    const els = {
-      patientSelector: document.getElementById("patientSelector"),
-      patientName: document.getElementById("patientName"),
-      patientId: document.getElementById("patientId"),
-      patientSex: document.getElementById("patientSex"),
-      patientBirth: document.getElementById("patientBirth"),
-      patientAge: document.getElementById("patientAge"),
-      defaultExamDate: document.getElementById("defaultExamDate"),
-      dropZone: document.getElementById("dropZone"),
-      fileInput: document.getElementById("fileInput"),
-      pasteArea: document.getElementById("pasteArea"),
-      parseTextBtn: document.getElementById("parseTextBtn"),
-      sampleBtn: document.getElementById("sampleBtn"),
-      saveBtn: document.getElementById("saveBtn"),
-      dedupeBtn: document.getElementById("dedupeBtn"),
-      exportJsonBtn: document.getElementById("exportJsonBtn"),
-      exportCsvBtn: document.getElementById("exportCsvBtn"),
-      printBtn: document.getElementById("printBtn"),
-      clearBtn: document.getElementById("clearBtn"),
-      log: document.getElementById("log"),
-      cardPatients: document.getElementById("cardPatients"),
-      cardTotal: document.getElementById("cardTotal"),
-      cardChanged: document.getElementById("cardChanged"),
-      cardTypes: document.getElementById("cardTypes"),
-      cardPeriod: document.getElementById("cardPeriod"),
-      patientTitle: document.getElementById("patientTitle"),
-      patientMeta: document.getElementById("patientMeta"),
-      examFilter: document.getElementById("examFilter"),
-      globalOpinion: document.getElementById("globalOpinion"),
-      tableSearch: document.getElementById("tableSearch"),
-      resultsBody: document.getElementById("resultsBody"),
-      evolutionChart: document.getElementById("evolutionChart"),
-      statusChart: document.getElementById("statusChart"),
-      categoryChart: document.getElementById("categoryChart")
-    };
+    function getAnswers() {
+      const answers = {};
 
-    initialize();
-
-    function initialize() {
-      els.defaultExamDate.value = new Date().toISOString().slice(0, 10);
-      loadLocal();
-
-      els.patientSelector.addEventListener("change", () => {
-        state.selectedPatientKey = els.patientSelector.value;
-        syncFormFromSelectedPatient();
-        render();
+      questionNames.forEach((name) => {
+        const checked = document.querySelector(`input[name="${name}"]:checked`);
+        answers[name] = checked ? checked.value : null;
       });
 
-      [els.patientName, els.patientId, els.patientSex, els.patientBirth, els.patientAge].forEach((input) => {
-        input.addEventListener("input", updateSelectedPatientFromForm);
-      });
-
-      els.dropZone.addEventListener("click", () => els.fileInput.click());
-
-      els.dropZone.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          els.fileInput.click();
-        }
-      });
-
-      els.fileInput.addEventListener("change", async () => {
-        await handleFiles(Array.from(els.fileInput.files || []));
-        els.fileInput.value = "";
-      });
-
-      ["dragenter", "dragover"].forEach((eventName) => {
-        els.dropZone.addEventListener(eventName, (event) => {
-          event.preventDefault();
-          els.dropZone.classList.add("dragover");
-        });
-      });
-
-      ["dragleave", "drop"].forEach((eventName) => {
-        els.dropZone.addEventListener(eventName, (event) => {
-          event.preventDefault();
-          els.dropZone.classList.remove("dragover");
-        });
-      });
-
-      els.dropZone.addEventListener("drop", async (event) => {
-        const files = Array.from(event.dataTransfer.files || []);
-        await handleFiles(files);
-      });
-
-      els.parseTextBtn.addEventListener("click", () => {
-        const text = els.pasteArea.value.trim();
-        if (!text) {
-          writeLog("Cole o texto do laudo antes de processar.");
-          return;
-        }
-
-        importTextPayload(text, "Texto colado");
-      });
-
-      els.sampleBtn.addEventListener("click", addSampleData);
-      els.saveBtn.addEventListener("click", saveLocal);
-      els.dedupeBtn.addEventListener("click", removeDuplicates);
-      els.exportJsonBtn.addEventListener("click", exportJson);
-      els.exportCsvBtn.addEventListener("click", exportCsv);
-      els.printBtn.addEventListener("click", () => window.print());
-      els.clearBtn.addEventListener("click", clearAll);
-      els.examFilter.addEventListener("change", renderEvolutionChart);
-      els.tableSearch.addEventListener("input", renderTable);
-
-      render();
+      return answers;
     }
 
-    async function handleFiles(files) {
-      if (!files.length) return;
+    function getCounts(answers) {
+      const counts = { A: 0, B: 0, C: 0, D: 0, E: 0 };
 
-      let totalImported = 0;
+      Object.values(answers).forEach((value) => {
+        if (value && counts[value] !== undefined) {
+          counts[value] += 1;
+        }
+      });
 
-      for (const file of files) {
-        try {
-          const lowerName = file.name.toLowerCase();
+      return counts;
+    }
 
-          if (lowerName.endsWith(".pdf") || file.type === "application/pdf") {
-            writeLog(`Lendo PDF: ${file.name}`);
-            const buffer = await readAsArrayBuffer(file);
-            const text = await extractTextFromPdf(buffer);
-            const imported = importTextPayload(text, file.name);
-            totalImported += imported;
-          } else if (lowerName.endsWith(".csv") || file.type.includes("csv")) {
-            writeLog(`Lendo CSV: ${file.name}`);
-            const text = await readAsText(file);
-            const imported = importStructuredRecords(parseCsv(text, file.name), file.name);
-            totalImported += imported;
-          } else if (lowerName.endsWith(".json") || file.type === "application/json") {
-            writeLog(`Lendo JSON: ${file.name}`);
-            const text = await readAsText(file);
-            const imported = importStructuredRecords(parseJson(text, file.name), file.name);
-            totalImported += imported;
-          } else {
-            writeLog(`Arquivo ignorado: ${file.name}. Use PDF, CSV ou JSON.`);
-          }
-        } catch (error) {
-          console.error(error);
-          writeLog(`Erro ao processar ${file.name}: ${error.message}`);
+    function getAnsweredTotal(answers) {
+      return Object.values(answers).filter(Boolean).length;
+    }
+
+    function updateScoreboard() {
+      const answers = getAnswers();
+      const counts = getCounts(answers);
+      const answered = getAnsweredTotal(answers);
+      const maxValue = Math.max(1, ...Object.values(counts));
+
+      answeredCount.textContent = String(answered);
+      quizProgressBar.style.width = `${(answered / questionNames.length) * 100}%`;
+
+      Object.keys(counts).forEach((letter) => {
+        scoreElements[letter].textContent = String(counts[letter]);
+        barElements[letter].style.width = `${(counts[letter] / maxValue) * 100}%`;
+      });
+
+      return { answers, counts, answered };
+    }
+
+    function clearMissingHighlights() {
+      document.querySelectorAll(".question-card.is-missing").forEach((card) => {
+        card.classList.remove("is-missing");
+      });
+    }
+
+    function highlightMissingQuestions(answers) {
+      clearMissingHighlights();
+
+      const missing = questionNames.filter((name) => !answers[name]);
+
+      missing.forEach((name) => {
+        const card = document.querySelector(`input[name="${name}"]`)?.closest(".question-section")?.querySelector(".question-card");
+        if (card) {
+          card.classList.add("is-missing");
+        }
+      });
+
+      if (missing.length) {
+        const firstMissingCard = document.querySelector(`input[name="${missing[0]}"]`)?.closest(".question-section");
+        if (firstMissingCard) {
+          firstMissingCard.scrollIntoView({ behavior: "smooth", block: "center" });
         }
       }
 
-      removeDuplicates(false);
-      saveLocal(false);
-      render();
-      writeLog(`Importação finalizada: ${totalImported} resultado(s) adicionados.`);
+      return missing;
     }
 
-    function importTextPayload(text, source) {
-      const metadata = extractPatientMetadata(text, source);
-      const patientKey = upsertPatient(metadata);
-      const patient = state.patients[patientKey];
+    function chooseWinner(counts, answers) {
+      const highest = Math.max(...Object.values(counts));
+      const tiedLetters = Object.keys(counts).filter((letter) => counts[letter] === highest);
 
-      const records = parseLabResults(text, source, patient);
-      for (const record of records) {
-        patient.records.push(record);
-      }
-
-      state.selectedPatientKey = patientKey;
-      syncFormFromSelectedPatient();
-      removeDuplicates(false);
-      saveLocal(false);
-      render();
-
-      writeLog(`${records.length} resultado(s) capturado(s) de ${source}. Paciente: ${patient.name}.`);
-      return records.length;
-    }
-
-    function importStructuredRecords(records, source) {
-      let imported = 0;
-
-      for (const group of records) {
-        const patientKey = upsertPatient(group.patient || getFormPatientFallback());
-        const patient = state.patients[patientKey];
-
-        for (const record of group.records) {
-          patient.records.push({
-            ...record,
-            id: cryptoRandomId(),
-            patientKey,
-            patientName: patient.name,
-            patientSex: patient.sex,
-            source
-          });
-          imported += 1;
-        }
-
-        state.selectedPatientKey = patientKey;
-      }
-
-      syncFormFromSelectedPatient();
-      removeDuplicates(false);
-      saveLocal(false);
-      render();
-      return imported;
-    }
-
-    function upsertPatient(metadata) {
-      const clean = {
-        name: metadata.name || els.patientName.value.trim() || "Paciente sem nome",
-        id: metadata.id || els.patientId.value.trim() || "",
-        sex: metadata.sex || els.patientSex.value || "",
-        birth: metadata.birth || els.patientBirth.value || "",
-        age: metadata.age || Number(els.patientAge.value) || "",
-        lastExamDate: metadata.examDate || els.defaultExamDate.value || new Date().toISOString().slice(0, 10)
-      };
-
-      const existingKey = findExistingPatientKey(clean);
-      const key = existingKey || createPatientKey(clean);
-
-      if (!state.patients[key]) {
-        state.patients[key] = {
-          key,
-          name: clean.name,
-          id: clean.id,
-          sex: clean.sex,
-          birth: clean.birth,
-          age: clean.age,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          records: []
+      if (tiedLetters.length === 1) {
+        return {
+          winner: tiedLetters[0],
+          tieResolved: false,
+          tieMessage: ""
         };
-      } else {
-        const patient = state.patients[key];
-        patient.name = clean.name || patient.name;
-        patient.id = clean.id || patient.id;
-        patient.sex = clean.sex || patient.sex;
-        patient.birth = clean.birth || patient.birth;
-        patient.age = clean.age || patient.age;
-        patient.updatedAt = new Date().toISOString();
       }
 
-      return key;
-    }
+      const tieBreaker = answers.q10;
 
-    function findExistingPatientKey(metadata) {
-      const incomingName = normalize(metadata.name);
-      const incomingBirth = metadata.birth;
-
-      for (const patient of Object.values(state.patients)) {
-        const sameBirth = incomingBirth && patient.birth && incomingBirth === patient.birth;
-        const sameName = incomingName && normalize(patient.name) === incomingName;
-        const sameId = metadata.id && patient.id && normalize(metadata.id) === normalize(patient.id);
-
-        if (sameId || (sameName && sameBirth) || (sameName && !incomingBirth && !patient.birth)) {
-          return patient.key;
-        }
+      if (tieBreaker) {
+        return {
+          winner: tieBreaker,
+          tieResolved: true,
+          tieMessage: `Conteúdo orientativo e educativo. Não substitui a avalição de um profissional. ${tieBreaker}.`
+        };
       }
 
-      return "";
-    }
-
-    function createPatientKey(metadata) {
-      const base = [metadata.id, metadata.name, metadata.birth]
-        .filter(Boolean)
-        .map(slugify)
-        .join("-");
-
-      return base || `paciente-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-    }
-
-    function getFormPatientFallback() {
       return {
-        name: els.patientName.value.trim() || "Paciente sem nome",
-        id: els.patientId.value.trim(),
-        sex: els.patientSex.value,
-        birth: els.patientBirth.value,
-        age: Number(els.patientAge.value) || "",
-        examDate: els.defaultExamDate.value
+        winner: tiedLetters[0],
+        tieResolved: true,
+        tieMessage: `Conteúdo orientativo e educativo. Não substitui a avalição de um profissional.`
       };
     }
 
-    function extractPatientMetadata(text, source) {
-      const lines = String(text || "")
-        .replace(/\u00A0/g, " ")
-        .split(/\r?\n/)
-        .map((line) => line.replace(/\s+/g, " ").trim())
-        .filter(Boolean);
+    function renderResult(profileKey, tieMessage = "") {
+      const profile = profiles[profileKey];
 
-      const fullText = lines.join("\n");
+      resultPlaceholder.style.display = "none";
+      resultProfile.classList.add("is-visible");
 
-      const name = extractByLinePatterns(lines, [
-        /^(?:paciente|nome do paciente|nome)\s*[:\-–—]\s*(.+)$/i,
-        /^(?:paciente)\s+(.+)$/i
-      ]);
-
-      const id = extractByLinePatterns(lines, [
-        /^(?:prontu[aá]rio|registro|id|c[oó]digo)\s*[:\-–—]\s*(.+)$/i
-      ]);
-
-      const sexRaw = extractByLinePatterns(lines, [
-        /^(?:sexo|g[eê]nero)\s*[:\-–—]\s*(masculino|feminino|m|f)\b/i
-      ]);
-
-      const birthRaw = extractByRegex(fullText, /(?:data de nascimento|nascimento|dt\.?\s*nasc\.?|nascido em)\s*[:\-–—]?\s*(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{4}[\/.-]\d{1,2}[\/.-]\d{1,2})/i);
-
-      const ageRaw = extractByRegex(fullText, /(?:idade)\s*[:\-–—]?\s*(\d{1,3})\s*(?:anos|a)?/i);
-
-      const examDateRaw = extractByRegex(fullText, /(?:data da coleta|data de coleta|coleta|data do exame|data de realiza[cç][aã]o|realizado em|emiss[aã]o)\s*[:\-–—]?\s*(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{4}[\/.-]\d{1,2}[\/.-]\d{1,2})/i);
-
-      const fallbackDate = extractBestDate(fullText) || els.defaultExamDate.value || new Date().toISOString().slice(0, 10);
-      const birth = normalizeDate(birthRaw);
-      const examDate = normalizeDate(examDateRaw) || fallbackDate;
-      const sex = normalizeSex(sexRaw);
-      const age = Number(ageRaw) || calculateAge(birth, examDate) || "";
-
-      return {
-        name: cleanPersonName(name) || els.patientName.value.trim() || "Paciente sem nome",
-        id: cleanSmallText(id),
-        sex,
-        birth,
-        age,
-        examDate,
-        source
-      };
+      resultLetter.textContent = profileKey;
+      resultTitle.textContent = profile.title;
+      resultFocus.textContent = profile.focus;
+      resultAvoid.textContent = profile.avoid;
+      resultOrganize.textContent = profile.organize;
+      resultDo.textContent = profile.doText;
+      resultEat.textContent = profile.eat;
+      resultPhrase.textContent = profile.phrase;
+      tieNote.textContent = tieMessage;
+      resultIntro.textContent = `Seu perfil predominante foi ${profileKey} — ${profile.name}.`;
     }
 
-    function parseLabResults(text, source, patient) {
-      const cleanText = String(text || "").replace(/\u00A0/g, " ");
-      const lines = cleanText
-        .split(/\r?\n/)
-        .map((line) => line.replace(/\s+/g, " ").trim())
-        .filter(Boolean);
+    function resetResult() {
+      resultPlaceholder.style.display = "block";
+      resultProfile.classList.remove("is-visible");
+      resultIntro.textContent = "Preencha as 10 perguntas para gerar o resultado completo com foco principal, evitar, organizar, fazer, preferir comer e frase motivadora.";
+      tieNote.textContent = "";
+    }
 
-      const fallbackDate = extractPatientMetadata(text, source).examDate || els.defaultExamDate.value || new Date().toISOString().slice(0, 10);
-      const sortedReferences = REFERENCES.slice().sort((a, b) => longestAlias(b) - longestAlias(a));
-      const records = [];
-// Parser específico: Álvaro / DASA / Laboratório Missões
+    function calculateResult() {
+      const { answers, counts, answered } = updateScoreboard();
 
-const specificRecords = parseKnownLabLayouts(cleanText, source, patient, fallbackDate);
-
-for (const record of specificRecords) {
-  records.push(record);
-}
-      for (const line of lines) {
-        const lineDate = extractBestDate(line) || fallbackDate;
-        const normalizedLine = normalize(line);
-
-        for (const ref of sortedReferences) {
-          const matchedAlias = ref.aliases.find((alias) => containsExamAlias(normalizedLine, alias));
-          if (!matchedAlias) continue;
-
-          const result = extractResultFromLine(line, matchedAlias);
-          if (!result) continue;
-
-          const referenceText = chooseReferenceText(ref, patient.sex);
-          const status = classifyResult(result, referenceText);
-
-          records.push({
-            id: cryptoRandomId(),
-            patientKey: patient.key,
-            patientName: patient.name,
-            patientSex: patient.sex,
-            date: lineDate,
-            category: ref.category,
-            examId: ref.id,
-            exam: ref.exam,
-            valueRaw: result.raw,
-            valueNumber: result.number,
-            unit: result.unit || inferUnit(referenceText),
-            reference: referenceText,
-            observation: ref.observation,
-            status,
-            source,
-            rawLine: line
-          });
-
-          break;
-        }
+      if (answered < questionNames.length) {
+        resetResult();
+        highlightMissingQuestions(answers);
+        resultPlaceholder.textContent = "Faltam respostas. Complete todas as perguntas para liberar o resultado final.";
+        return;
       }
 
-      return records;
+      clearMissingHighlights();
+
+      const { winner, tieMessage } = chooseWinner(counts, answers);
+      renderResult(winner, tieMessage);
+
+      document.getElementById("resultado").scrollIntoView({ behavior: "smooth", block: "start" });
     }
-function parseKnownLabLayouts(text, source, patient, fallbackDate) {
-  const records = [];
 
-  const exams = [
-    {
-      exam: "Ferritina",
-      category: "Ferro/anemia",
-      regex: /Ferritina\s+(\d+[,.]?\d*)\s*ng\/mL/i,
-      unit: "ng/mL"
-    },
-    {
-      exam: "Vitamina B12",
-      category: "Vitaminas/micronutrientes",
-      regex: /Vitamina\s*B12\s+(\d+[,.]?\d*)\s*pg\/mL/i,
-      unit: "pg/mL"
-    },
-    {
-      exam: "Homocisteína",
-      category: "Inflamação/cardiovascular",
-      regex: /Homociste[ií]na\s+(\d+[,.]?\d*)\s*µmol\/L/i,
-      unit: "µmol/L"
-    },
-    {
-      exam: "Magnésio",
-      category: "Rim/eletrólitos",
-      regex: /Magn[eé]sio\s+(\d+[,.]?\d*)\s*mg\/dL/i,
-      unit: "mg/dL"
-    },
-    {
-      exam: "Cistatina C",
-      category: "Rim/eletrólitos",
-      regex: /Cistatina\s*C\s+(\d+[,.]?\d*)\s*mg\/L/i,
-      unit: "mg/L"
-    },
-    {
-      exam: "Hemoglobina glicada",
-      category: "Glicêmico/metabólico",
-      regex: /Hemoglobina\s+Glicada[\s\S]{0,80}?(\d+[,.]?\d*)\s*%/i,
-      unit: "%"
-    },
-    {
-      exam: "Glicemia jejum",
-      category: "Glicêmico/metabólico",
-      regex: /(?:Glicose|GLICOSE)[\s\S]{0,80}?(\d+[,.]?\d*)\s*mg\/d[lL]/i,
-      unit: "mg/dL"
-    },
-    {
-      exam: "Insulina jejum",
-      category: "Glicêmico/metabólico",
-      regex: /Insulina\s+(\d+[,.]?\d*)\s*µUI\/mL/i,
-      unit: "µUI/mL"
-    },
-    {
-      exam: "HOMA-IR",
-      category: "Glicêmico/metabólico",
-      regex: /(?:HOMAIR|HOMA-IR|Índice de HOMAIR)\s+(\d+[,.]?\d*)/i,
-      unit: ""
-    },
-    {
-      exam: "ApoB",
-      category: "Perfil lipídico",
-      regex: /Apolipoprote[ií]na\s+"?B"?\s+(\d+[,.]?\d*)\s*mg\/dL/i,
-      unit: "mg/dL"
-    },
-    {
-      exam: "Ferro sérico",
-      category: "Ferro/anemia",
-      regex: /Ferro\s+(\d+[,.]?\d*)\s*µg\/dL/i,
-      unit: "µg/dL"
-    },
-    {
-      exam: "CTLF/TIBC",
-      category: "Ferro/anemia",
-      regex: /Capacidade Total de Fixa[cç][aã]o do Ferro\s+(\d+[,.]?\d*)\s*µg\/dL/i,
-      unit: "µg/dL"
-    },
-    {
-      exam: "Saturação transferrina",
-      category: "Ferro/anemia",
-      regex: /Índice de Satura[cç][aã]o da Transferrina\s+(\d+[,.]?\d*)\s*%/i,
-      unit: "%"
-    },
-    {
-      exam: "Colesterol total",
-      category: "Perfil lipídico",
-      regex: /COLESTEROL TOTAL[\s\S]{0,80}?Resultado:\s*(\d+[,.]?\d*)\s*mg\/d[lL]/i,
-      unit: "mg/dL"
-    },
-    {
-      exam: "HDL",
-      category: "Perfil lipídico",
-      regex: /COLESTEROL HDL[\s\S]{0,80}?Resultado:\s*(\d+[,.]?\d*)\s*mg\/d[lL]/i,
-      unit: "mg/dL"
-    },
-    {
-      exam: "LDL",
-      category: "Perfil lipídico",
-      regex: /COLESTEROL LDL[\s\S]{0,80}?Resultado:\s*(\d+[,.]?\d*)\s*mg\/d[lL]/i,
-      unit: "mg/dL"
-    },
-    {
-      exam: "Triglicerídeos",
-      category: "Perfil lipídico",
-      regex: /TRIGLICERIDES[\s\S]{0,80}?Resultado:\s*(\d+[,.]?\d*)\s*mg\/d[lL]/i,
-      unit: "mg/dL"
-    },
-    {
-      exam: "Ureia",
-      category: "Rim/eletrólitos",
-      regex: /UR[ÉE]IA[\s\S]{0,100}?(\d+[,.]?\d*)\s*mg\/d[lL]/i,
-      unit: "mg/dL"
-    },
-    {
-      exam: "Creatinina",
-      category: "Rim/eletrólitos",
-      regex: /CREATININA[\s\S]{0,100}?(\d+[,.]?\d*)\s*mg\/d[lL]/i,
-      unit: "mg/dL"
-    },
-    {
-      exam: "TGO/AST",
-      category: "Fígado/vias biliares",
-      regex: /TRANSAMINASE OXALACETICA[\s\S]{0,100}?(\d+[,.]?\d*)\s*U\/L/i,
-      unit: "U/L"
-    },
-    {
-      exam: "TGP/ALT",
-      category: "Fígado/vias biliares",
-      regex: /TRANSAMINASE PIRUVICA[\s\S]{0,100}?(\d+[,.]?\d*)\s*U\/?[lL]/i,
-      unit: "U/L"
-    },
-    {
-      exam: "GGT",
-      category: "Fígado/vias biliares",
-      regex: /GAMA\s*-\s*GT[\s\S]{0,100}?(\d+[,.]?\d*)\s*U\/?[lL]/i,
-      unit: "U/L"
+    function resetQuiz() {
+      document.querySelectorAll('input[type="radio"]').forEach((input) => {
+        input.checked = false;
+      });
+
+      clearMissingHighlights();
+      resetResult();
+      updateScoreboard();
+
+      document.getElementById("instrucoes").scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  ];
 
-  for (const item of exams) {
-    const match = text.match(item.regex);
-    if (!match) continue;
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollProgress.style.width = `${progress}%`;
+    }
 
-    const ref = REFERENCES.find(r => r.exam === item.exam);
-    const referenceText = ref ? chooseReferenceText(ref, patient.sex) : "";
-    const valueNumber = toNumber(match[1]);
-
-    const result = {
-      raw: match[1],
-      number: valueNumber,
-      unit: item.unit
-    };
-
-    records.push({
-      id: cryptoRandomId(),
-      patientKey: patient.key,
-      patientName: patient.name,
-      patientSex: patient.sex,
-      date: fallbackDate,
-      category: item.category,
-      examId: ref ? ref.id : slugify(item.exam),
-      exam: item.exam,
-      valueRaw: match[1],
-      valueNumber,
-      unit: item.unit,
-      reference: referenceText,
-      observation: ref ? ref.observation : "",
-      status: referenceText
-        ? classifyResult(result, referenceText)
-        : { type: "neutral", label: "Sem referência", detail: "Sem referência interna." },
-      source,
-      rawLine: match[0]
+    document.querySelectorAll('input[type="radio"]').forEach((input) => {
+      input.addEventListener("change", () => {
+        updateScoreboard();
+        clearMissingHighlights();
+      });
     });
-  }
 
-  return records;
-}
-    function extractResultFromLine(line, matchedAlias) {
-      const normalizedOriginal = normalize(line);
-      const normalizedAlias = normalize(matchedAlias);
-      const normalizedIndex = normalizedOriginal.indexOf(normalizedAlias);
+    calculateBtn.addEventListener("click", calculateResult);
+    resetBtn.addEventListener("click", resetQuiz);
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
+    window.addEventListener("load", () => {
+      updateScoreboard();
+      updateScrollProgress();
+    });
 
-      let searchPart = line;
-      if (normalizedIndex >= 0) {
-        searchPart = line.slice(Math.min(line.length, normalizedIndex + matchedAlias.length));
-      }
-
-      const qualitativeMatch = searchPart.match(/\b(n[aã]o reagente|reagente|negativo|positivo|detectado|n[aã]o detectado|indetect[aá]vel|ausente|presente)\b/i);
-      const numericMatch = searchPart.match(/(?:resultado|valor)?\s*[:=\-–—]?\s*([<>≤≥]?\s*-?\d{1,7}(?:[.,]\d{1,5})?)/i);
-
-      if (numericMatch) {
-        const raw = numericMatch[1].trim();
-        const afterValue = searchPart.slice(numericMatch.index + numericMatch[0].length);
-        const unit = extractUnit(afterValue);
-        return {
-          raw,
-          number: toNumber(raw),
-          unit
-        };
-      }
-
-      if (qualitativeMatch) {
-        return {
-          raw: qualitativeMatch[1].trim(),
-          number: null,
-          unit: ""
-        };
-      }
-
-      return null;
-    }
-
-    function classifyResult(result, referenceText) {
-      const reference = String(referenceText || "").trim();
-      const rule = parseReferenceRule(reference);
-      const numeric = Number(result.number);
-      const resultNorm = normalize(result.raw);
-
-      if (!reference || !rule) {
-        return {
-          type: "neutral",
-          label: "Sem regra",
-          detail: "Referência não comparável automaticamente."
-        };
-      }
-
-      if (rule.kind === "not-applicable") {
-        return {
-          type: "neutral",
-          label: "Não aplicável",
-          detail: "Exame não aplicável para este sexo ou contexto."
-        };
-      }
-
-      if (rule.kind === "method") {
-        return {
-          type: "info",
-          label: "Método-dependente",
-          detail: "Usar a faixa do laboratório/método."
-        };
-      }
-
-      if (rule.kind === "qualitative") {
-        const isNegative = resultNorm.includes("nao reagente") ||
-          resultNorm.includes("nao detectado") ||
-          resultNorm.includes("negativo") ||
-          resultNorm.includes("indetectavel") ||
-          resultNorm.includes("ausente");
-
-        const isPositive = resultNorm.includes("reagente") ||
-          resultNorm.includes("detectado") ||
-          resultNorm.includes("positivo") ||
-          resultNorm.includes("presente");
-
-        if (rule.expected === "negative") {
-          return isNegative
-            ? { type: "ok", label: "Normal", detail: "Compatível com referência qualitativa." }
-            : { type: "changed", label: "Alterado", detail: "Resultado qualitativo fora do esperado." };
-        }
-
-        if (rule.expected === "immune") {
-          return isPositive && !isNegative
-            ? { type: "ok", label: "Imune/adequado", detail: "Compatível com referência qualitativa." }
-            : { type: "changed", label: "Alterado", detail: "Não compatível com imunidade esperada." };
-        }
-
-        return {
-          type: "neutral",
-          label: "Qualitativo",
-          detail: "Resultado qualitativo precisa de revisão."
-        };
-      }
-
-      if (!Number.isFinite(numeric)) {
-        return {
-          type: "neutral",
-          label: "Não numérico",
-          detail: "Resultado não pôde ser convertido para número."
-        };
-      }
-
-      if (rule.kind === "risk-pcr") {
-        if (numeric < 1) return { type: "ok", label: "Baixo risco", detail: "PCR-us abaixo de 1." };
-        if (numeric <= 3) return { type: "warn", label: "Risco moderado", detail: "PCR-us entre 1 e 3." };
-        return { type: "high", label: "Alto risco", detail: "PCR-us acima de 3." };
-      }
-
-      if (rule.low !== null && numeric < rule.low) {
-        return {
-          type: "low",
-          label: "Abaixo",
-          detail: `Abaixo da referência mínima ${formatNumber(rule.low)}.`
-        };
-      }
-
-      if (rule.high !== null && numeric > rule.high) {
-        return {
-          type: "high",
-          label: "Acima",
-          detail: `Acima da referência máxima ${formatNumber(rule.high)}.`
-        };
-      }
-
-      return {
-        type: "ok",
-        label: "Normal",
-        detail: "Dentro da referência interna."
-      };
-    }
-
-    function parseReferenceRule(referenceText) {
-      const raw = String(referenceText || "").trim();
-      const ref = normalize(raw).replace(/,/g, ".");
-
-      if (!ref) return null;
-
-      if (ref.includes("nao aplicavel")) {
-        return { kind: "not-applicable" };
-      }
-
-      if (
-        ref.includes("metodo-dependente") ||
-        ref.includes("idade-dependente") ||
-        ref.includes("conforme metodo") ||
-        ref.includes("variavel por") ||
-        ref.includes("nao usual")
-      ) {
-        return { kind: "method" };
-      }
-
-      if (ref.includes("baixo risco") && ref.includes("moderado") && ref.includes("alto")) {
-        return { kind: "risk-pcr" };
-      }
-
-      if (ref.includes("reagente = imune")) {
-        return { kind: "qualitative", expected: "immune" };
-      }
-
-      if (
-        ref.includes("nao reagente") ||
-        ref.includes("negativo") ||
-        ref.includes("sem proteinuria") ||
-        ref.includes("sem hematúria") ||
-        ref.includes("sem hematuria")
-      ) {
-        return { kind: "qualitative", expected: "negative" };
-      }
-
-      const clean = ref
-        .replace(/[–—]/g, "-")
-        .replace(/≥/g, ">=")
-        .replace(/≤/g, "<=");
-
-      const range = clean.match(/(-?\d+(?:\.\d+)?)\s*(?:a|-|ate)\s*(-?\d+(?:\.\d+)?)/);
-      if (range) {
-        return {
-          kind: "numeric",
-          low: Number(range[1]),
-          high: Number(range[2])
-        };
-      }
-
-      const less = clean.match(/(?:<|<=|menor que|abaixo de)\s*(-?\d+(?:\.\d+)?)/);
-      if (less) {
-        return {
-          kind: "numeric",
-          low: null,
-          high: Number(less[1])
-        };
-      }
-
-      const greater = clean.match(/(?:>|>=|maior que|acima de)\s*(-?\d+(?:\.\d+)?)/);
-      if (greater) {
-        return {
-          kind: "numeric",
-          low: Number(greater[1]),
-          high: null
-        };
-      }
-
-      return null;
-    }
-
-    function parseReferenceTable(tsv) {
-      const lines = String(tsv)
-        .trim()
-        .split(/\r?\n/)
-        .map((line) => line.trim())
-        .filter(Boolean);
-
-      const rows = lines.slice(1);
-      return rows.map((line) => {
-        const [category, exam, male, female, observation] = line.split("\t");
-        const aliases = buildAliases(exam);
-
-        return {
-          id: slugify(exam),
-          category: category.trim(),
-          exam: exam.trim(),
-          male: male.trim(),
-          female: female.trim(),
-          observation: (observation || "").trim(),
-          aliases
-        };
-      });
-    }
-
-    function buildAliases(examName) {
-      const base = new Set([
-        examName,
-        normalizeExamName(examName)
-      ]);
-
-      if (EXTRA_ALIASES[examName]) {
-        EXTRA_ALIASES[examName].forEach((alias) => base.add(alias));
-      }
-
-      if (examName.includes("/")) {
-        examName.split("/").forEach((part) => base.add(part.trim()));
-      }
-
-      return Array.from(base)
-        .map((alias) => alias.trim())
-        .filter(Boolean)
-        .sort((a, b) => b.length - a.length);
-    }
-
-    function chooseReferenceText(ref, sex) {
-      if (sex === "feminino") return ref.female;
-      if (sex === "masculino") return ref.male;
-      if (normalize(ref.male) === normalize(ref.female)) return ref.male;
-      return `${ref.male} / ${ref.female}`;
-    }
-
-    function readAsArrayBuffer(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = () => reject(new Error("Falha ao ler o arquivo."));
-        reader.onload = () => resolve(reader.result);
-        reader.readAsArrayBuffer(file);
-      });
-    }
-
-    function readAsText(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = () => reject(new Error("Falha ao ler o arquivo."));
-        reader.onload = () => resolve(reader.result);
-        reader.readAsText(file, "UTF-8");
-      });
-    }
-
-    async function extractTextFromPdf(buffer) {
-      const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(buffer) });
-      const pdf = await loadingTask.promise;
-      const pages = [];
-
-      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
-        const page = await pdf.getPage(pageNumber);
-        const content = await page.getTextContent();
-
-        const items = content.items
-          .map((item) => ({
-            text: item.str,
-            x: item.transform[4],
-            y: item.transform[5]
-          }))
-          .filter((item) => item.text && item.text.trim());
-
-        items.sort((a, b) => {
-          const yDiff = b.y - a.y;
-          if (Math.abs(yDiff) > 3) return yDiff;
-          return a.x - b.x;
+    const revealItems = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
         });
-
-        const lines = [];
-        let currentLine = [];
-        let currentY = null;
-
-        for (const item of items) {
-          if (currentY === null || Math.abs(item.y - currentY) <= 3) {
-            currentLine.push(item.text);
-            currentY = currentY === null ? item.y : currentY;
-          } else {
-            lines.push(currentLine.join(" "));
-            currentLine = [item.text];
-            currentY = item.y;
-          }
-        }
-
-        if (currentLine.length) {
-          lines.push(currentLine.join(" "));
-        }
-
-        pages.push(lines.join("\n"));
-      }
-
-      return pages.join("\n");
-    }
-
-    function parseCsv(text, source) {
-      const lines = String(text || "")
-        .split(/\r?\n/)
-        .map((line) => line.trim())
-        .filter(Boolean);
-
-      if (!lines.length) return [];
-
-      const delimiter = countChar(lines[0], ";") >= countChar(lines[0], ",") ? ";" : ",";
-      const rows = lines.map((line) => splitCsvLine(line, delimiter));
-      const headers = rows.shift().map(normalize);
-
-      const col = (...names) => {
-        const index = headers.findIndex((header) => names.some((name) => header.includes(normalize(name))));
-        return index >= 0 ? index : -1;
-      };
-
-      const nameCol = col("paciente", "nome");
-      const sexCol = col("sexo");
-      const birthCol = col("nascimento", "data nascimento");
-      const dateCol = col("data", "coleta", "realização");
-      const examCol = col("exame", "analito", "parametro", "parâmetro");
-      const valueCol = col("resultado", "valor");
-      const unitCol = col("unidade", "unit");
-
-      const groups = new Map();
-
-      for (const row of rows) {
-        const examName = row[examCol] || "";
-        const ref = findReferenceByExamName(examName);
-        const rawValue = row[valueCol] || "";
-
-        if (!examName || !rawValue || !ref) continue;
-
-        const patient = {
-          name: row[nameCol] || els.patientName.value.trim() || "Paciente sem nome",
-          sex: normalizeSex(row[sexCol] || els.patientSex.value),
-          birth: normalizeDate(row[birthCol] || els.patientBirth.value),
-          age: Number(els.patientAge.value) || "",
-          examDate: normalizeDate(row[dateCol]) || els.defaultExamDate.value
-        };
-
-        const key = createPatientKey(patient);
-
-        if (!groups.has(key)) {
-          groups.set(key, {
-            patient,
-            records: []
-          });
-        }
-
-        const result = {
-          raw: rawValue,
-          number: toNumber(rawValue),
-          unit: row[unitCol] || inferUnit(chooseReferenceText(ref, patient.sex))
-        };
-
-        groups.get(key).records.push({
-          date: patient.examDate,
-          category: ref.category,
-          examId: ref.id,
-          exam: ref.exam,
-          valueRaw: result.raw,
-          valueNumber: result.number,
-          unit: result.unit,
-          reference: chooseReferenceText(ref, patient.sex),
-          observation: ref.observation,
-          status: classifyResult(result, chooseReferenceText(ref, patient.sex)),
-          rawLine: row.join(" | "),
-          source
-        });
-      }
-
-      return Array.from(groups.values());
-    }
-
-    function parseJson(text, source) {
-      const parsed = JSON.parse(text);
-      const list = Array.isArray(parsed) ? parsed : parsed.records;
-
-      if (!Array.isArray(list)) {
-        throw new Error("JSON inválido. Use um array de resultados ou { records: [...] }.");
-      }
-
-      const groups = new Map();
-
-      for (const item of list) {
-        const examName = item.exam || item.exame || item.analito || "";
-        const ref = findReferenceByExamName(examName);
-        if (!ref) continue;
-
-        const patient = {
-          name: item.patientName || item.paciente || parsed.patient?.name || els.patientName.value.trim() || "Paciente sem nome",
-          id: item.patientId || item.prontuario || parsed.patient?.id || "",
-          sex: normalizeSex(item.sex || item.sexo || parsed.patient?.sex || els.patientSex.value),
-          birth: normalizeDate(item.birth || item.nascimento || parsed.patient?.birth || els.patientBirth.value),
-          age: Number(item.age || item.idade || parsed.patient?.age || els.patientAge.value) || "",
-          examDate: normalizeDate(item.date || item.data || item.coleta) || els.defaultExamDate.value
-        };
-
-        const key = createPatientKey(patient);
-
-        if (!groups.has(key)) {
-          groups.set(key, {
-            patient,
-            records: []
-          });
-        }
-
-        const result = {
-          raw: String(item.value ?? item.valor ?? item.resultado ?? ""),
-          number: toNumber(item.value ?? item.valor ?? item.resultado),
-          unit: item.unit || item.unidade || inferUnit(chooseReferenceText(ref, patient.sex))
-        };
-
-        groups.get(key).records.push({
-          date: patient.examDate,
-          category: ref.category,
-          examId: ref.id,
-          exam: ref.exam,
-          valueRaw: result.raw,
-          valueNumber: result.number,
-          unit: result.unit,
-          reference: chooseReferenceText(ref, patient.sex),
-          observation: ref.observation,
-          status: classifyResult(result, chooseReferenceText(ref, patient.sex)),
-          rawLine: JSON.stringify(item),
-          source
-        });
-      }
-
-      return Array.from(groups.values());
-    }
-
-    function render() {
-      renderPatientSelector();
-      renderPatientHeader();
-      renderCards();
-      renderExamFilter();
-      renderEvolutionChart();
-      renderStatusChart();
-      renderCategoryChart();
-      renderOpinion();
-      renderTable();
-    }
-
-    function renderPatientSelector() {
-      const current = state.selectedPatientKey;
-      const patients = Object.values(state.patients).sort((a, b) => a.name.localeCompare(b.name));
-
-      els.patientSelector.innerHTML = [
-        `<option value="">Novo paciente</option>`,
-        ...patients.map((patient) => {
-          const label = `${patient.name}${patient.birth ? ` — ${formatDate(patient.birth)}` : ""}`;
-          return `<option value="${escapeHtml(patient.key)}">${escapeHtml(label)}</option>`;
-        })
-      ].join("");
-
-      els.patientSelector.value = current;
-    }
-
-    function renderPatientHeader() {
-      const patient = getSelectedPatient();
-
-      if (!patient) {
-        els.patientTitle.textContent = "Resumo do paciente";
-        els.patientMeta.textContent = "Nenhum paciente ativo.";
-        return;
-      }
-
-      const sex = patient.sex ? capitalize(patient.sex) : "Sexo não informado";
-      const birth = patient.birth ? `Nascimento: ${formatDate(patient.birth)}` : "Nascimento não informado";
-      const age = patient.age ? `Idade: ${patient.age}` : "Idade não informada";
-      const id = patient.id ? `Prontuário: ${patient.id}` : "Prontuário não informado";
-
-      els.patientTitle.textContent = `Resumo — ${patient.name}`;
-      els.patientMeta.textContent = `${id} • ${sex} • ${birth} • ${age}`;
-    }
-
-    function renderCards() {
-      const patient = getSelectedPatient();
-      const records = patient ? patient.records : getAllRecords();
-      const patientCount = Object.keys(state.patients).length;
-      const changed = records.filter((record) => isChangedStatus(record.status.type)).length;
-      const examTypes = new Set(records.map((record) => record.examId));
-      const dates = records.map((record) => record.date).filter(Boolean).sort();
-
-      els.cardPatients.textContent = patientCount;
-      els.cardTotal.textContent = records.length;
-      els.cardChanged.textContent = changed;
-      els.cardTypes.textContent = examTypes.size;
-      els.cardPeriod.textContent = dates.length ? `${formatDate(dates[0])} a ${formatDate(dates[dates.length - 1])}` : "—";
-    }
-
-    function renderExamFilter() {
-      const previous = els.examFilter.value;
-      const patient = getSelectedPatient();
-      const records = patient ? patient.records : getAllRecords();
-      const grouped = groupBy(records, "examId");
-      const options = Object.entries(grouped)
-        .sort((a, b) => a[1][0].exam.localeCompare(b[1][0].exam))
-        .map(([examId, list]) => ({
-          examId,
-          label: `${list[0].exam} (${list.length})`
-        }));
-
-      if (!options.length) {
-        els.examFilter.innerHTML = '<option value="">Sem exames</option>';
-        return;
-      }
-
-      els.examFilter.innerHTML = options
-        .map((option) => `<option value="${escapeHtml(option.examId)}">${escapeHtml(option.label)}</option>`)
-        .join("");
-
-      els.examFilter.value = options.some((option) => option.examId === previous)
-        ? previous
-        : chooseBestEvolutionExam(records);
-    }
-
-    function renderEvolutionChart() {
-      const patient = getSelectedPatient();
-      const records = patient ? patient.records : getAllRecords();
-      const selectedExam = els.examFilter.value;
-
-      const filtered = records
-        .filter((record) => record.examId === selectedExam && Number.isFinite(record.valueNumber))
-        .sort((a, b) => a.date.localeCompare(b.date));
-
-      if (evolutionChart) evolutionChart.destroy();
-
-      const ctx = els.evolutionChart.getContext("2d");
-
-      if (!filtered.length) {
-        evolutionChart = new Chart(ctx, {
-          type: "line",
-          data: {
-            labels: ["Sem dados"],
-            datasets: [{
-              label: "Sem dados numéricos",
-              data: [0],
-              borderColor: "#94a3b8",
-              backgroundColor: "rgba(148, 163, 184, 0.12)",
-              fill: true
-            }]
-          },
-          options: baseChartOptions()
-        });
-        return;
-      }
-
-      evolutionChart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: filtered.map((record) => formatDate(record.date)),
-          datasets: [{
-            label: `${filtered[0].exam}${filtered[0].unit ? ` (${filtered[0].unit})` : ""}`,
-            data: filtered.map((record) => record.valueNumber),
-            borderColor: "#0f766e",
-            backgroundColor: "rgba(20, 184, 166, 0.16)",
-            pointBackgroundColor: filtered.map((record) => chartColorByStatus(record.status.type)),
-            pointBorderColor: "#ffffff",
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            tension: 0.35,
-            fill: true
-          }]
-        },
-        options: baseChartOptions()
-      });
-    }
-
-    function renderStatusChart() {
-      const patient = getSelectedPatient();
-      const records = patient ? patient.records : getAllRecords();
-
-      const counts = {
-        normal: records.filter((r) => r.status.type === "ok").length,
-        alterado: records.filter((r) => isChangedStatus(r.status.type)).length,
-        alerta: records.filter((r) => r.status.type === "warn").length,
-        outro: records.filter((r) => ["neutral", "info"].includes(r.status.type)).length
-      };
-
-      if (statusChart) statusChart.destroy();
-
-      statusChart = new Chart(els.statusChart.getContext("2d"), {
-        type: "doughnut",
-        data: {
-          labels: ["Normal", "Alterado", "Alerta", "Não comparável"],
-          datasets: [{
-            data: [counts.normal, counts.alterado, counts.alerta, counts.outro],
-            backgroundColor: ["#10b981", "#ef4444", "#f59e0b", "#94a3b8"],
-            borderColor: "#ffffff",
-            borderWidth: 3
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: "bottom"
-            }
-          }
-        }
-      });
-    }
-
-    function renderCategoryChart() {
-      const patient = getSelectedPatient();
-      const records = patient ? patient.records : getAllRecords();
-      const changed = records.filter((record) => isChangedStatus(record.status.type) || record.status.type === "warn");
-      const grouped = groupBy(changed, "category");
-
-      const labels = Object.keys(grouped);
-      const data = labels.map((label) => grouped[label].length);
-
-      if (categoryChart) categoryChart.destroy();
-
-      categoryChart = new Chart(els.categoryChart.getContext("2d"), {
-        type: "bar",
-        data: {
-          labels: labels.length ? labels : ["Sem alterações"],
-          datasets: [{
-            label: "Alterações",
-            data: data.length ? data : [0],
-            backgroundColor: "rgba(239, 68, 68, 0.72)",
-            borderColor: "#dc2626",
-            borderWidth: 1,
-            borderRadius: 10
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          indexAxis: "y",
-          plugins: {
-            legend: {
-              display: false
-            }
-          },
-          scales: {
-            x: {
-              beginAtZero: true,
-              ticks: {
-                precision: 0
-              }
-            }
-          }
-        }
-      });
-    }
-
-    function renderOpinion() {
-      const patient = getSelectedPatient();
-      const records = patient ? patient.records : getAllRecords();
-
-      if (!records.length) {
-        els.globalOpinion.innerHTML = '<div class="empty">Importe exames para gerar o parecer gráfico.</div>';
-        return;
-      }
-
-      const changed = records
-        .filter((record) => isChangedStatus(record.status.type) || record.status.type === "warn")
-        .sort((a, b) => b.date.localeCompare(a.date));
-
-      const normalCount = records.filter((record) => record.status.type === "ok").length;
-      const categories = groupBy(changed, "category");
-      const categoryText = Object.entries(categories)
-        .sort((a, b) => b[1].length - a[1].length)
-        .slice(0, 3)
-        .map(([category, list]) => `${category}: ${list.length}`)
-        .join(" • ");
-
-      const latestChanged = changed.slice(0, 6);
-
-      const mainStatus = changed.length
-        ? `<span class="badge changed">${changed.length} alteração(ões)</span>`
-        : `<span class="badge ok">Sem alterações detectadas</span>`;
-
-      const html = [
-        `
-        <div class="summary-item">
-          <div>
-            <b>Visão geral</b>
-            <small>
-              ${records.length} resultado(s) analisado(s), ${normalCount} dentro da referência interna
-              e ${changed.length} com alerta/alteração.
-            </small>
-          </div>
-          ${mainStatus}
-        </div>
-        `,
-        `
-        <div class="summary-item">
-          <div>
-            <b>Categorias mais impactadas</b>
-            <small>${categoryText || "Nenhuma categoria com alteração detectada."}</small>
-          </div>
-          <span class="badge info">Gráfico total</span>
-        </div>
-        `
-      ];
-
-      if (latestChanged.length) {
-        for (const record of latestChanged) {
-          html.push(`
-            <div class="summary-item">
-              <div>
-                <b>${escapeHtml(record.exam)}</b>
-                <small>
-                  ${formatDate(record.date)} • Resultado: ${escapeHtml(record.valueRaw)}
-                  ${escapeHtml(record.unit || "")} • Ref.: ${escapeHtml(record.reference)}
-                  <br>${escapeHtml(record.status.detail)}
-                </small>
-              </div>
-              ${statusBadge(record.status)}
-            </div>
-          `);
-        }
-      }
-
-      els.globalOpinion.innerHTML = html.join("");
-    }
-
-    function renderTable() {
-      const query = normalize(els.tableSearch.value);
-      const patient = getSelectedPatient();
-      const records = patient ? patient.records : getAllRecords();
-
-      const filtered = records
-        .filter((record) => {
-          if (!query) return true;
-
-          return [
-            record.patientName,
-            record.date,
-            record.category,
-            record.exam,
-            record.valueRaw,
-            record.unit,
-            record.reference,
-            record.status.label,
-            record.source
-          ].some((value) => normalize(value).includes(query));
-        })
-        .sort((a, b) => b.date.localeCompare(a.date) || a.exam.localeCompare(b.exam));
-
-      if (!filtered.length) {
-        els.resultsBody.innerHTML = '<tr><td colspan="8" class="empty">Nenhum resultado encontrado.</td></tr>';
-        return;
-      }
-
-      els.resultsBody.innerHTML = filtered.map((record) => `
-        <tr>
-          <td>${escapeHtml(record.patientName || "—")}</td>
-          <td>${formatDate(record.date)}</td>
-          <td>${escapeHtml(record.category || "—")}</td>
-          <td><strong>${escapeHtml(record.exam)}</strong></td>
-          <td>${escapeHtml(record.valueRaw)} ${escapeHtml(record.unit || "")}</td>
-          <td>${escapeHtml(record.reference || "—")}</td>
-          <td>${statusBadge(record.status)}</td>
-          <td>${escapeHtml(record.source || "—")}</td>
-        </tr>
-      `).join("");
-    }
-
-    function baseChartOptions() {
-      return {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            labels: {
-              usePointStyle: true,
-              boxWidth: 8,
-              font: {
-                weight: "bold"
-              }
-            }
-          }
-        },
-        scales: {
-          x: {
-            grid: {
-              display: false
-            }
-          },
-          y: {
-            beginAtZero: false,
-            grid: {
-              color: "rgba(100, 116, 139, 0.14)"
-            }
-          }
-        }
-      };
-    }
-
-    function updateSelectedPatientFromForm() {
-      let patient = getSelectedPatient();
-
-      if (!patient) {
-        const key = upsertPatient(getFormPatientFallback());
-        state.selectedPatientKey = key;
-        patient = state.patients[key];
-      }
-
-      patient.name = els.patientName.value.trim() || "Paciente sem nome";
-      patient.id = els.patientId.value.trim();
-      patient.sex = els.patientSex.value;
-      patient.birth = els.patientBirth.value;
-      patient.age = Number(els.patientAge.value) || "";
-      patient.updatedAt = new Date().toISOString();
-
-      for (const record of patient.records) {
-        record.patientName = patient.name;
-        record.patientSex = patient.sex;
-
-        const ref = REFERENCES.find((item) => item.id === record.examId);
-        if (ref) {
-          record.reference = chooseReferenceText(ref, patient.sex);
-          record.status = classifyResult(
-            { raw: record.valueRaw, number: record.valueNumber, unit: record.unit },
-            record.reference
-          );
-        }
-      }
-
-      saveLocal(false);
-      render();
-    }
-
-    function syncFormFromSelectedPatient() {
-      const patient = getSelectedPatient();
-
-      if (!patient) {
-        els.patientName.value = "";
-        els.patientId.value = "";
-        els.patientSex.value = "";
-        els.patientBirth.value = "";
-        els.patientAge.value = "";
-        return;
-      }
-
-      els.patientName.value = patient.name || "";
-      els.patientId.value = patient.id || "";
-      els.patientSex.value = patient.sex || "";
-      els.patientBirth.value = patient.birth || "";
-      els.patientAge.value = patient.age || "";
-    }
-
-    function getSelectedPatient() {
-      return state.selectedPatientKey ? state.patients[state.selectedPatientKey] : null;
-    }
-
-    function getAllRecords() {
-      return Object.values(state.patients).flatMap((patient) => patient.records || []);
-    }
-
-    function removeDuplicates(shouldRender = true) {
-      let removed = 0;
-
-      for (const patient of Object.values(state.patients)) {
-        const seen = new Set();
-        const unique = [];
-
-        for (const record of patient.records) {
-          const signature = [
-            patient.key,
-            record.date,
-            record.examId,
-            normalize(record.valueRaw),
-            normalize(record.unit),
-            normalize(record.source)
-          ].join("|");
-
-          if (!seen.has(signature)) {
-            seen.add(signature);
-            unique.push(record);
-          } else {
-            removed += 1;
-          }
-        }
-
-        patient.records = unique;
-      }
-
-      if (shouldRender) {
-        saveLocal(false);
-        render();
-        writeLog(`${removed} duplicado(s) removido(s).`);
-      }
-    }
-
-    function addSampleData() {
-      const patient = {
-        name: "Paciente Exemplo",
-        id: "PX-001",
-        sex: "masculino",
-        birth: "1985-06-14",
-        age: 40,
-        examDate: "2026-04-18"
-      };
-
-      const key = upsertPatient(patient);
-      const p = state.patients[key];
-
-      const sample = [
-        ["2025-10-12", "Glicemia jejum", "102", "mg/dL"],
-        ["2025-10-12", "Hemoglobina glicada", "5,8", "%"],
-        ["2025-10-12", "LDL", "142", "mg/dL"],
-        ["2025-10-12", "HDL", "48", "mg/dL"],
-        ["2025-10-12", "Triglicerídeos", "170", "mg/dL"],
-        ["2026-01-20", "Glicemia jejum", "95", "mg/dL"],
-        ["2026-01-20", "Hemoglobina glicada", "5,6", "%"],
-        ["2026-01-20", "LDL", "128", "mg/dL"],
-        ["2026-01-20", "HDL", "51", "mg/dL"],
-        ["2026-01-20", "Triglicerídeos", "138", "mg/dL"],
-        ["2026-04-18", "Glicemia jejum", "89", "mg/dL"],
-        ["2026-04-18", "Hemoglobina glicada", "5,4", "%"],
-        ["2026-04-18", "LDL", "116", "mg/dL"],
-        ["2026-04-18", "HDL", "55", "mg/dL"],
-        ["2026-04-18", "Triglicerídeos", "121", "mg/dL"]
-      ];
-
-      for (const [date, examName, valueRaw, unit] of sample) {
-        const ref = findReferenceByExamName(examName);
-        if (!ref) continue;
-
-        const reference = chooseReferenceText(ref, p.sex);
-        const result = {
-          raw: valueRaw,
-          number: toNumber(valueRaw),
-          unit
-        };
-
-        p.records.push({
-          id: cryptoRandomId(),
-          patientKey: p.key,
-          patientName: p.name,
-          patientSex: p.sex,
-          date,
-          category: ref.category,
-          examId: ref.id,
-          exam: ref.exam,
-          valueRaw,
-          valueNumber: result.number,
-          unit,
-          reference,
-          observation: ref.observation,
-          status: classifyResult(result, reference),
-          source: "Dados exemplo",
-          rawLine: `${examName}: ${valueRaw} ${unit}`
-        });
-      }
-
-      state.selectedPatientKey = key;
-      syncFormFromSelectedPatient();
-      removeDuplicates(false);
-      saveLocal(false);
-      render();
-      writeLog("Dados de exemplo adicionados.");
-    }
-
-    function saveLocal(showLog = true) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      if (showLog) writeLog("Dados salvos localmente neste navegador.");
-    }
-
-    function loadLocal() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-
-      if (!saved) return;
-
-      try {
-        const parsed = JSON.parse(saved);
-        state.patients = parsed.patients || {};
-        state.selectedPatientKey = parsed.selectedPatientKey || Object.keys(state.patients)[0] || "";
-        syncFormFromSelectedPatient();
-        writeLog("Dados locais carregados.");
-      } catch (error) {
-        console.error(error);
-        writeLog("Não foi possível carregar os dados salvos.");
-      }
-    }
-
-    function clearAll() {
-      const confirmed = confirm("Deseja limpar todos os pacientes e resultados deste navegador?");
-      if (!confirmed) return;
-
-      state.patients = {};
-      state.selectedPatientKey = "";
-      localStorage.removeItem(STORAGE_KEY);
-
-      els.tableSearch.value = "";
-      els.pasteArea.value = "";
-      syncFormFromSelectedPatient();
-      render();
-      writeLog("Painel limpo.");
-    }
-
-    function exportJson() {
-      const patient = getSelectedPatient();
-      const payload = patient || state;
-
-      downloadFile(
-        `dashboard-laboratorial-${slugify(patient?.name || "todos-pacientes")}.json`,
-        JSON.stringify(payload, null, 2),
-        "application/json"
-      );
-    }
-
-    function exportCsv() {
-      const patient = getSelectedPatient();
-      const records = patient ? patient.records : getAllRecords();
-
-      const headers = [
-        "paciente",
-        "sexo",
-        "data",
-        "categoria",
-        "exame",
-        "resultado",
-        "unidade",
-        "referencia",
-        "status",
-        "fonte"
-      ];
-
-      const rows = records
-        .slice()
-        .sort((a, b) => a.patientName.localeCompare(b.patientName) || a.date.localeCompare(b.date))
-        .map((record) => [
-          record.patientName,
-          record.patientSex,
-          record.date,
-          record.category,
-          record.exam,
-          record.valueRaw,
-          record.unit,
-          record.reference,
-          record.status.label,
-          record.source
-        ]);
-
-      const csv = [headers, ...rows].map((row) => row.map(csvEscape).join(";")).join("\n");
-
-      downloadFile(
-        `dashboard-laboratorial-${slugify(patient?.name || "todos-pacientes")}.csv`,
-        csv,
-        "text/csv;charset=utf-8"
-      );
-    }
-
-    function downloadFile(filename, content, type) {
-      const blob = new Blob([content], { type });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-
-      URL.revokeObjectURL(url);
-    }
-
-    function findReferenceByExamName(name) {
-      const normalized = normalize(name);
-
-      return REFERENCES.find((ref) =>
-        normalize(ref.exam) === normalized ||
-        ref.aliases.some((alias) => normalized.includes(normalize(alias)) || normalize(alias).includes(normalized))
-      );
-    }
-
-    function containsExamAlias(normalizedLine, alias) {
-      const normalizedAlias = normalize(alias);
-      if (!normalizedAlias) return false;
-
-      if (normalizedAlias.length <= 3) {
-        const escaped = normalizedAlias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        return new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i").test(normalizedLine);
-      }
-
-      return normalizedLine.includes(normalizedAlias);
-    }
-
-    function longestAlias(ref) {
-      return Math.max(...ref.aliases.map((alias) => alias.length));
-    }
-
-    function chooseBestEvolutionExam(records) {
-      const numericRecords = records.filter((record) => Number.isFinite(record.valueNumber));
-      const grouped = groupBy(numericRecords, "examId");
-      let best = "";
-
-      for (const [examId, list] of Object.entries(grouped)) {
-        if (!best || list.length > grouped[best].length) {
-          best = examId;
-        }
-      }
-
-      return best || "";
-    }
-
-    function groupBy(records, key) {
-      return records.reduce((acc, record) => {
-        const value = record[key] || "Outros";
-        acc[value] = acc[value] || [];
-        acc[value].push(record);
-        return acc;
-      }, {});
-    }
-
-    function extractBestDate(text) {
-      const candidates = String(text || "").match(/\b(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{4}[\/.-]\d{1,2}[\/.-]\d{1,2})\b/g);
-      if (!candidates || !candidates.length) return "";
-      return normalizeDate(candidates[candidates.length - 1]);
-    }
-
-    function extractByLinePatterns(lines, patterns) {
-      for (const line of lines) {
-        for (const pattern of patterns) {
-          const match = line.match(pattern);
-          if (match) return match[1].trim();
-        }
-      }
-      return "";
-    }
-
-    function extractByRegex(text, regex) {
-      const match = String(text || "").match(regex);
-      return match ? match[1].trim() : "";
-    }
-
-    function cleanPersonName(value) {
-      return String(value || "")
-        .replace(/\b(sexo|idade|nascimento|data)\b.*$/i, "")
-        .replace(/[0-9]/g, "")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function cleanSmallText(value) {
-      return String(value || "")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function normalizeSex(value) {
-      const normalized = normalize(value);
-      if (normalized === "m" || normalized.includes("masculino")) return "masculino";
-      if (normalized === "f" || normalized.includes("feminino")) return "feminino";
-      return "";
-    }
-
-    function normalizeDate(input) {
-      const value = String(input || "").trim();
-      if (!value) return "";
-
-      let match = value.match(/^(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})$/);
-      if (match) {
-        const [, year, month, day] = match;
-        return `${year.padStart(4, "0")}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-      }
-
-      match = value.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})$/);
-      if (match) {
-        let [, day, month, year] = match;
-        if (year.length === 2) {
-          year = Number(year) > 50 ? `19${year}` : `20${year}`;
-        }
-        return `${year.padStart(4, "0")}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-      }
-
-      return "";
-    }
-
-    function formatDate(date) {
-      if (!date) return "—";
-      const normalized = normalizeDate(date) || date;
-      const parts = normalized.split("-");
-      if (parts.length !== 3) return date;
-      return `${parts[2]}/${parts[1]}/${parts[0]}`;
-    }
-
-    function calculateAge(birthDate, referenceDate) {
-      if (!birthDate || !referenceDate) return "";
-
-      const birth = new Date(`${birthDate}T00:00:00`);
-      const reference = new Date(`${referenceDate}T00:00:00`);
-
-      if (Number.isNaN(birth.getTime()) || Number.isNaN(reference.getTime())) return "";
-
-      let age = reference.getFullYear() - birth.getFullYear();
-      const monthDiff = reference.getMonth() - birth.getMonth();
-
-      if (monthDiff < 0 || (monthDiff === 0 && reference.getDate() < birth.getDate())) {
-        age -= 1;
-      }
-
-      return age >= 0 ? age : "";
-    }
-
-    function extractUnit(text) {
-      const normalizedText = String(text || "");
-      for (const unit of UNIT_PATTERNS) {
-        const pattern = new RegExp(unit.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
-        const match = normalizedText.match(pattern);
-        if (match) return match[0];
-      }
-      return "";
-    }
-
-    function inferUnit(referenceText) {
-      return extractUnit(referenceText);
-    }
-
-    function toNumber(value) {
-      if (typeof value === "number") return value;
-
-      const text = String(value ?? "")
-        .trim()
-        .replace(/[<>≤≥]/g, "")
-        .replace(/[^\d,.\-]/g, "")
-        .replace(/\.(?=\d{3}\b)/g, "")
-        .replace(",", ".");
-
-      const number = Number(text);
-      return Number.isFinite(number) ? number : NaN;
-    }
-
-    function normalize(value) {
-      return String(value ?? "")
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[µμ]/g, "u")
-        .replace(/[³]/g, "3")
-        .replace(/[²]/g, "2")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function normalizeExamName(value) {
-      return normalize(value)
-        .replace(/\btotal\b/g, "total")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function slugify(value) {
-      return normalize(value)
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "") || "item";
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function csvEscape(value) {
-      const text = String(value ?? "");
-      if (/[;"\n\r]/.test(text)) {
-        return `"${text.replace(/"/g, '""')}"`;
-      }
-      return text;
-    }
-
-    function splitCsvLine(line, delimiter) {
-      const result = [];
-      let current = "";
-      let insideQuotes = false;
-
-      for (let index = 0; index < line.length; index += 1) {
-        const char = line[index];
-        const next = line[index + 1];
-
-        if (char === '"' && insideQuotes && next === '"') {
-          current += '"';
-          index += 1;
-        } else if (char === '"') {
-          insideQuotes = !insideQuotes;
-        } else if (char === delimiter && !insideQuotes) {
-          result.push(current.trim());
-          current = "";
-        } else {
-          current += char;
-        }
-      }
-
-      result.push(current.trim());
-      return result;
-    }
-
-    function countChar(text, char) {
-      return String(text || "").split(char).length - 1;
-    }
-
-    function capitalize(value) {
-      const text = String(value || "");
-      return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
-    }
-
-    function formatNumber(value) {
-      const number = Number(value);
-      if (!Number.isFinite(number)) return "—";
-
-      return number.toLocaleString("pt-BR", {
-        minimumFractionDigits: Number.isInteger(number) ? 0 : 1,
-        maximumFractionDigits: 2
-      });
-    }
-
-    function statusBadge(status) {
-      return `<span class="badge ${escapeHtml(status.type)}">${escapeHtml(status.label)}</span>`;
-    }
-
-    function isChangedStatus(type) {
-      return ["high", "low", "changed"].includes(type);
-    }
-
-    function chartColorByStatus(type) {
-      if (type === "ok") return "#10b981";
-      if (type === "warn") return "#f59e0b";
-      if (isChangedStatus(type)) return "#ef4444";
-      return "#64748b";
-    }
-
-    function cryptoRandomId() {
-      if (window.crypto && crypto.randomUUID) {
-        return crypto.randomUUID();
-      }
-
-      return `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-    }
-
-    function writeLog(message) {
-      const time = new Date().toLocaleTimeString("pt-BR", {
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-
-      els.log.innerHTML = `<div><strong>${time}</strong> — ${escapeHtml(message)}</div>` + els.log.innerHTML;
-    }
+      },
+      { threshold: 0.12 }
+    );
+
+    revealItems.forEach((item) => observer.observe(item));
   </script>
-  <script src="js/references.js"></script>
-<script src="js/database.js"></script>
-<script src="js/parser.js"></script>
-<script src="js/charts.js"></script>
-<script src="js/reports.js"></script>
-<script src="js/app.js"></script>
 </body>
 </html>
