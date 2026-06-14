@@ -8,7 +8,7 @@
 
   <meta
     name="description"
-    content="Método Regular™, um e-book digital sobre emagrecimento, saúde metabólica e performance."
+    content="O Método Regular™ mostra como metabolismo, hormônios, inflamação, sono, treino e alimentação influenciam seu emagrecimento de forma sustentável."
   />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,29 +23,11 @@
 </head>
 
 <body>
-  <div class="reading-progress" id="readingProgress"></div>
-
-  <header class="site-header" id="siteHeader">
-    <div class="container header-content">
-      <a href="#hero" class="logo">Método Regular™</a>
-
-      <nav class="desktop-nav" aria-label="Menu principal">
-        <a href="#metodo">Método</a>
-        <a href="#conteudo">Conteúdo</a>
-        <a href="#para-quem">Para quem é</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-
-      <a href="#cta-final" class="header-cta">Acessar agora</a>
-    </div>
-  </header>
-
-  <main id="app"></main>
-
-  <div class="mobile-sticky-cta" id="mobileStickyCta">
-    <span>Método Regular™</span>
-    <a href="#cta-final">Acessar agora</a>
+  <div class="reading-progress" aria-hidden="true">
+    <span id="readingProgressBar"></span>
   </div>
+
+  <div id="app" class="page"></div>
 
   <script src="./assets/js/content.js"></script>
   <script src="./assets/js/main.js"></script>
