@@ -17,7 +17,7 @@ window.PAGE_CONTENT = {
   },
 
   pain: {
-    eyebrow: "Identificação da dor",
+    eyebrow: "Vem comigo e me diga...",
     title: "Você já passou por isso?",
     closing: [
       "Talvez você tenha chamado isso de falta de disciplina.",
@@ -27,7 +27,7 @@ window.PAGE_CONTENT = {
   },
 
   product: {
-    eyebrow: "O que é o método",
+    eyebrow: "Mas começamos pelo principal",
     title: "O que é o Método Regular™?",
     paragraphs: [
       "O Método Regular™ é um e-book digital de emagrecimento, saúde metabólica e performance criado para pessoas que querem sair do ciclo de dietas restritivas, efeito rebote, frustração e recomeços constantes.",
@@ -122,7 +122,7 @@ window.PAGE_CONTENT = {
 
   audience: {
     forWho: {
-      eyebrow: "Para quem é",
+      eyebrow: "Sobre fazer sentido!",
       title: "O Método Regular™ é para você se:",
       items: [
         "Você já tentou várias dietas e não conseguiu sustentar o resultado.",
