@@ -117,17 +117,26 @@ function renderHero(content) {
           </div>
         </div>
 
-        <div class="hero-visual reveal">
-          <div class="ebook-float" aria-label="Mockup do e-book Método Regular">
-            <div class="ebook-cover">
-              <div class="ebook-topline">Método</div>
-              <div class="ebook-title">Regular™</div>
-              <div class="ebook-subtitle">Saúde metabólica · Performance · Emagrecimento</div>
-              <div class="ebook-line"></div>
-              <div class="ebook-footer">Regular primeiro. Intensificar depois.</div>
-            </div>
-          </div>
-        </div>
+<div class="hero-visual reveal">
+  <div class="ebook-float" aria-label="Mockup do e-book Método Regular">
+    <div class="ebook-cover">
+      <div class="ebook-topline">Método</div>
+      <div class="ebook-title">Regular™</div>
+      <div class="ebook-subtitle">Saúde metabólica · Performance · Emagrecimento</div>
+
+      <div class="ebook-image-wrap">
+        <img
+          class="ebook-image"
+          src="./assets/images/metodo-regular-cover.png"
+          alt="Capa visual do Método Regular com identidade premium"
+        />
+      </div>
+
+      <div class="ebook-line"></div>
+      <div class="ebook-footer">Regular primeiro. Intensificar depois.</div>
+    </div>
+  </div>
+</div>
       </div>
     </section>
   `;
