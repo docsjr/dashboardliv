@@ -3,7 +3,7 @@
 window.PAGE_CONTENT = {
   brand: {
     productName: "Método Regular™",
-    productType: "E-book digital",
+    productType: "Dr. Sandro Pereira",
   },
 
   hero: {
