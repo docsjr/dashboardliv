@@ -309,9 +309,36 @@ button {
   align-items: center;
   overflow: hidden;
   background:
+    linear-gradient(
+      90deg,
+ rgba(13, 13, 13, 0.62) 0%,
+rgba(13, 13, 13, 0.82) 34%,
+      rgba(13, 13, 13, 0.95) 58%,
+      #0d0d0d 100%
+    ),
     radial-gradient(circle at 78% 22%, rgba(198, 168, 106, 0.16), transparent 30%),
     radial-gradient(circle at 18% 74%, rgba(47, 79, 70, 0.28), transparent 34%),
+    url("../images/metodo-regular-bg.jpg"),
     linear-gradient(135deg, #0d0d0d 0%, #12110f 48%, #0d0d0d 100%);
+  background-repeat: no-repeat;
+  background-size:
+    cover,
+    auto,
+    auto,
+    min(50vw, 620px) auto,
+    cover;
+  background-position:
+    center,
+    78% 22%,
+    18% 74%,
+    left center,
+    center;
+  background-attachment:
+    scroll,
+    scroll,
+    scroll,
+    fixed,
+    scroll;
 }
 
 .hero::before {
@@ -1137,7 +1164,28 @@ button {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px) { 
+    .hero {
+    background-size:
+      cover,
+      auto,
+      auto,
+      min(92vw, 420px) auto,
+      cover;
+    background-position:
+      center,
+      78% 22%,
+      18% 74%,
+      center top,
+      center;
+    background-attachment:
+      scroll,
+      scroll,
+      scroll,
+      scroll,
+      scroll;
+  }
+  
   .section {
     padding: var(--section-padding-mobile) 0;
   }
